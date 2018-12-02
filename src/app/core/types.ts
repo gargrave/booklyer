@@ -6,3 +6,7 @@ export interface ITimestamped {
   created: Date
   updated: Date
 }
+
+export interface IReduxAction {
+  type: string
+}

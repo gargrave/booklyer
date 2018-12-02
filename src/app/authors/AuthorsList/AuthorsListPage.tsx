@@ -2,8 +2,6 @@ import * as React from 'react'
 
 import { IAuthor } from '../types'
 
-import { mockAuthors } from 'api/mocks/authors.mocks'
-
 import Author from '../components/Author/Author'
 
 export interface IAuthorsListPageProps {
@@ -14,7 +12,7 @@ export default class AuthorsListPage extends React.Component<
   IAuthorsListPageProps
 > {
   static defaultProps = {
-    authors: [...mockAuthors],
+    authors: [],
   }
 
   render() {
