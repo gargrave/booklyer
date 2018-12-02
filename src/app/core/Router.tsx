@@ -2,8 +2,8 @@ import * as React from 'react'
 import { RouteProps } from 'react-router'
 import { Route, Switch } from 'react-router-dom'
 
-import authorsRoutes from 'app/authors/authors.routes'
-import booksRoutes from 'app/books/books.routes'
+import authorsRoutes from 'app/authors/routes'
+import booksRoutes from 'app/books/routes'
 
 const routes: RouteProps[] = [...authorsRoutes, ...booksRoutes]
 
