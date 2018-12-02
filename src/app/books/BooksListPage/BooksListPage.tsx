@@ -2,8 +2,6 @@ import * as React from 'react'
 
 import { IBook } from '../types'
 
-import { mockBooks } from 'api/mocks/books.mocks'
-
 import Book from '../components/Book/Book'
 
 export interface IBooksListPageProps {
@@ -14,7 +12,7 @@ export default class BooksListPage extends React.Component<
   IBooksListPageProps
 > {
   static defaultProps = {
-    books: [...mockBooks],
+    books: [],
   }
 
   render() {
