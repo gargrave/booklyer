@@ -2,6 +2,7 @@ import * as React from 'react'
 import ReactDOM from 'react-dom'
 
 import * as serviceWorker from './serviceWorker'
+import './config/firebase' // initialize firebase
 
 import App from './app/core/App'
 
