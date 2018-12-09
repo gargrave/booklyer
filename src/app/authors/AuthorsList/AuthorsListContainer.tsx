@@ -1,11 +1,11 @@
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { IAppState } from 'store/reducers'
+import { AppState } from 'store/reducers'
 
 import AuthorsListPage from './AuthorsListPage'
 
-const mapStateToProps = (state: IAppState) => ({
+const mapStateToProps = (state: AppState) => ({
   authors: state.authors.data,
 })
 

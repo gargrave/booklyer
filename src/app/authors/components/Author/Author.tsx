@@ -1,12 +1,12 @@
 import * as React from 'react'
 
-import { IAuthor } from '../../types'
+import { Author as AuthorType } from '../../types'
 
-export interface IAuthorProps {
-  author: IAuthor
+export type AuthorProps = {
+  author: AuthorType
 }
 
-const Author: React.SFC<IAuthorProps> = ({ author }) => (
+const Author: React.SFC<AuthorProps> = ({ author }) => (
   <div>
     <span>
       {author.firstName} {author.lastName}

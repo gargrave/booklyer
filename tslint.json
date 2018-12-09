@@ -12,7 +12,7 @@
   "rules": {
     "arrow-return-shorthand": [true, "multiline"],
     "import-name": false,
-    "interface-over-type-literal": true,
+    "interface-over-type-literal": false,
     "jsx-no-lambda": true,
     "member-access": [true, "no-public"],
     "no-boolean-literal-compare": false,

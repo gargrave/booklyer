@@ -1,4 +1,4 @@
-import { IBook } from '../types'
-import { IBooksState } from './reducers'
+import { Book } from '../types'
+import { BooksState } from './reducers'
 
-export const getBooks = (state: IBooksState): IBook[] => state.data
+export const getBooks = (state: BooksState): Book[] => state.data

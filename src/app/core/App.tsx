@@ -6,7 +6,7 @@ import store from '../../store/store'
 
 import Router from './Router'
 
-class App extends React.Component {
+export default class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
@@ -26,5 +26,3 @@ class App extends React.Component {
     )
   }
 }
-
-export default App

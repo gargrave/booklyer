@@ -1,8 +1,9 @@
-import { IAuthor } from 'app/authors/types'
-import { IResource, ITimestamped } from 'app/core/types'
+import { Author } from 'app/authors/types'
+import { Resource, Timestamped } from 'app/core/types'
 
-export interface IBook extends IResource, ITimestamped {
-  author: IAuthor
+export type Book = {
+  author: Author
   sortBy: string
   title: string
-}
+} & Resource &
+  Timestamped

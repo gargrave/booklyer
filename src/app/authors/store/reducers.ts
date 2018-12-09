@@ -1,24 +1,24 @@
-import { IReduxAction } from 'app/core/types'
+import { ReduxAction } from 'app/core/types'
 
 import { mockAuthors } from 'api/mocks/authors.mocks'
 
-import { IAuthor } from '../types'
+import { Author } from '../types'
 
 import types from './actionTypes'
 
-export interface IAuthorsState {
-  data: IAuthor[]
+export type AuthorsState = {
+  data: Author[]
   requestPending: boolean
 }
 
-const defaultState = (): IAuthorsState => ({
+const defaultState = (): AuthorsState => ({
   data: [...mockAuthors],
   requestPending: false,
 })
 
 const reducers = (
-  state: IAuthorsState = defaultState(),
-  action: IReduxAction,
+  state: AuthorsState = defaultState(),
+  action: ReduxAction,
 ) => {
   switch (action.type) {
     case types.CREATE_AUTHOR:

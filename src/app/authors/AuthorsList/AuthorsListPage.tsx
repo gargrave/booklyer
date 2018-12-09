@@ -1,15 +1,15 @@
 import * as React from 'react'
 
-import { IAuthor } from '../types'
+import { Author as AuthorType } from '../types'
 
 import Author from '../components/Author/Author'
 
-export interface IAuthorsListPageProps {
-  authors: IAuthor[]
+export type AuthorsListPageProps = {
+  authors: AuthorType[]
 }
 
 export default class AuthorsListPage extends React.Component<
-  IAuthorsListPageProps
+  AuthorsListPageProps
 > {
   static defaultProps = {
     authors: [],

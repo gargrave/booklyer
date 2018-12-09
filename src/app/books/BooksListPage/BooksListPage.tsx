@@ -1,16 +1,14 @@
 import * as React from 'react'
 
-import { IBook } from '../types'
+import { Book as BookType } from '../types'
 
 import Book from '../components/Book/Book'
 
-export interface IBooksListPageProps {
-  books: IBook[]
+export type BooksListPageProps = {
+  books: BookType[]
 }
 
-export default class BooksListPage extends React.Component<
-  IBooksListPageProps
-> {
+export default class BooksListPage extends React.Component<BooksListPageProps> {
   static defaultProps = {
     books: [],
   }

@@ -1,11 +1,11 @@
-import { IBook } from 'app/books/types'
+import { Book } from 'app/books/types'
 import { mockAuthors } from './authors.mocks'
 
 const aldousHuxley = mockAuthors[0]
 const kurtVonnegut = mockAuthors[1]
 const stephenKing = mockAuthors[4]
 
-const mockBooks: IBook[] = [
+const mockBooks: Book[] = [
   {
     author: aldousHuxley,
     created: new Date('2018-01-14T01:36:26.220Z'),

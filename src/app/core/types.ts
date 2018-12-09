@@ -1,12 +1,12 @@
-export interface IResource {
+export type Resource = {
   id: string
 }
 
-export interface ITimestamped {
+export type Timestamped = {
   created: Date
   updated: Date
 }
 
-export interface IReduxAction {
+export type ReduxAction = {
   type: string
 }

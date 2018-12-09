@@ -1,6 +1,6 @@
-import { IAuthor } from 'app/authors/types'
+import { Author } from 'app/authors/types'
 
-const mockAuthors: IAuthor[] = [
+const mockAuthors: Author[] = [
   {
     created: new Date('2017-07-01T01:16:43.881Z'),
     firstName: 'Aldous',

@@ -1,25 +1,22 @@
-import { IReduxAction } from 'app/core/types'
+import { ReduxAction } from 'app/core/types'
 
 import { mockBooks } from 'api/mocks/books.mocks'
 
-import { IBook } from '../types'
+import { Book } from '../types'
 
 import types from './actionTypes'
 
-export interface IBooksState {
-  data: IBook[]
+export type BooksState = {
+  data: Book[]
   requestPending: boolean
 }
 
-const defaultState = (): IBooksState => ({
+const defaultState = (): BooksState => ({
   data: [...mockBooks],
   requestPending: false,
 })
 
-const reducers = (
-  state: IBooksState = defaultState(),
-  action: IReduxAction,
-) => {
+const reducers = (state: BooksState = defaultState(), action: ReduxAction) => {
   switch (action.type) {
     case types.CREATE_BOOK:
       console.log('Reducer: CREATE_BOOK')

@@ -1,6 +1,7 @@
-import { IResource, ITimestamped } from 'app/core/types'
+import { Resource, Timestamped } from 'app/core/types'
 
-export interface IAuthor extends IResource, ITimestamped {
+export type Author = {
   firstName: string
   lastName: string
-}
+} & Resource &
+  Timestamped

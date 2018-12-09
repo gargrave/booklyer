@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux'
 
-import authors, { IAuthorsState } from 'app/authors/store/reducers'
-import books, { IBooksState } from 'app/books/store/reducers'
+import authors, { AuthorsState } from 'app/authors/store/reducers'
+import books, { BooksState } from 'app/books/store/reducers'
 
-export interface IAppState {
-  authors: IAuthorsState
-  books: IBooksState
+export type AppState = {
+  authors: AuthorsState
+  books: BooksState
 }
 
 export default combineReducers({ authors, books })

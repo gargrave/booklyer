@@ -1,12 +1,12 @@
 import * as React from 'react'
 
-import { IBook } from '../../types'
+import { Book as BookType } from '../../types'
 
-export interface IBookProps {
-  book: IBook
+export type BookProps = {
+  book: BookType
 }
 
-const Book: React.SFC<IBookProps> = ({ book }) => (
+const Book: React.SFC<BookProps> = ({ book }) => (
   <div>
     <span>{book.title}</span>
   </div>
