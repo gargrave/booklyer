@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux'
 
 import { AppState } from 'store/reducers'
 
-import AuthorsListPage from './AuthorsListPage'
+import AuthorsIndex from './AuthorsIndex'
 
 const mapStateToProps = (state: AppState) => ({
   authors: state.authors.data,
@@ -16,4 +16,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(AuthorsListPage)
+)(AuthorsIndex)

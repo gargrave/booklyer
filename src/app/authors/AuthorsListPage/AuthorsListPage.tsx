@@ -19,7 +19,7 @@ export default class AuthorsListPage extends React.Component<
     const { authors } = this.props
     return (
       <div>
-        <h2>AuthorsListPage</h2>
+        <h2>Authors List</h2>
         {authors.map(author => (
           <Author author={author} key={author.id} />
         ))}

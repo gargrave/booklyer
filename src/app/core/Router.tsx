@@ -1,22 +1,13 @@
 import * as React from 'react'
-import { RouteProps } from 'react-router'
 import { Route, Switch } from 'react-router-dom'
 
-import authorsRoutes from 'app/authors/routes'
-import booksRoutes from 'app/books/routes'
-
-const routes: RouteProps[] = [...authorsRoutes, ...booksRoutes]
+import AuthorsIndexContainer from 'app/authors/AuthorsIndex/AuthorsIndexContainer'
+import BooksListContainer from 'app/books/BooksListPage/BooksListContainer'
 
 const Router: React.SFC = () => (
   <Switch>
-    {routes.map((route, i) => (
-      <Route
-        component={route.component}
-        exact={route.exact}
-        key={i}
-        path={route.path}
-      />
-    ))}
+    <Route component={AuthorsIndexContainer} path="/authors" />
+    <Route component={BooksListContainer} path="/books" />
   </Switch>
 )
 
