@@ -1,10 +1,9 @@
 import { ReduxAction } from 'app/core/types'
 
-import { mockAuthors } from 'api/mocks/authors.mocks'
-
-import { Author } from '../types'
+import { Author } from '../authors.types'
 
 import types from './actionTypes'
+import actionTypes from './actionTypes'
 
 export type AuthorsState = {
   data: Author[]
@@ -12,7 +11,7 @@ export type AuthorsState = {
 }
 
 const defaultState = (): AuthorsState => ({
-  data: [...mockAuthors],
+  data: [],
   requestPending: false,
 })
 
@@ -21,6 +20,9 @@ const reducers = (
   action: ReduxAction,
 ) => {
   switch (action.type) {
+    /*
+     * CREATE Reducers
+     */
     case types.CREATE_AUTHOR:
       console.log('Reducer: CREATE_AUTHOR')
       return state
@@ -32,6 +34,14 @@ const reducers = (
     case types.CREATE_AUTHOR_FAILURE:
       console.log('Reducer: CREATE_AUTHOR_FAILURE')
       return state
+
+    /*
+     * FETCH Reducers
+     */
+    case types.FETCH_AUTHORS_SUCCESS:
+      console.log('Reducer: FETCH_AUTHOR_SUCCESS')
+      console.log({ pay: action.payload })
+      return { ...state, data: [...action.payload] }
     default:
       return state
   }

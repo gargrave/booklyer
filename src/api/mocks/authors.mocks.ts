@@ -1,4 +1,4 @@
-import { Author } from 'app/authors/types'
+import { Author } from 'app/authors/authors.types'
 
 const mockAuthors: Author[] = [
   {

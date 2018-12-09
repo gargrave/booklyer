@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Author as AuthorType } from '../../types'
+import { Author as AuthorType } from '../../authors.types'
 
 export type AuthorProps = {
   author: AuthorType

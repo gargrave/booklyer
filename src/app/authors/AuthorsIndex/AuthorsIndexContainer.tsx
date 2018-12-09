@@ -1,16 +1,17 @@
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 
 import { AppState } from 'store/reducers'
+import { fetchAuthors } from '../store/actions'
+import { getAuthors } from '../store/selectors'
 
 import AuthorsIndex from './AuthorsIndex'
 
 const mapStateToProps = (state: AppState) => ({
-  authors: state.authors.data,
+  getAuthors: () => getAuthors(state.authors),
 })
 
 const mapDispatchToProps = dispatch => ({
-  // actions: bindActionCreators({}, dispatch),
+  fetchAuthors: () => dispatch(fetchAuthors()),
 })
 
 export default connect(
