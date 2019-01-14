@@ -1,19 +1,20 @@
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 
 import { AppState } from 'store/reducers'
+import { fetchBooks } from '../store/actions'
+import { getBooks } from '../store/selectors'
 
-import BooksListPage from './BooksListPage'
+import BooksIndex from './BooksIndex'
 
 const mapStateToProps = (state: AppState) => ({
-  books: state.books.data,
+  getBooks: () => getBooks(state.books),
 })
 
 const mapDispatchToProps = dispatch => ({
-  // actions: bindActionCreators({}, dispatch),
+  fetchBooks: () => dispatch(fetchBooks()),
 })
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(BooksListPage)
+)(BooksIndex)

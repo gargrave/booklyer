@@ -13,14 +13,7 @@ export type AuthorsIndexProps = {
 export default class AuthorsIndex extends React.PureComponent<
   AuthorsIndexProps
 > {
-  get contextValue() {
-    return {
-      fetchAuthors: this.props.fetchAuthors,
-    }
-  }
-
   render() {
-    console.log('AuthorsIndex.render()')
     return (
       <Switch>
         <Route

@@ -1,8 +1,6 @@
 import { ReduxAction } from 'app/core/types'
 
-import { mockBooks } from 'api/mocks/books.mocks'
-
-import { Book } from '../types'
+import { Book } from '../books.types'
 
 import types from './actionTypes'
 
@@ -12,7 +10,7 @@ export type BooksState = {
 }
 
 const defaultState = (): BooksState => ({
-  data: [...mockBooks],
+  data: [],
   requestPending: false,
 })
 
@@ -29,6 +27,10 @@ const reducers = (state: BooksState = defaultState(), action: ReduxAction) => {
     case types.CREATE_BOOK_FAILURE:
       console.log('Reducer: CREATE_BOOK_FAILURE')
       return state
+
+    case types.FETCH_BOOKS_SUCCESS:
+      return { ...state, data: [...action.payload] }
+
     default:
       return state
   }

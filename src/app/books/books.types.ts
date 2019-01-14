@@ -7,3 +7,8 @@ export type Book = {
   title: string
 } & Resource &
   Timestamped
+
+export type BooksReduxProps = {
+  fetchBooks: () => Promise<Book[]>
+  getBooks: () => Book[]
+}

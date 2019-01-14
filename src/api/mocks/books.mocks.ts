@@ -1,4 +1,4 @@
-import { Book } from 'app/books/types'
+import { Book } from 'app/books/books.types'
 import { mockAuthors } from './authors.mocks'
 
 const aldousHuxley = mockAuthors[0]

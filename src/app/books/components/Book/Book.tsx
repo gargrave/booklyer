@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Book as BookType } from '../../types'
+import { Book as BookType } from '../../books.types'
 
 export type BookProps = {
   book: BookType
