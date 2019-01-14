@@ -1,11 +1,17 @@
-import { FbDocRef, FbDoc, FbCollection, FbTimestamp } from './firebase.types'
+import {
+  FbDocRef,
+  FbDoc,
+  FbCollection,
+  FbTimestamp,
+  FbFirestoreDb,
+} from './firebase.types'
 
 export async function getDocRef(
-  db: any,
-  table: string,
-  id?: string,
+  db: FbFirestoreDb,
+  tableName: string,
+  id: string,
 ): Promise<FbDocRef> {
-  return db.collection(table).doc(id)
+  return db.collection(tableName).doc(id)
 }
 
 function convertTimestamp(timestamp: FbTimestamp) {
@@ -15,8 +21,8 @@ function convertTimestamp(timestamp: FbTimestamp) {
   return timestamp
 }
 
-export function parseFbDoc(doc: FbDoc, parseFn?: (arg?: any) => any) {
-  let data: any = { id: doc.id, ...doc.data() }
+export function parseFbDoc(doc: FbDoc, parseFn?: (arg: any) => any) {
+  let data = { id: doc.id, ...doc.data() }
   if (data.created) {
     data.created = convertTimestamp(data.created)
   }
@@ -29,12 +35,12 @@ export function parseFbDoc(doc: FbDoc, parseFn?: (arg?: any) => any) {
   return data
 }
 
-export function parseCollection(
-  coll: FbCollection,
-  parseFn?: (arg?: any) => any,
-): object[] {
-  if (!coll.docs) {
+export function parseCollection<T>(
+  collection: FbCollection,
+  parseFn?: (arg: any) => T,
+): T[] {
+  if (!collection.docs) {
     return []
   }
-  return coll.docs.map((doc: FbDoc) => parseFbDoc(doc, parseFn))
+  return collection.docs.map((doc: FbDoc) => parseFbDoc(doc, parseFn))
 }

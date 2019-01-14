@@ -1,6 +1,6 @@
 export type FbDoc = {
-  id: string
   data: (args?: any) => any
+  id: string
   ref: any
 }
 
@@ -9,6 +9,10 @@ export type FbDocRef = {
   get: (args?: any) => any
   set: (args?: any) => any
   update: (args?: any) => any
+}
+
+export type FbFirestoreDb = {
+  collection: (name: string) => any
 }
 
 export type FbCollection = {
