@@ -2,7 +2,15 @@ import { ReduxAction } from 'app/core/types'
 
 import { Author } from '../authors.types'
 
-import types from './actionTypes'
+export const actionTypes = {
+  CREATE_AUTHOR: 'AUTHORS/CREATE_AUTHOR',
+  CREATE_AUTHOR_FAILURE: 'AUTHORS/CREATE_AUTHOR_FAILURE',
+  CREATE_AUTHOR_SUCCESS: 'AUTHORS/CREATE_AUTHOR_SUCCESS',
+
+  FETCH_AUTHORS: 'AUTHORS/FETCH_AUTHORS',
+  FETCH_AUTHORS_FAILURE: 'AUTHORS/FETCH_AUTHORS_FAILURE',
+  FETCH_AUTHORS_SUCCESS: 'AUTHORS/FETCH_AUTHORS_SUCCESS',
+}
 
 export type AuthorsState = {
   data: Author[]
@@ -19,20 +27,21 @@ const reducers = (
   action: ReduxAction,
 ) => {
   switch (action.type) {
-    case types.CREATE_AUTHOR:
+    case actionTypes.CREATE_AUTHOR:
       console.log('Reducer: CREATE_AUTHOR')
       return state
 
-    case types.CREATE_AUTHOR_SUCCESS:
+    case actionTypes.CREATE_AUTHOR_SUCCESS:
       console.log('Reducer: CREATE_AUTHOR_SUCCESS')
       return state
 
-    case types.CREATE_AUTHOR_FAILURE:
+    case actionTypes.CREATE_AUTHOR_FAILURE:
       console.log('Reducer: CREATE_AUTHOR_FAILURE')
       return state
 
-    case types.FETCH_AUTHORS_SUCCESS:
+    case actionTypes.FETCH_AUTHORS_SUCCESS:
       return { ...state, data: [...action.payload] }
+
     default:
       return state
   }

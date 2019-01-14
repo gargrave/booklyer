@@ -1,14 +1,11 @@
 import * as React from 'react'
 import { Route, Switch } from 'react-router-dom'
 
-import { Author } from '../authors.types'
+import { Author, AuthorsReduxProps } from '../authors.types'
 
 import AuthorsListPage from '../AuthorsListPage/AuthorsListPage'
 
-export type AuthorsIndexProps = {
-  fetchAuthors: () => Promise<Author[]>
-  getAuthors: () => Author[]
-}
+export type AuthorsIndexProps = {} & AuthorsReduxProps
 
 export default class AuthorsIndex extends React.PureComponent<
   AuthorsIndexProps

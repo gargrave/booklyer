@@ -5,3 +5,8 @@ export type Author = {
   lastName: string
 } & Resource &
   Timestamped
+
+export type AuthorsReduxProps = {
+  fetchAuthors: () => Promise<Author[]>
+  getAuthors: () => Author[]
+}

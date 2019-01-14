@@ -1,8 +1,8 @@
 import { connect } from 'react-redux'
 
 import { AppState } from 'store/reducers'
-import { fetchBooks } from '../store/actions'
-import { getBooks } from '../store/selectors'
+import actions from '../store/actions'
+import { getBooks } from '../store/books.selectors'
 
 import BooksIndex from './BooksIndex'
 
@@ -10,9 +10,12 @@ const mapStateToProps = (state: AppState) => ({
   getBooks: () => getBooks(state.books),
 })
 
-const mapDispatchToProps = dispatch => ({
-  fetchBooks: () => dispatch(fetchBooks()),
-})
+const mapDispatchToProps = dispatch => {
+  const { fetchBooks } = actions
+  return {
+    fetchBooks: () => dispatch(fetchBooks()),
+  }
+}
 
 export default connect(
   mapStateToProps,

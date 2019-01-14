@@ -2,7 +2,15 @@ import { ReduxAction } from 'app/core/types'
 
 import { Book } from '../books.types'
 
-import types from './actionTypes'
+export const actionTypes = {
+  CREATE_BOOK: 'BOOKS/CREATE_BOOK',
+  CREATE_BOOK_FAILURE: 'BOOKS/CREATE_BOOK_FAILURE',
+  CREATE_BOOK_SUCCESS: 'BOOKS/CREATE_BOOK_SUCCESS',
+
+  FETCH_BOOKS: 'BOOKS/FETCH_BOOKS',
+  FETCH_BOOKS_FAILURE: 'BOOKS/FETCH_BOOKS_FAILURE',
+  FETCH_BOOKS_SUCCESS: 'BOOKS/FETCH_BOOKS_SUCCESS',
+}
 
 export type BooksState = {
   data: Book[]
@@ -16,19 +24,19 @@ const defaultState = (): BooksState => ({
 
 const reducers = (state: BooksState = defaultState(), action: ReduxAction) => {
   switch (action.type) {
-    case types.CREATE_BOOK:
+    case actionTypes.CREATE_BOOK:
       console.log('Reducer: CREATE_BOOK')
       return state
 
-    case types.CREATE_BOOK_SUCCESS:
+    case actionTypes.CREATE_BOOK_SUCCESS:
       console.log('Reducer: CREATE_BOOK_SUCCESS')
       return state
 
-    case types.CREATE_BOOK_FAILURE:
+    case actionTypes.CREATE_BOOK_FAILURE:
       console.log('Reducer: CREATE_BOOK_FAILURE')
       return state
 
-    case types.FETCH_BOOKS_SUCCESS:
+    case actionTypes.FETCH_BOOKS_SUCCESS:
       return { ...state, data: [...action.payload] }
 
     default:

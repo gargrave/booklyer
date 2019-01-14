@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Author } from '../authors.types'
+import { Author, AuthorsReduxProps } from '../authors.types'
 
 import AuthorComponent from '../components/Author/Author'
 
@@ -8,10 +8,7 @@ const initialState = (): AuthorsListPageState => ({
   authors: [] as Author[],
 })
 
-export type AuthorsListPageProps = {
-  fetchAuthors: () => Promise<Author[]>
-  getAuthors: () => Author[]
-}
+export type AuthorsListPageProps = {} & AuthorsReduxProps
 
 export type AuthorsListPageState = {
   authors: Author[]
