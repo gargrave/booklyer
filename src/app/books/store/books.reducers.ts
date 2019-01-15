@@ -1,3 +1,5 @@
+import produce from 'immer'
+
 import { ReduxAction } from 'app/core/types'
 
 import { Book } from '../books.types'
@@ -22,26 +24,25 @@ const defaultState = (): BooksState => ({
   requestPending: false,
 })
 
-const reducers = (state: BooksState = defaultState(), action: ReduxAction) => {
-  switch (action.type) {
-    case actionTypes.CREATE_BOOK:
-      console.log('Reducer: CREATE_BOOK')
-      return state
+const reducers = (state: BooksState = defaultState(), action: ReduxAction) =>
+  produce(state, draft => {
+    switch (action.type) {
+      case actionTypes.CREATE_BOOK:
+        console.log('Reducer: CREATE_BOOK')
+        return state
 
-    case actionTypes.CREATE_BOOK_SUCCESS:
-      console.log('Reducer: CREATE_BOOK_SUCCESS')
-      return state
+      case actionTypes.CREATE_BOOK_SUCCESS:
+        console.log('Reducer: CREATE_BOOK_SUCCESS')
+        return state
 
-    case actionTypes.CREATE_BOOK_FAILURE:
-      console.log('Reducer: CREATE_BOOK_FAILURE')
-      return state
+      case actionTypes.CREATE_BOOK_FAILURE:
+        console.log('Reducer: CREATE_BOOK_FAILURE')
+        return state
 
-    case actionTypes.FETCH_BOOKS_SUCCESS:
-      return { ...state, data: [...action.payload] }
-
-    default:
-      return state
-  }
-}
+      case actionTypes.FETCH_BOOKS_SUCCESS:
+        draft.data = action.payload
+        return
+    }
+  })
 
 export default reducers
