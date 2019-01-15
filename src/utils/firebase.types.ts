@@ -22,6 +22,7 @@ export type FbCollection = {
 export type FbError = {
   code: string
   message: string
+  name: string
 }
 
 export type FbTimestamp = {

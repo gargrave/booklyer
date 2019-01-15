@@ -27,8 +27,10 @@ export default class BooksListPage extends React.Component<
   async componentDidMount() {
     let books = this.props.getBooks()
     if (!books.length) {
+      // TODO: show a loading state here
       await this.props.fetchBooks()
       books = this.props.getBooks()
+      // TODO: handle API errors here
     }
     this.setState({ books })
   }

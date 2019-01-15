@@ -1,6 +1,7 @@
 import produce from 'immer'
 
 import { ReduxAction } from 'app/core/types'
+import { FbError } from 'utils/firebase.types'
 
 import { Author } from '../authors.types'
 
@@ -16,11 +17,13 @@ export const actionTypes = {
 
 export type AuthorsState = {
   data: Author[]
+  error?: FbError
   requestPending: boolean
 }
 
 const defaultState = (): AuthorsState => ({
   data: [],
+  error: undefined,
   requestPending: false,
 })
 
@@ -28,19 +31,29 @@ const reducers = (state: AuthorsState = defaultState(), action: ReduxAction) =>
   produce(state, draft => {
     switch (action.type) {
       case actionTypes.CREATE_AUTHOR:
-        console.log('Reducer: CREATE_AUTHOR')
-        return state
+      case actionTypes.FETCH_AUTHORS:
+        draft.requestPending = true
+        return
 
       case actionTypes.CREATE_AUTHOR_SUCCESS:
         console.log('Reducer: CREATE_AUTHOR_SUCCESS')
-        return state
+        draft.requestPending = false
+        return
 
       case actionTypes.CREATE_AUTHOR_FAILURE:
         console.log('Reducer: CREATE_AUTHOR_FAILURE')
-        return state
+        draft.requestPending = false
+        return
+
+      case actionTypes.FETCH_AUTHORS_FAILURE:
+        draft.error = action.payload
+        draft.requestPending = false
+        return
 
       case actionTypes.FETCH_AUTHORS_SUCCESS:
         draft.data = action.payload
+        draft.error = undefined
+        draft.requestPending = false
         return
     }
   })
