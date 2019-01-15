@@ -7,10 +7,15 @@ import authorsActions from '../../../authors/store/actions'
 import { getAuthors } from '../../../authors/store/authors.selectors'
 
 import { Book } from '../../books.types'
-import { actionTypes } from '../books.reducers'
+import { actionTypes, BooksActionPayload } from '../books.reducers'
 
 const fetchBooks = () => async (dispatch, getState) => {
   dispatch({ type: actionTypes.FETCH_BOOKS })
+
+  const payload: BooksActionPayload = {
+    books: {},
+    error: undefined,
+  }
 
   try {
     let authors = getAuthors(getState().authors)
@@ -21,16 +26,18 @@ const fetchBooks = () => async (dispatch, getState) => {
 
     const query = db.collection('books').where('owner', '==', TEMP_OWNER_ID)
     const results: FbCollection = await query.get()
-    const books = collectionToIdMap<Book>(results)
+    payload.books = collectionToIdMap<Book>(results)
 
     dispatch({
-      payload: { books },
+      payload,
       type: actionTypes.FETCH_BOOKS_SUCCESS,
     })
   } catch (err) {
     const hydratedError = { ...err, message: err.message }
+    payload.error = hydratedError
+
     dispatch({
-      payload: hydratedError,
+      payload,
       type: actionTypes.FETCH_BOOKS_FAILURE,
     })
   }

@@ -1,6 +1,6 @@
 import produce from 'immer'
 
-import { ReduxAction } from 'app/core/types'
+import { ReduxAction, ReduxActionPayload } from 'app/core/types'
 import { FbError } from 'utils/firebase.types'
 
 import { Book } from '../books.types'
@@ -15,6 +15,10 @@ export const actionTypes = {
   FETCH_BOOKS_SUCCESS: 'BOOKS/FETCH_BOOKS_SUCCESS',
 }
 
+export type BooksActionPayload = {
+  books: object
+} & ReduxActionPayload
+
 export type BooksState = {
   data: object
   error?: FbError
@@ -27,7 +31,10 @@ const defaultState = (): BooksState => ({
   requestPending: false,
 })
 
-const reducers = (state: BooksState = defaultState(), action: ReduxAction) =>
+const reducers = (
+  state: BooksState = defaultState(),
+  action: ReduxAction<BooksActionPayload>,
+) =>
   produce(state, draft => {
     switch (action.type) {
       case actionTypes.CREATE_BOOK:
@@ -46,7 +53,7 @@ const reducers = (state: BooksState = defaultState(), action: ReduxAction) =>
         return
 
       case actionTypes.FETCH_BOOKS_FAILURE:
-        draft.error = action.payload
+        draft.error = action.payload.error
         draft.requestPending = false
         return
 

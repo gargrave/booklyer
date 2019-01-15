@@ -1,3 +1,5 @@
+import { FbError } from 'utils/firebase.types'
+
 export type Resource = {
   id: string
 }
@@ -7,7 +9,11 @@ export type Timestamped = {
   updated: Date
 }
 
-export type ReduxAction = {
-  payload: any
+export type ReduxActionPayload = {
+  error?: FbError
+}
+
+export type ReduxAction<T> = {
+  payload: T
   type: string
 }

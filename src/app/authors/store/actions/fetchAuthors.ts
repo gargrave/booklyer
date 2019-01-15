@@ -4,24 +4,31 @@ import { collectionToIdMap } from 'utils/firestore.helpers'
 import { FbCollection } from 'utils/firebase.types'
 
 import { Author } from '../../authors.types'
-import { actionTypes } from '../authors.reducers'
+import { actionTypes, AuthorsActionPayload } from '../authors.reducers'
 
 const fetchAuthors = () => async (dispatch, getState) => {
   dispatch({ type: actionTypes.FETCH_AUTHORS })
 
+  const payload: AuthorsActionPayload = {
+    authors: {},
+    error: undefined,
+  }
+
   try {
     const query = db.collection('authors').where('owner', '==', TEMP_OWNER_ID)
     const results: FbCollection = await query.get()
-    const authors = collectionToIdMap<Author>(results)
+    payload.authors = collectionToIdMap<Author>(results)
 
     dispatch({
-      payload: { authors },
+      payload,
       type: actionTypes.FETCH_AUTHORS_SUCCESS,
     })
   } catch (err) {
     const hydratedError = { ...err, message: err.message }
+    payload.error = hydratedError
+
     dispatch({
-      payload: hydratedError,
+      payload,
       type: actionTypes.FETCH_AUTHORS_FAILURE,
     })
   }
