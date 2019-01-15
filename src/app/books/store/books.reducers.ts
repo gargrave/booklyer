@@ -3,7 +3,7 @@ import produce from 'immer'
 import { ReduxAction, ReduxActionPayload } from 'app/core/types'
 import { FbError } from 'utils/firebase.types'
 
-import { Book } from '../books.types'
+import { BookIdMap } from '../books.types'
 
 export const actionTypes = {
   CREATE_BOOK: 'BOOKS/CREATE_BOOK',
@@ -16,17 +16,17 @@ export const actionTypes = {
 }
 
 export type BooksActionPayload = {
-  books: object
+  books: BookIdMap
 } & ReduxActionPayload
 
 export type BooksState = {
-  data: object
+  data: BookIdMap
   error?: FbError
   requestPending: boolean
 }
 
 const defaultState = (): BooksState => ({
-  data: {},
+  data: {} as BookIdMap,
   error: undefined,
   requestPending: false,
 })

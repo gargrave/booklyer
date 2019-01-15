@@ -3,7 +3,7 @@ import produce from 'immer'
 import { ReduxAction, ReduxActionPayload } from 'app/core/types'
 import { FbError } from 'utils/firebase.types'
 
-import { Author } from '../authors.types'
+import { AuthorIdMap } from '../authors.types'
 
 export const actionTypes = {
   CREATE_AUTHOR: 'AUTHORS/CREATE_AUTHOR',
@@ -16,17 +16,17 @@ export const actionTypes = {
 }
 
 export type AuthorsActionPayload = {
-  authors: object
+  authors: AuthorIdMap
 } & ReduxActionPayload
 
 export type AuthorsState = {
-  data: object
+  data: AuthorIdMap
   error?: FbError
   requestPending: boolean
 }
 
 const defaultState = (): AuthorsState => ({
-  data: {},
+  data: {} as AuthorIdMap,
   error: undefined,
   requestPending: false,
 })

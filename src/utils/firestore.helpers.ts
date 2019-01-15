@@ -6,6 +6,10 @@ import {
   FbFirestoreDb,
 } from './firebase.types'
 
+export type ObjectIdMap<T> = {
+  ['id']: T
+}
+
 export async function getDocRef(
   db: FbFirestoreDb,
   tableName: string,
@@ -21,7 +25,8 @@ function convertTimestamp(timestamp: FbTimestamp) {
   return timestamp
 }
 
-export function parseFbDoc(doc: FbDoc, parseFn?: (arg: any) => any) {
+// TODO: try to find a way to pull properties here based on types, so we can have type protection here too
+export function parseFbDoc<T>(doc: FbDoc, parseFn?: (arg: T) => T) {
   let data = { id: doc.id, ...doc.data() }
   if (data.created) {
     data.created = convertTimestamp(data.created)
@@ -35,29 +40,22 @@ export function parseFbDoc(doc: FbDoc, parseFn?: (arg: any) => any) {
   return data
 }
 
-export function parseCollection<T>(
-  collection: FbCollection,
-  parseFn?: (arg: any) => T,
-): T[] {
-  if (!collection.docs) {
-    return []
-  }
-  return collection.docs.map((doc: FbDoc) => parseFbDoc(doc, parseFn))
-}
-
 export function collectionToIdMap<T>(
   collection: FbCollection,
   parseFn?: (arg: any) => T,
-): object {
+): ObjectIdMap<T> {
   if (!collection.docs) {
-    return {}
+    return {} as ObjectIdMap<T>
   }
 
-  return collection.docs.reduce((acc, doc) => {
-    const parsed = parseFbDoc(doc, parseFn)
-    return {
-      ...acc,
-      [parsed.id]: { ...parsed },
-    }
-  }, {})
+  return collection.docs.reduce(
+    (acc, doc) => {
+      const parsed = parseFbDoc<T>(doc, parseFn)
+      return {
+        ...acc,
+        [parsed.id]: { ...parsed },
+      }
+    },
+    {} as ObjectIdMap<T>,
+  )
 }

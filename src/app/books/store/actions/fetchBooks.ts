@@ -6,14 +6,14 @@ import { FbCollection } from 'utils/firebase.types'
 import authorsActions from '../../../authors/store/actions'
 import { getAuthors } from '../../../authors/store/authors.selectors'
 
-import { Book } from '../../books.types'
+import { Book, BookIdMap } from '../../books.types'
 import { actionTypes, BooksActionPayload } from '../books.reducers'
 
 const fetchBooks = () => async (dispatch, getState) => {
   dispatch({ type: actionTypes.FETCH_BOOKS })
 
   const payload: BooksActionPayload = {
-    books: {},
+    books: {} as BookIdMap,
     error: undefined,
   }
 
