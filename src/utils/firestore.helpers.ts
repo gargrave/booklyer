@@ -44,3 +44,20 @@ export function parseCollection<T>(
   }
   return collection.docs.map((doc: FbDoc) => parseFbDoc(doc, parseFn))
 }
+
+export function collectionToIdMap<T>(
+  collection: FbCollection,
+  parseFn?: (arg: any) => T,
+): object {
+  if (!collection.docs) {
+    return {}
+  }
+
+  return collection.docs.reduce((acc, doc) => {
+    const parsed = parseFbDoc(doc, parseFn)
+    return {
+      ...acc,
+      [parsed.id]: { ...parsed },
+    }
+  }, {})
+}

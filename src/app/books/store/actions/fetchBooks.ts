@@ -1,6 +1,6 @@
 import { db } from 'config/firebase'
 import { TEMP_OWNER_ID } from 'config/firebaseConfig'
-import { parseCollection } from 'utils/firestore.helpers'
+import { collectionToIdMap } from 'utils/firestore.helpers'
 import { FbCollection } from 'utils/firebase.types'
 
 import authorsActions from '../../../authors/store/actions'
@@ -21,10 +21,10 @@ const fetchBooks = () => async (dispatch, getState) => {
 
     const query = db.collection('books').where('owner', '==', TEMP_OWNER_ID)
     const results: FbCollection = await query.get()
-    const books = parseCollection<Book>(results)
+    const books = collectionToIdMap<Book>(results)
 
     dispatch({
-      payload: books,
+      payload: { books },
       type: actionTypes.FETCH_BOOKS_SUCCESS,
     })
   } catch (err) {

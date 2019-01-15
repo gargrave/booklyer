@@ -16,13 +16,13 @@ export const actionTypes = {
 }
 
 export type BooksState = {
-  data: Book[]
+  data: object
   error?: FbError
   requestPending: boolean
 }
 
 const defaultState = (): BooksState => ({
-  data: [],
+  data: {},
   error: undefined,
   requestPending: false,
 })
@@ -51,7 +51,7 @@ const reducers = (state: BooksState = defaultState(), action: ReduxAction) =>
         return
 
       case actionTypes.FETCH_BOOKS_SUCCESS:
-        draft.data = action.payload
+        draft.data = action.payload.books
         draft.error = undefined
         draft.requestPending = false
         return
