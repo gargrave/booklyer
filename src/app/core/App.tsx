@@ -6,6 +6,8 @@ import store from '../../store/store'
 
 import Router from './Router'
 
+import './App.scss'
+
 export default class App extends React.Component {
   render() {
     return (
