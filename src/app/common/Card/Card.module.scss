@@ -1,0 +1,18 @@
+@import '~styles/colors';
+@import '~styles/shadows';
+
+.card {
+  background: $card-bg;
+  border-radius: 4px;
+  border: solid 1px $card-border;
+  box-shadow: $shadow-med;
+  margin: 8px auto;
+  max-width: 600px;
+  padding: 12px 24px;
+  text-align: center;
+
+  &.hoverable:hover {
+    background: $card-hovered-bg;
+    cursor: pointer;
+  }
+}

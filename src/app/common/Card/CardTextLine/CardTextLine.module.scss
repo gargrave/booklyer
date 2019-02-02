@@ -1,0 +1,19 @@
+@import '~styles/colors';
+
+.cardTextLine {
+  margin-bottom: 0;
+}
+
+.text {
+  color: $text-med-light;
+}
+
+.title {
+  color: $text-med;
+  font-weight: bold;
+}
+
+.subtext {
+  color: $text-light;
+  font-size: 0.9em;
+}
