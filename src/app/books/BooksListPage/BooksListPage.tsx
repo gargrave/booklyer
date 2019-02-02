@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { Book as BookType, BooksReduxProps } from '../books.types'
 
-import Book from '../components/Book/Book'
+import BookCard from '../components/BookCard/BookCard'
 
 const initialState = (): BooksListPageState => ({
   books: [] as BookType[],
@@ -41,7 +41,7 @@ export default class BooksListPage extends React.Component<
       <>
         <h2>BooksListPage</h2>
         {books.map(book => (
-          <Book book={book} key={book.id} />
+          <BookCard book={book} key={book.id} />
         ))}
       </>
     )
