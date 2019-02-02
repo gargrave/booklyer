@@ -1,10 +1,8 @@
-import { db } from 'config/firebase'
 import { TEMP_OWNER_ID } from 'config/firebaseConfig'
-import { collectionToIdMap } from 'utils/firestore.helpers'
-import { FbCollection } from 'utils/firebase.types'
 
-import { Author, AuthorIdMap } from '../../authors.types'
+import { AuthorIdMap } from '../../authors.types'
 import { actionTypes, AuthorsActionPayload } from '../authors.reducers'
+import service from '../authors.service'
 
 const fetchAuthors = () => async (dispatch, getState) => {
   dispatch({ type: actionTypes.FETCH_AUTHORS })
@@ -15,9 +13,7 @@ const fetchAuthors = () => async (dispatch, getState) => {
   }
 
   try {
-    const query = db.collection('authors').where('owner', '==', TEMP_OWNER_ID)
-    const results: FbCollection = await query.get()
-    payload.authors = collectionToIdMap<Author>(results)
+    payload.authors = await service.fetchAuthorsByOwner(TEMP_OWNER_ID)
 
     dispatch({
       payload,

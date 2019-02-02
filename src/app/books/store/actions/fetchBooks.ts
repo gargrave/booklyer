@@ -23,6 +23,7 @@ const fetchBooks = () => async (dispatch, getState) => {
     }
 
     payload.books = await service.fetchBooksByOwner(TEMP_OWNER_ID)
+
     dispatch({
       payload,
       type: actionTypes.FETCH_BOOKS_SUCCESS,
