@@ -1,0 +1,17 @@
+.titlebar {
+  align-items: center;
+  background: #eee;
+  display: flex;
+  flex-flow: row nowrap; // may need to change to `wrap` for mobile view
+  height: 56px;
+  justify-content: flex-start; // may need to change to `space-between` for mobile view
+  list-style: none;
+  padding: 16px;
+  position: relative;
+}
+
+.title {
+  color: #333;
+  font-size: 24px;
+  font-weight: bold;
+}

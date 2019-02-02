@@ -2,6 +2,7 @@ import * as React from 'react'
 
 import { Author, AuthorsReduxProps } from '../authors.types'
 
+import Button from 'app/common/Button/Button'
 import AuthorComponent from '../components/Author/Author'
 
 const initialState = (): AuthorsListPageState => ({
@@ -40,6 +41,9 @@ export default class AuthorsListPage extends React.Component<
     return (
       <div>
         <h2>Authors List</h2>
+
+        <Button>Add an Author</Button>
+
         {authors.map(author => (
           <AuthorComponent author={author} key={author.id} />
         ))}

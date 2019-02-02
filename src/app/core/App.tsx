@@ -4,8 +4,11 @@ import { Provider } from 'react-redux'
 
 import store from '../../store/store'
 
+import Navbar from './components/Navbar/Navbar'
+import Titlebar from './components/Titlebar/Titlebar'
 import Router from './Router'
 
+import styles from './App.module.scss'
 import './App.scss'
 
 export default class App extends React.Component {
@@ -14,12 +17,9 @@ export default class App extends React.Component {
       <Provider store={store}>
         <BrowserRouter>
           <>
-            <h1>Booklyer</h1>
-            <nav>
-              <Link to="/books">Books</Link> |{' '}
-              <Link to="/authors">Authors</Link>
-            </nav>
-            <main>
+            <Titlebar title="Booklyer" />
+            <Navbar />
+            <main className={styles.main}>
               <Router />
             </main>
           </>
