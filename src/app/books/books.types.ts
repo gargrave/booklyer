@@ -1,9 +1,20 @@
 import { Author } from 'app/authors/authors.types'
-import { Resource, Timestamped } from 'app/core/types'
+import {
+  GenericResourcePropertyNames,
+  Resource,
+  Timestamped,
+} from 'app/core/core.types'
 import { ObjectIdMap } from 'utils/firestore.helpers'
+
+export const BookPropertyNames = [
+  ...GenericResourcePropertyNames,
+  'sortBy',
+  'title',
+]
 
 export type Book = {
   author: Author
+  authorId?: string
   sortBy: string
   title: string
 } & Resource &

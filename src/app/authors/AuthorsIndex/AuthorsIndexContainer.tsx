@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 
 import { AppState } from 'store/reducers'
 import actions from '../store/actions'
-import { getAuthors } from '../store/authors.selectors'
+import { getAuthors } from '../store/selectors'
 
 import AuthorsIndex from './AuthorsIndex'
 

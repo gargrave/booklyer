@@ -1,5 +1,7 @@
 import { FbError } from 'utils/firebase.types'
 
+export const GenericResourcePropertyNames = ['id', 'created', 'updated']
+
 export type Resource = {
   id: string
 }

@@ -2,12 +2,12 @@ import { connect } from 'react-redux'
 
 import { AppState } from 'store/reducers'
 import actions from '../store/actions'
-import { getBooks } from '../store/books.selectors'
+import { getBooksWithAuthors } from '../store/selectors'
 
 import BooksIndex from './BooksIndex'
 
 const mapStateToProps = (state: AppState) => ({
-  getBooks: () => getBooks(state.books),
+  getBooks: () => getBooksWithAuthors(state),
 })
 
 const mapDispatchToProps = dispatch => {

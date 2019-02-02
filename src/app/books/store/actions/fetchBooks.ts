@@ -4,7 +4,7 @@ import { collectionToIdMap } from 'utils/firestore.helpers'
 import { FbCollection } from 'utils/firebase.types'
 
 import authorsActions from '../../../authors/store/actions'
-import { getAuthors } from '../../../authors/store/authors.selectors'
+import { getAuthors } from '../../../authors/store/selectors'
 
 import { Book, BookIdMap } from '../../books.types'
 import { actionTypes, BooksActionPayload } from '../books.reducers'

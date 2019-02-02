@@ -1,5 +1,15 @@
-import { Resource, Timestamped } from 'app/core/types'
+import {
+  GenericResourcePropertyNames,
+  Resource,
+  Timestamped,
+} from 'app/core/core.types'
 import { ObjectIdMap } from 'utils/firestore.helpers'
+
+export const AuthorPropertyNames = [
+  ...GenericResourcePropertyNames,
+  'firstName',
+  'lastName',
+]
 
 export type Author = {
   firstName: string
