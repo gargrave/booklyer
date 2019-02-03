@@ -8,6 +8,12 @@ export type CardTextListItem = {
 }
 
 export type CardTextListProps = {
+  /**
+   * The collection of items to display. Each item should be an object with two optional properties:
+   *
+   * - `title`, when present, will be shown in bold with a trailing colon
+   * - `text`, when present, will be shown as basic text, and placed after `title` if it is present
+   */
   textList: CardTextListItem[]
 }
 

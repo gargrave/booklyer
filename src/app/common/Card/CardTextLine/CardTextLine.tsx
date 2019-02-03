@@ -10,7 +10,13 @@ export enum CardTextLineType {
 }
 
 export type CardTextLineProps = {
+  /** The text to display within the line. */
   text: string
+  /**
+   * The type/styling to apply to this instance.
+   *
+   * Use the `CardTextLineType` enum to specify this prop.
+   */
   type?: CardTextLineType
 }
 
@@ -26,4 +32,9 @@ CardTextLine.defaultProps = {
 }
 
 export { CardTextLine as UnwrappedCardTextLine }
+/**
+ * A simple helper to display a nicely-formatted single line of text within a card.
+ *
+ * Rather than needing to directly import it, it can be used inside a card as `Card.TextLine`.
+ */
 export default React.memo(CardTextLine)

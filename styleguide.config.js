@@ -14,7 +14,26 @@ module.exports = {
   sections: [
     {
       name: 'Common Components',
-      components: componentList(['Button']),
+      sections: [
+        {
+          name: 'Misc',
+          components: componentList(['Button']),
+        },
+        {
+          name: 'Card',
+          components: componentList([
+            'Card',
+            'CardHeader',
+            'CardSpacer',
+            'CardTextLine',
+            'CardTextList',
+          ]),
+        },
+      ],
+    },
+    {
+      name: 'Booklyer',
+      components: componentList(['BookCard']),
     },
   ],
 
