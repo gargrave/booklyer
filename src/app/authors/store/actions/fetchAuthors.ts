@@ -1,5 +1,3 @@
-import { TEMP_OWNER_ID } from 'config/firebaseConfig'
-
 import { AuthorIdMap } from '../../authors.types'
 import { actionTypes, AuthorsActionPayload } from '../authors.reducers'
 import service from '../authors.service'
@@ -13,7 +11,8 @@ const fetchAuthors = () => async (dispatch, getState) => {
   }
 
   try {
-    payload.authors = await service.fetchAuthorsByOwner(TEMP_OWNER_ID)
+    const ownerId = process.env.BOOKLYER_FIREBASE_TEMP_OWNER_ID
+    payload.authors = await service.fetchAuthorsByOwner(ownerId)
 
     dispatch({
       payload,
