@@ -1,0 +1,72 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:10.11
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install Dependencies
+          command: yarn
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run:
+          name: Unit tests with coverage
+          command: yarn test:ci
+      - run:
+          name: Build React App
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              echo 'export BOOKLYER_FIREBASE_API_KEY=$PROD_FIREBASE_API_KEY' >> $BASH_ENV
+              echo 'export BOOKLYER_FIREBASE_AUTH_DOMAIN=$PROD_FIREBASE_AUTH_DOMAIN' >> $BASH_ENV
+              echo 'export BOOKLYER_FIREBASE_DATABASE_URL=$PROD_FIREBASE_DATABASE_URL' >> $BASH_ENV
+              echo 'export BOOKLYER_FIREBASE_MESSAGING_SENDER_ID=$PROD_FIREBASE_MESSAGING_SENDER_ID' >> $BASH_ENV
+              echo 'export BOOKLYER_FIREBASE_PROJECT_ID=$PROD_FIREBASE_PROJECT_ID' >> $BASH_ENV
+              echo 'export BOOKLYER_FIREBASE_STORAGE_BUCKET=$PROD_FIREBASE_STORAGE_BUCKET' >> $BASH_ENV
+            else
+              echo 'export BOOKLYER_FIREBASE_API_KEY=$STAGING_FIREBASE_API_KEY' >> $BASH_ENV
+              echo 'export BOOKLYER_FIREBASE_AUTH_DOMAIN=$STAGING_FIREBASE_AUTH_DOMAIN' >> $BASH_ENV
+              echo 'export BOOKLYER_FIREBASE_DATABASE_URL=$STAGING_FIREBASE_DATABASE_URL' >> $BASH_ENV
+              echo 'export BOOKLYER_FIREBASE_MESSAGING_SENDER_ID=$STAGING_FIREBASE_MESSAGING_SENDER_ID' >> $BASH_ENV
+              echo 'export BOOKLYER_FIREBASE_PROJECT_ID=$STAGING_FIREBASE_PROJECT_ID' >> $BASH_ENV
+              echo 'export BOOKLYER_FIREBASE_STORAGE_BUCKET=$STAGING_FIREBASE_STORAGE_BUCKET' >> $BASH_ENV
+            fi
+            source $BASH_ENV
+            CI=false yarn build
+      - store_artifacts:
+          path: build/
+          destination: bundle
+      - persist_to_workspace:
+          root: ~/repo
+          paths:
+            - build/
+  deploy:
+    docker:
+      - image: circleci/node:10.11
+    working_directory: ~/
+    steps:
+      - attach_workspace:
+          at: ~/workspace
+      - run:
+          name: Install
+          command: yarn add firebase-tools
+      - run:
+          name: Deploy Master to Firebase
+          command: yarn firebase-deploy --token=$FIREBASE_TOKEN
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
