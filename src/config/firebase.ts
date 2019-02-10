@@ -2,7 +2,7 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
 
-import { isDevEnv } from './env'
+// import { isDevEnv } from './env'
 import { devConfig } from './firebaseConfig'
 
 let initialized = false

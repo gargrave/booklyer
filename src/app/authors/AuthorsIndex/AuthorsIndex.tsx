@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Route, Switch } from 'react-router-dom'
 
-import { Author, AuthorsReduxProps } from '../authors.types'
+import { AuthorsReduxProps } from '../authors.types'
 
 import AuthorsListPage from '../AuthorsListPage/AuthorsListPage'
 

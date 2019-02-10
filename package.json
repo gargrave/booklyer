@@ -6,6 +6,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
+    "lint": "tslint --project tsconfig.json --config tslint.json -t verbose",
     "styleguide": "styleguidist server"
   },
   "dependencies": {
@@ -80,9 +81,9 @@
     "enzyme-adapter-react-16": "^1.7.0",
     "react-docgen-typescript": "^1.12.3",
     "react-styleguidist": "^8.0.6",
-    "tslint": "^5.11.0",
+    "tslint": "^5.12.1",
     "tslint-config-airbnb": "^5.11.1",
-    "tslint-config-prettier": "^1.17.0",
+    "tslint-config-prettier": "^1.18.0",
     "tslint-react": "^3.6.0"
   },
   "eslintConfig": {
