@@ -56,11 +56,8 @@ jobs:
       - attach_workspace:
           at: ~/workspace
       - run:
-          name: Install
-          command: yarn add firebase-tools
-      - run:
           name: Deploy Master to Firebase
-          command: yarn firebase-deploy --token=$FIREBASE_TOKEN
+          command: ./node_modules/.bin/firebase deploy --token=$FIREBASE_TOKEN
 
 workflows:
   version: 2

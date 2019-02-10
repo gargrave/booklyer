@@ -82,6 +82,7 @@
   "devDependencies": {
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
+    "firebase-tools": "^6.3.1",
     "react-docgen-typescript": "^1.12.3",
     "react-styleguidist": "^8.0.6",
     "tslint": "^5.12.1",
