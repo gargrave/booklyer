@@ -1,5 +1,5 @@
 #!/bin/sh
-if [ "$TRAVIS_BRANCH" == "master" ]; then
+if [ "$TRAVIS_BRANCH" = "master" ]; then
   export FIREBASE_PROJECT=prod
 else
   export FIREBASE_PROJECT=default
