@@ -70,7 +70,7 @@ jobs:
               echo 'export FB_TOKEN=$STAGING_FIREBASE_TOKEN' >> $BASH_ENV
             fi
             source $BASH_ENV
-            yarn firebase use $FB_PROJECT && yarn firebase deploy --token=$FB_TOKEN --non-interactive
+            yarn firebase use $FB_PROJECT --token=$FB_TOKEN && yarn firebase deploy --token=$FB_TOKEN
 
 workflows:
   version: 2
