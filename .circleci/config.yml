@@ -3,24 +3,28 @@ jobs:
   build:
     docker:
       - image: circleci/node:10.11
-    working_directory: ~/repo
+
     steps:
       - checkout
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
             - yarn-packages-{{ checksum "yarn.lock" }}
+
       - run:
           name: Install Dependencies
           command: yarn
+
       - save_cache:
           name: Save Yarn Package Cache
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
-            - ~/.cache/yarn
+            - node_modules
+
       - run:
-          name: Unit tests with coverage
+          name: Unit tests
           command: yarn test:ci
+
       - run:
           name: Build React App
           command: |
@@ -39,25 +43,25 @@ jobs:
               echo 'export BOOKLYER_FIREBASE_PROJECT_ID=$STAGING_FIREBASE_PROJECT_ID' >> $BASH_ENV
               echo 'export BOOKLYER_FIREBASE_STORAGE_BUCKET=$STAGING_FIREBASE_STORAGE_BUCKET' >> $BASH_ENV
             fi
+            echo 'export BOOKLYER_FIREBASE_TEMP_OWNER_ID=$FIREBASE_TEMP_OWNER_ID' >> $BASH_ENV
             source $BASH_ENV
             CI=false yarn build
-      - store_artifacts:
-          path: build/
-          destination: bundle
+
       - persist_to_workspace:
-          root: ~/repo
+          root: .
           paths:
-            - build/
+            - .
+
   deploy:
     docker:
       - image: circleci/node:10.11
-    working_directory: ~/
     steps:
       - attach_workspace:
-          at: ~/workspace
+          at: .
+
       - run:
           name: Deploy Master to Firebase
-          command: ./node_modules/.bin/firebase deploy --token=$FIREBASE_TOKEN
+          command: yarn firebase use default && yarn firebase deploy --token=$FIREBASE_TOKEN
 
 workflows:
   version: 2
