@@ -63,14 +63,13 @@ jobs:
           name: Deploy to Firebase
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              echo 'export FB_PROJECT=prod' >> $BASH_ENV
-              echo 'export FB_TOKEN=$PROD_FIREBASE_TOKEN' >> $BASH_ENV
+              echo 'export FIREBASE_PROJECT=prod' >> $BASH_ENV
             else
-              echo 'export FB_PROJECT=default' >> $BASH_ENV
-              echo 'export FB_TOKEN=$STAGING_FIREBASE_TOKEN' >> $BASH_ENV
+              echo 'export FIREBASE_PROJECT=default' >> $BASH_ENV
             fi
             source $BASH_ENV
-            yarn firebase use $FB_PROJECT --token=$FB_TOKEN && yarn firebase deploy --token=$FB_TOKEN
+            yarn firebase use $FIREBASE_PROJECT --token=$FIREBASE_CI_TOKEN
+            yarn firebase deploy --token=$FIREBASE_CI_TOKEN
 
 workflows:
   version: 2
