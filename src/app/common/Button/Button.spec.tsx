@@ -8,6 +8,7 @@ const defaultProps: ButtonProps = {
   children: 'Button',
   disabled: false,
   loading: false,
+  onClick: jest.fn(),
   type: ButtonType.Primary,
 }
 
@@ -18,6 +19,15 @@ describe('Button', () => {
       expect(wrapper.find('button').length).toBe(1)
       expect(wrapper.hasClass('button')).toBe(true)
       expect(wrapper.find({ children: 'hello' }).length).toBe(1)
+    })
+  })
+
+  describe('Actions', () => {
+    it('calls the "onClick" callback when clicked', () => {
+      const wrapper = shallow(<Button {...defaultProps}>hello</Button>)
+      expect(defaultProps.onClick).toHaveBeenCalledTimes(0)
+      wrapper.simulate('click')
+      expect(defaultProps.onClick).toHaveBeenCalledTimes(1)
     })
   })
 

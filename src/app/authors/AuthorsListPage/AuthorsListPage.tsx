@@ -42,7 +42,7 @@ export default class AuthorsListPage extends React.Component<
       <div>
         <h2>Authors List</h2>
 
-        <Button>Add an Author</Button>
+        <Button onClick={() => void 0}>Add an Author</Button>
 
         {authors.map(author => (
           <AuthorCard author={author} key={author.id} />

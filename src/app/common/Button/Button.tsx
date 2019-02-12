@@ -23,6 +23,8 @@ export type ButtonProps = {
   disabled?: boolean
   /** Whether the button should show a loader instead of `children` */
   loading?: boolean
+  /** Click handler */
+  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void
   /** The type of this button. Use the `ButtonType` enum for easy access! */
   type?: ButtonType
 }
@@ -32,6 +34,7 @@ const Button: React.SFC<ButtonProps> = ({
   children,
   disabled = false,
   loading = false,
+  onClick,
   type = ButtonType.Primary,
 }) => (
   <button
@@ -40,6 +43,7 @@ const Button: React.SFC<ButtonProps> = ({
       'button-loader': loading,
     })}
     disabled={disabled}
+    onClick={onClick}
   >
     {children}
   </button>
