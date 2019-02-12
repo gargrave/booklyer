@@ -14,17 +14,17 @@ const config = {
 }
 
 let initialized = false
-let firebaseAuth
+let auth
 let db
 
 if (!initialized) {
   // firebase.initializeApp(isDevEnv() ? devConfig : prodConfig)
   firebase.initializeApp(config)
-  firebaseAuth = firebase.auth()
+  auth = firebase.auth()
   db = firebase.firestore()
   initialized = true
 }
 
 export const fbTimestamp = () => firebase.firestore.FieldValue.serverTimestamp()
 
-export { db, firebaseAuth }
+export { auth, db }
