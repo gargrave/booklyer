@@ -1,12 +1,16 @@
 language: node_js
 node_js:
   - '10'
+branches:
+  only:
+    - master
+    - staging
 cache:
   yarn: true
   directories:
     - node_modules
 script:
   - yarn test:ci
-script: 
+script:
   - ./scripts/ci/build.sh
   - ./scripts/ci/deploy.sh
