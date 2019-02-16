@@ -17,7 +17,7 @@ module.exports = {
       sections: [
         {
           name: 'Misc',
-          components: componentList(['Button']),
+          components: componentList(['Alert', 'Button', 'Form', 'InputField']),
         },
         {
           name: 'Card',

@@ -27,7 +27,10 @@ const Alert: React.FunctionComponent<AlertProps> = ({
   message,
   type = AlertType.primary,
 }) => (
-  <div className={classNames(`alert alert-${type}`, styles.alertContainer)}>
+  <div
+    className={classNames(`alert alert-${type}`, styles.alertContainer)}
+    role="alert"
+  >
     <span>{message}</span>
     <span>{children}</span>
   </div>

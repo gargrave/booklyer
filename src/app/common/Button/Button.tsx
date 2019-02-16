@@ -21,6 +21,7 @@ export type ButtonProps = {
   children: React.ReactNode
   /** Whether "disabled" state should be applied */
   disabled?: boolean
+  isSubmitBtn?: boolean
   /** Whether the button should show a loader instead of `children` */
   loading?: boolean
   /** Click handler */
@@ -33,6 +34,7 @@ const Button: React.SFC<ButtonProps> = ({
   block = false,
   children,
   disabled = false,
+  isSubmitBtn = false,
   loading = false,
   onClick,
   type = ButtonType.Primary,
@@ -44,6 +46,7 @@ const Button: React.SFC<ButtonProps> = ({
     })}
     disabled={disabled}
     onClick={onClick}
+    type={isSubmitBtn ? 'submit' : 'button'}
   >
     {children}
   </button>

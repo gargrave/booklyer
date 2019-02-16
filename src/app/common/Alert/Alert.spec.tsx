@@ -19,11 +19,14 @@ describe('Alert', () => {
 
   describe('Basic Rendering', () => {
     it('renders correctly', () => {
-      const { container, getByText } = render(<Alert {...defaultProps} />)
+      const { container, getByRole, getByText } = render(
+        <Alert {...defaultProps} />,
+      )
       const wrapper = container.firstChild
 
       expect(wrapper).toHaveClass('alert')
       expect(wrapper).toHaveClass('alertContainer')
+      expect(getByRole('alert')).toBeInTheDocument()
       expect(getByText(defaultProps.message)).toBeInTheDocument()
     })
   })
