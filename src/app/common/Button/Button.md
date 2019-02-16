@@ -2,8 +2,8 @@
 const { ButtonType } = require('./Button')
 
 ;<>
-  <p>
-    <div>Basic Buttons</div>
+  <div>
+    <p>Basic Buttons</p>
     <Button>Default</Button>
     <Button type={ButtonType.Secondary}>Secondary</Button>
     <Button type={ButtonType.Success}>Success</Button>
@@ -13,21 +13,21 @@ const { ButtonType } = require('./Button')
     <Button type={ButtonType.Dark}>Dark</Button>
     <Button type={ButtonType.Light}>Light</Button>
     <Button type={ButtonType.Link}>Link</Button>
-  </p>
+  </div>
 
-  <p>
-    <div>Block Button</div>
+  <div>
+    <p>Block Button</p>
     <Button block={true}>Block!</Button>
-  </p>
+  </div>
 
-  <p>
-    <div>Loader</div>
+  <div>
+    <p>Loader</p>
     <Button loading={true}>Loading</Button>
-  </p>
+  </div>
 
-  <p>
-    <div>Disabled</div>
+  <div>
+    <p>Disabled</p>
     <Button disabled={true}>Disabled</Button>
-  </p>
+  </div>
 </>
 ```

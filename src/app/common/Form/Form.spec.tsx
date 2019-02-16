@@ -44,7 +44,6 @@ describe('Form', () => {
         const { container, getByText } = render(
           <Form {...defaultProps} title={title} />,
         )
-
         expect(container.querySelector('.title')).not.toBeNull()
         expect(getByText(title)).toBeInTheDocument()
       })
@@ -55,14 +54,12 @@ describe('Form', () => {
         const { container, queryByText } = render(
           <Form {...defaultProps} onCancel={undefined} />,
         )
-
         expect(container.querySelectorAll('button')).toHaveLength(1)
         expect(queryByText('Cancel')).toBeNull()
       })
 
       it('renders "cancel" button when "onCancel" prop is present', () => {
         const { container, getByText } = render(<Form {...defaultProps} />)
-
         expect(container.querySelectorAll('button')).toHaveLength(2)
         expect(getByText('Cancel')).toBeInTheDocument()
       })

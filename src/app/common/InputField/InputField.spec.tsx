@@ -5,7 +5,7 @@ import {
   UnwrappedInputField as InputField,
   InputFieldProps,
   InputFieldType,
-} from './Inputfield'
+} from './InputField'
 
 let defaultProps: InputFieldProps
 
@@ -19,7 +19,7 @@ describe('InputField', () => {
       name: 'text',
       onInputChange: jest.fn(),
       placeholder: '',
-      type: InputFieldType.Text,
+      type: InputFieldType.text,
     }
   })
 
@@ -61,7 +61,7 @@ describe('InputField', () => {
 
     it('renders a "password" input correctly', () => {
       const wrapper = shallow(
-        <InputField {...defaultProps} type={InputFieldType.Password} />,
+        <InputField {...defaultProps} type={InputFieldType.password} />,
       )
       expect(wrapper.find('input[type="email"]').length).toBe(0)
       expect(wrapper.find('input[type="text"]').length).toBe(0)
@@ -70,7 +70,7 @@ describe('InputField', () => {
 
     it('renders an email input correctly', () => {
       const wrapper = shallow(
-        <InputField {...defaultProps} type={InputFieldType.Email} />,
+        <InputField {...defaultProps} type={InputFieldType.email} />,
       )
       expect(wrapper.find('input[type="email"]').length).toBe(1)
       expect(wrapper.find('input[type="password"]').length).toBe(0)

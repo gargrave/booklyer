@@ -2,7 +2,7 @@ import * as React from 'react'
 import 'jest-dom/extend-expect'
 import { cleanup, render } from 'react-testing-library'
 
-import Button, { ButtonProps } from '../Button/Button'
+import Button from '../Button/Button'
 
 import ButtonRow, { ButtonRowProps } from './ButtonRow'
 
