@@ -17,7 +17,7 @@ module.exports = {
       sections: [
         {
           name: 'Misc',
-          components: componentList(['Alert', 'Button', 'Form', 'InputField']),
+          components: componentList(['Alert', 'Button']),
         },
         {
           name: 'Card',
@@ -28,6 +28,10 @@ module.exports = {
             'CardTextLine',
             'CardTextList',
           ]),
+        },
+        {
+          name: 'Forms',
+          components: componentList(['Form', 'InputField', 'ManagedForm']),
         },
       ],
     },
