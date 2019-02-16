@@ -1,0 +1,9 @@
+@import '~styles/colors';
+
+.invalid {
+  border-color: $error !important;
+}
+
+.error {
+  color: $error;
+}

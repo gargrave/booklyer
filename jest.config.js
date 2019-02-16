@@ -15,6 +15,8 @@ module.exports = {
   moduleNameMapper: {
     '^react-native$': 'react-native-web',
     '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
+    '^app(.*)$': '<rootDir>/src/app$1',
+    '^utils(.*)$': '<rootDir>/src/utils$1',
   },
   resolver: 'jest-pnp-resolver',
   setupFiles: ['react-app-polyfill/jsdom'],
