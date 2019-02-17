@@ -3,6 +3,8 @@ import { sanitizeUser } from '../../utils/sanitizeUser'
 import { actionTypes, AuthActionPayload } from '../auth.reducers'
 import service from '../auth.service'
 
+import setLocalUserData from './setLocaluserData'
+
 const login = (email: string, password: string) => async dispatch => {
   dispatch({ type: actionTypes.LOGIN })
 
@@ -13,12 +15,7 @@ const login = (email: string, password: string) => async dispatch => {
 
   try {
     const rawUser = await service.login(email, password)
-    payload.user = sanitizeUser(rawUser.user)
-
-    dispatch({
-      payload,
-      type: actionTypes.LOGIN_SUCCESS,
-    })
+    dispatch(setLocalUserData(rawUser))
   } catch (err) {
     const hydratedError = { ...err, message: err.message }
     payload.error = hydratedError
