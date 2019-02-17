@@ -7,17 +7,13 @@ import AuthorsListPage from '../AuthorsListPage/AuthorsListPage'
 
 export type AuthorsIndexProps = {} & AuthorsReduxProps
 
-export default class AuthorsIndex extends React.PureComponent<
-  AuthorsIndexProps
-> {
-  render() {
-    return (
-      <Switch>
-        <Route
-          path="/authors"
-          render={() => <AuthorsListPage {...this.props} />} // tslint:disable-line
-        />
-      </Switch>
-    )
-  }
-}
+const AuthorsIndex: React.FunctionComponent<AuthorsIndexProps> = props => (
+  <Switch>
+    <Route
+      path="/authors"
+      render={({ history }) => <AuthorsListPage history={history} {...props} />}
+    />
+  </Switch>
+)
+
+export default React.memo(AuthorsIndex)

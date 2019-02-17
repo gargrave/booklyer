@@ -2,19 +2,21 @@ import * as React from 'react'
 
 import { Author, AuthorsReduxProps } from '../authors.types'
 
+import { useRequiredAuthentication } from 'app/auth/utils/useRequiredAuthentication'
+
 import Button from 'app/common/Button/Button'
 import AuthorCard from '../components/AuthorCard/AuthorCard'
 
-export type AuthorsListPageProps = {} & AuthorsReduxProps
-
-export type AuthorsListPageState = {
-  authors: Author[]
-}
+export type AuthorsListPageProps = {
+  history: any
+} & AuthorsReduxProps
 
 const AuthorsListPage: React.FunctionComponent<AuthorsListPageProps> = ({
   fetchAuthors,
   getAuthors,
+  history,
 }) => {
+  const { user } = useRequiredAuthentication(history)
   const [authors, setAuthors] = React.useState([] as Author[])
 
   const initializeAuthors = async () => {
@@ -27,22 +29,26 @@ const AuthorsListPage: React.FunctionComponent<AuthorsListPageProps> = ({
   }
 
   React.useEffect(() => {
-    initializeAuthors()
+    if (user) {
+      initializeAuthors()
+    }
   }, [])
 
   React.useEffect(() => {
-    setAuthors(getAuthors())
+    if (user) {
+      setAuthors(getAuthors())
+    }
   }, [getAuthors])
 
-  return (
+  return user ? (
     <div>
-      <h2>Authors List</h2>
+      <h2>My Authors</h2>
       <Button onClick={() => void 0}>Add an Author</Button>
       {authors.map(author => (
         <AuthorCard author={author} key={author.id} />
       ))}
     </div>
-  )
+  ) : null
 }
 
 export default React.memo(AuthorsListPage)

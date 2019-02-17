@@ -7,15 +7,13 @@ import BooksListPage from '../BooksListPage/BooksListPage'
 
 export type BooksIndexProps = {} & BooksReduxProps
 
-export default class BooksIndex extends React.PureComponent<BooksIndexProps> {
-  render() {
-    return (
-      <Switch>
-        <Route
-          path="/books"
-          render={() => <BooksListPage {...this.props} />} // tslint:disable-line
-        />
-      </Switch>
-    )
-  }
-}
+const BooksIndex: React.FunctionComponent<BooksIndexProps> = props => (
+  <Switch>
+    <Route
+      path="/books"
+      render={({ history }) => <BooksListPage history={history} {...props} />}
+    />
+  </Switch>
+)
+
+export default React.memo(BooksIndex)

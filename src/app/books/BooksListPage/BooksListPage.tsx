@@ -1,49 +1,54 @@
 import * as React from 'react'
 
-import { Book as BookType, BooksReduxProps } from '../books.types'
+import { Book, BooksReduxProps } from '../books.types'
 
+import { useRequiredAuthentication } from 'app/auth/utils/useRequiredAuthentication'
+
+import Button from 'app/common/Button/Button'
 import BookCard from '../components/BookCard/BookCard'
 
-const initialState = (): BooksListPageState => ({
-  books: [] as BookType[],
-})
+export type BooksListPageProps = {
+  history: any
+} & BooksReduxProps
 
-export type BooksListPageProps = {} & BooksReduxProps
+const BooksListPage: React.FunctionComponent<BooksListPageProps> = ({
+  fetchBooks,
+  getBooks,
+  history,
+}) => {
+  const { user } = useRequiredAuthentication(history)
+  const [books, setBooks] = React.useState([] as Book[])
 
-export type BooksListPageState = {
-  books: BookType[]
-}
-
-export default class BooksListPage extends React.Component<
-  BooksListPageProps,
-  BooksListPageState
-> {
-  static defaultProps = {
-    books: [],
-  }
-
-  state = initialState()
-
-  async componentDidMount() {
-    let books = this.props.getBooks()
-    if (!books.length) {
-      // TODO: show a loading state here
-      await this.props.fetchBooks()
-      books = this.props.getBooks()
-      // TODO: handle API errors here
+  const initializeBooks = async () => {
+    const fetchedBooks = getBooks()
+    if (!fetchedBooks.length) {
+      await fetchBooks()
+    } else {
+      setBooks(fetchedBooks)
     }
-    this.setState({ books })
   }
 
-  render() {
-    const { books } = this.state
-    return (
-      <>
-        <h2>BooksListPage</h2>
-        {books.map(book => (
-          <BookCard book={book} key={book.id} />
-        ))}
-      </>
-    )
-  }
+  React.useEffect(() => {
+    if (user) {
+      initializeBooks()
+    }
+  }, [])
+
+  React.useEffect(() => {
+    if (user) {
+      setBooks(getBooks())
+    }
+  }, [getBooks])
+
+  return user ? (
+    <div>
+      <h2>My Books</h2>
+      <Button onClick={() => void 0}>Add a Book</Button>
+      {books.map(book => (
+        <BookCard book={book} key={book.id} />
+      ))}
+    </div>
+  ) : null
 }
+
+export default React.memo(BooksListPage)
