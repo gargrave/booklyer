@@ -1,101 +1,29 @@
 import * as React from 'react'
 import { produce } from 'immer'
-import get from 'lodash/get'
+
+import { useFormValidation } from './useFormValidation'
 
 import Form, { FormProps } from '../Form/Form'
-import InputField, { InputFieldType } from '../InputField/InputField'
-
-const initialState = (fields: FieldConfig[]): ManagedFormState =>
-  fields.reduce(
-    (acc, field) => ({
-      ...acc,
-      [field.name]: '',
-    }),
-    {} as ManagedFormState,
-  )
-
-const validate = (
-  fields: FieldConfig[],
-  formState: ManagedFormState,
-): FormValidationPayload => {
-  const validationErrors = {} as ManagedFormState
-
-  for (let i = 0; i < fields.length; i += 1) {
-    const field = fields[i]
-    const { name } = field
-    const value = formState[name]
-
-    // confirm required fields have an acceptable value
-    if (field.required) {
-      if (value === null || value === undefined || !value.length) {
-        validationErrors[name] = 'This field is required.'
-        continue
-      }
-    }
-
-    const validations = get(field, 'validations')
-    if (!validations) {
-      continue
-    }
-
-    const { minLength } = validations
-    if (minLength && value.length) {
-      if (minLength > value.length) {
-        validationErrors[name] = `Must be at least ${minLength} characters`
-        continue
-      }
-    }
-  }
-
-  return {
-    validationErrors,
-    isValid: Object.keys(validationErrors).length === 0,
-  }
-}
-
-export type FormValidationPayload = {
-  isValid: boolean
-  validationErrors: ManagedFormState
-}
-
-export type FieldConfig = {
-  label?: string
-  name: string
-  required?: boolean
-  type: InputFieldType
-  validations?: {
-    minLength?: number
-  }
-}
+import InputField from '../InputField/InputField'
+import { FieldConfig, ManagedFormState } from './ManagedForm.types'
 
 export type ManagedFormProps = {
   fields: FieldConfig[]
   onSubmit: (payload: ManagedFormState) => void
 } & FormProps
 
-export type ManagedFormState = {
-  ['key']: string
-}
-
 const ManagedForm: React.FunctionComponent<ManagedFormProps> = props => {
-  const [formState, setFormState] = React.useState(initialState(props.fields))
-  const [errors, setErrors] = React.useState(initialState(props.fields))
+  const {
+    formState,
+    setFormState,
+    validatedOnSubmit,
+    validationErrors,
+  } = useFormValidation(props)
 
-  const { fields, onSubmit } = props
-
-  const proxiedOnSubmit = event => {
-    event.preventDefault()
-    const { isValid, validationErrors } = validate(fields, formState)
-    if (isValid) {
-      onSubmit(formState)
-    } else {
-      setErrors(validationErrors)
-    }
-  }
-
-  const onInputChange = event => {
+  const handleInputChange = event => {
     const key = event.target.name
     const val = event.target.value
+
     if (formState.hasOwnProperty(key)) {
       setFormState(
         produce(draft => {
@@ -106,15 +34,15 @@ const ManagedForm: React.FunctionComponent<ManagedFormProps> = props => {
   }
 
   return (
-    <Form {...props} onSubmit={proxiedOnSubmit}>
-      {fields.map(({ label, name, type }) => (
+    <Form {...props} onSubmit={validatedOnSubmit}>
+      {props.fields.map(({ label, name, type }) => (
         <InputField
           boundValue={formState[name]}
-          error={errors[name]}
+          error={validationErrors[name]}
           key={name}
           label={label}
           name={name}
-          onInputChange={onInputChange}
+          onInputChange={handleInputChange}
           type={type}
         />
       ))}
