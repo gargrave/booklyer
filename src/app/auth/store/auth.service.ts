@@ -7,7 +7,7 @@ const authService = {
       return user
     } catch (error) {
       // TODO: figure out what htis error looks like, and handle it appropriately
-      console.log({ error })
+      // console.log({ error })
       return error
     }
   },

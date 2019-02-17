@@ -29,7 +29,7 @@
     "import-blacklist": [true, "lodash", "react-feather", "react-spinners"],
     "import-name": false,
     "interface-over-type-literal": false,
-    "jsx-no-lambda": true,
+    "jsx-no-lambda": false,
     "member-access": [true, "no-public"],
     "no-boolean-literal-compare": false,
     "no-conditional-assignment": true,

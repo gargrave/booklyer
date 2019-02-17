@@ -37,6 +37,7 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = ({
   const onSubmit = async payload => {
     const { email, password } = payload
     if (email && password) {
+      setError('')
       try {
         await login(email, password)
       } catch (error) {

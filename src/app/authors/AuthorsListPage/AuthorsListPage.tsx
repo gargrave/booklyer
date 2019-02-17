@@ -5,49 +5,44 @@ import { Author, AuthorsReduxProps } from '../authors.types'
 import Button from 'app/common/Button/Button'
 import AuthorCard from '../components/AuthorCard/AuthorCard'
 
-const initialState = (): AuthorsListPageState => ({
-  authors: [] as Author[],
-})
-
 export type AuthorsListPageProps = {} & AuthorsReduxProps
 
 export type AuthorsListPageState = {
   authors: Author[]
 }
 
-export default class AuthorsListPage extends React.Component<
-  AuthorsListPageProps,
-  AuthorsListPageState
-> {
-  static defaultProps = {
-    authors: [],
-  }
+const AuthorsListPage: React.FunctionComponent<AuthorsListPageProps> = ({
+  fetchAuthors,
+  getAuthors,
+}) => {
+  const [authors, setAuthors] = React.useState([] as Author[])
 
-  state = initialState()
-
-  async componentDidMount() {
-    let authors = this.props.getAuthors()
-    if (!authors.length) {
-      // TODO: show a loading state here
-      await this.props.fetchAuthors()
-      authors = this.props.getAuthors()
-      // TODO: handle API errors here
+  const initializeAuthors = async () => {
+    const fetchedAuthors = getAuthors()
+    if (!fetchedAuthors.length) {
+      await fetchAuthors()
+    } else {
+      setAuthors(fetchedAuthors)
     }
-    this.setState({ authors })
   }
 
-  render() {
-    const { authors } = this.state
-    return (
-      <div>
-        <h2>Authors List</h2>
+  React.useEffect(() => {
+    initializeAuthors()
+  }, [])
 
-        <Button onClick={() => void 0}>Add an Author</Button>
+  React.useEffect(() => {
+    setAuthors(getAuthors())
+  }, [getAuthors])
 
-        {authors.map(author => (
-          <AuthorCard author={author} key={author.id} />
-        ))}
-      </div>
-    )
-  }
+  return (
+    <div>
+      <h2>Authors List</h2>
+      <Button onClick={() => void 0}>Add an Author</Button>
+      {authors.map(author => (
+        <AuthorCard author={author} key={author.id} />
+      ))}
+    </div>
+  )
 }
+
+export default React.memo(AuthorsListPage)
