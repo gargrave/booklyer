@@ -4,13 +4,26 @@ import { produce } from 'immer'
 import { useFormValidation } from './useFormValidation'
 
 import Form, { FormProps } from '../Form/Form'
-import InputField from '../InputField/InputField'
-import { FieldConfig, ManagedFormState } from './ManagedForm.types'
+import InputField, { InputFieldType } from '../InputField/InputField'
+
+export type FieldConfig = {
+  label?: string
+  name: string
+  required?: boolean
+  type: InputFieldType
+  validations?: {
+    minLength?: number
+  }
+}
 
 export type ManagedFormProps = {
   fields: FieldConfig[]
   onSubmit: (payload: ManagedFormState) => void
 } & FormProps
+
+export type ManagedFormState = {
+  [key: string]: string
+}
 
 const ManagedForm: React.FunctionComponent<ManagedFormProps> = props => {
   const {
@@ -50,4 +63,12 @@ const ManagedForm: React.FunctionComponent<ManagedFormProps> = props => {
   )
 }
 
+/**
+ * A wrapper for the Form component to handle managing Form state and validation with minimal
+ * additional overhead for the parent component.
+ *
+ * Validation types are being added on an as-needed basis, so they may not all be there yet.
+ *
+ * (See the demo example for an example of minimal configuration.)
+ */
 export default React.memo(ManagedForm)

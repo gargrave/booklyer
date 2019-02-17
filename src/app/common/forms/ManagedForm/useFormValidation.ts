@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import get from 'lodash/get'
 
-import { FieldConfig, ManagedFormState } from './ManagedForm.types'
+import { FieldConfig, ManagedFormState } from './ManagedForm'
 
 export type FormValidationPayload = {
   errors: ManagedFormState
   isValid: boolean
 }
 
-const validate = (
+export const validate = (
   fields: FieldConfig[],
   formState: ManagedFormState,
 ): FormValidationPayload => {
@@ -47,7 +47,7 @@ const validate = (
   }
 }
 
-const initialState = (fields: FieldConfig[]): ManagedFormState =>
+export const initialState = (fields: FieldConfig[]): ManagedFormState =>
   fields.reduce(
     (acc, field) => ({
       ...acc,

@@ -6,9 +6,7 @@ import { clamp } from 'utils/mathHelpers'
 import styles from './InputField.module.scss'
 
 export enum InputFieldType {
-  email = 'email',
   password = 'password',
-  search = 'search',
   text = 'text',
 }
 

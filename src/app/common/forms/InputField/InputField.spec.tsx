@@ -67,15 +67,6 @@ describe('InputField', () => {
       expect(wrapper.find('input[type="text"]').length).toBe(0)
       expect(wrapper.find('input[type="password"]').length).toBe(1)
     })
-
-    it('renders an email input correctly', () => {
-      const wrapper = shallow(
-        <InputField {...defaultProps} type={InputFieldType.email} />,
-      )
-      expect(wrapper.find('input[type="email"]').length).toBe(1)
-      expect(wrapper.find('input[type="password"]').length).toBe(0)
-      expect(wrapper.find('input[type="text"]').length).toBe(0)
-    })
   })
 
   describe('maxLength', () => {
