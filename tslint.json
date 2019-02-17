@@ -45,6 +45,7 @@
     "only-arrow-functions": [true, "allow-named-functions"],
     "ordered-imports": false,
     "prefer-array-literal": false,
+    "prefer-for-of": false,
     "prefer-function-over-method": true,
     "semicolon": [false, "always"],
     "triple-equals": true,

@@ -15,12 +15,18 @@ const formSettings = {
       name: 'username',
       required: true,
       type: InputFieldType.text,
+      validations: {
+        minLength: 8,
+      },
     },
     {
       label: 'Password',
       name: 'password',
       required: true,
       type: InputFieldType.password,
+      validations: {
+        minLength: 8,
+      },
     },
   ],
 }

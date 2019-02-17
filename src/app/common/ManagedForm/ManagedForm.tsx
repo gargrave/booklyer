@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { produce } from 'immer'
+import get from 'lodash/get'
 
 import Form, { FormProps } from '../Form/Form'
 import InputField, { InputFieldType } from '../InputField/InputField'
@@ -19,7 +20,8 @@ const validate = (
 ): FormValidationPayload => {
   const validationErrors = {} as ManagedFormState
 
-  fields.forEach(field => {
+  for (let i = 0; i < fields.length; i += 1) {
+    const field = fields[i]
     const { name } = field
     const value = formState[name]
 
@@ -27,9 +29,23 @@ const validate = (
     if (field.required) {
       if (value === null || value === undefined || !value.length) {
         validationErrors[name] = 'This field is required.'
+        continue
       }
     }
-  })
+
+    const validations = get(field, 'validations')
+    if (!validations) {
+      continue
+    }
+
+    const { minLength } = validations
+    if (minLength && value.length) {
+      if (minLength > value.length) {
+        validationErrors[name] = `Must be at least ${minLength} characters`
+        continue
+      }
+    }
+  }
 
   return {
     validationErrors,
@@ -47,6 +63,9 @@ export type FieldConfig = {
   name: string
   required?: boolean
   type: InputFieldType
+  validations?: {
+    minLength?: number
+  }
 }
 
 export type ManagedFormProps = {
