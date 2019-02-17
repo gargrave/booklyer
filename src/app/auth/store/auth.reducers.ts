@@ -42,6 +42,7 @@ const reducers = (
 
       case actionTypes.LOGIN_SUCCESS:
         draft.data = action.payload.user
+        draft.error = undefined
         draft.requestPending = false
         return
 
@@ -51,7 +52,6 @@ const reducers = (
         return
 
       case actionTypes.LOGOUT_SUCCESS:
-        console.log('Reducer: LOGOUT_SUCCESS')
         draft.data = {} as User
         draft.error = undefined
         draft.requestPending = false

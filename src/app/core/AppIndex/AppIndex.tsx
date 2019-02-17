@@ -26,27 +26,19 @@ const AuthContent = ({ authInitialized }) => {
 }
 
 export type AppProps = {
-  getUser: () => User
   setLocalUserData: (user: User) => void
 }
 
-const AppIndex: React.FunctionComponent<AppProps> = ({
-  getUser,
-  setLocalUserData,
-}) => {
+const AppIndex: React.FunctionComponent<AppProps> = ({ setLocalUserData }) => {
   const { authInitialized, user } = useAuthentication({
     waitForInitialization: true,
   })
 
-  // once initialized, check if we have a user from a previous session, and if so, store it in Redux
   React.useEffect(() => {
-    if (authInitialized && user) {
-      const storedUser = getUser()
-      if (!storedUser || !storedUser.id) {
-        setLocalUserData(user)
-      }
+    if (authInitialized) {
+      setLocalUserData(user)
     }
-  }, [authInitialized])
+  }, [authInitialized, user])
 
   return (
     <BrowserRouter>

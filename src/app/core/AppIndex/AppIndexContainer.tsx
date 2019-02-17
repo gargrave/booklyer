@@ -4,11 +4,8 @@ import { AppState } from 'store/reducers'
 import actions from '../../auth/store/actions'
 
 import AppIndex from './AppIndex'
-import { getUser } from 'app/auth/store/selectors'
 
-const mapStateToProps = (state: AppState) => ({
-  getUser: () => getUser(state.auth),
-})
+const mapStateToProps = (state: AppState) => ({})
 
 const mapDispatchToProps = dispatch => {
   const { setLocalUserData } = actions
