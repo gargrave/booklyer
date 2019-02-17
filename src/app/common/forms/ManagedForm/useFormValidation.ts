@@ -68,10 +68,9 @@ export const useFormValidation = ({ fields, onSubmit }: UseValidationProps) => {
   const validatedOnSubmit = event => {
     event.preventDefault()
     const { isValid, errors } = validate(fields, formState)
+    setValidationErrors(errors)
     if (isValid) {
       onSubmit(formState)
-    } else {
-      setValidationErrors(errors)
     }
   }
 

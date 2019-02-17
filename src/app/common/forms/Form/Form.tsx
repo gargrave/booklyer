@@ -12,7 +12,7 @@ export type FormSubmitEvent =
 
 export type FormProps = {
   cancelBtnText?: string
-  children: React.ReactNode
+  children?: React.ReactNode
   classes?: string[]
   disabled?: boolean
   error?: string

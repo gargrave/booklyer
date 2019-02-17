@@ -48,6 +48,7 @@ const login = (email: string, password: string) => async dispatch => {
       payload,
       type: actionTypes.LOGIN_FAILURE,
     })
+    throw Error
   }
 }
 
