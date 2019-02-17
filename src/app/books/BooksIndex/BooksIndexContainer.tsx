@@ -13,7 +13,7 @@ const mapStateToProps = (state: AppState) => ({
 const mapDispatchToProps = dispatch => {
   const { fetchBooks } = actions
   return {
-    fetchBooks: () => dispatch(fetchBooks()),
+    fetchBooks: (ownerId: string) => dispatch(fetchBooks(ownerId)),
   }
 }
 

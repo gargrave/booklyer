@@ -20,6 +20,6 @@ export type Author = {
 export type AuthorIdMap = ObjectIdMap<Author>
 
 export type AuthorsReduxProps = {
-  fetchAuthors: () => Promise<Author[]>
+  fetchAuthors: (ownerId: string) => Promise<Author[]>
   getAuthors: () => Author[]
 }

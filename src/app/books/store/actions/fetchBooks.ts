@@ -5,7 +5,7 @@ import { BookIdMap } from '../../books.types'
 import { actionTypes, BooksActionPayload } from '../books.reducers'
 import service from '../books.service'
 
-const fetchBooks = () => async (dispatch, getState) => {
+const fetchBooks = (ownerId: string) => async (dispatch, getState) => {
   dispatch({ type: actionTypes.FETCH_BOOKS })
 
   const payload: BooksActionPayload = {
@@ -17,10 +17,9 @@ const fetchBooks = () => async (dispatch, getState) => {
     // ensure we have queried authors first
     const authors = getAuthors(getState().authors)
     if (!authors.length) {
-      await dispatch(authorsActions.fetchAuthors())
+      await dispatch(authorsActions.fetchAuthors(ownerId))
     }
 
-    const ownerId = process.env.BOOKLYER_FIREBASE_TEMP_OWNER_ID
     payload.books = await service.fetchBooksByOwner(ownerId)
 
     dispatch({

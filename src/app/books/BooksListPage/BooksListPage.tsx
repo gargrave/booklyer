@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Book, BooksReduxProps } from '../books.types'
+import { BooksReduxProps } from '../books.types'
 
 import { useRequiredAuthentication } from 'app/auth/utils/useRequiredAuthentication'
 
@@ -17,20 +17,11 @@ const BooksListPage: React.FunctionComponent<BooksListPageProps> = ({
   history,
 }) => {
   const { user } = useRequiredAuthentication(history)
-  const [books, setBooks] = React.useState([] as Book[])
-
-  const initializeBooks = async () => {
-    const fetchedBooks = getBooks()
-    if (!fetchedBooks.length) {
-      await fetchBooks()
-    } else {
-      setBooks(fetchedBooks)
-    }
-  }
+  const [books, setBooks] = React.useState(getBooks())
 
   React.useEffect(() => {
-    if (user) {
-      initializeBooks()
+    if (user && !books.length) {
+      fetchBooks(user.id)
     }
   }, [])
 

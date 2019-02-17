@@ -23,6 +23,6 @@ export type Book = {
 export type BookIdMap = ObjectIdMap<Book>
 
 export type BooksReduxProps = {
-  fetchBooks: () => Promise<Book[]>
+  fetchBooks: (ownerId: string) => Promise<Book[]>
   getBooks: () => Book[]
 }

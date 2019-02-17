@@ -2,7 +2,7 @@ import { AuthorIdMap } from '../../authors.types'
 import { actionTypes, AuthorsActionPayload } from '../authors.reducers'
 import service from '../authors.service'
 
-const fetchAuthors = () => async (dispatch, getState) => {
+const fetchAuthors = (ownerId: string) => async dispatch => {
   dispatch({ type: actionTypes.FETCH_AUTHORS })
 
   const payload: AuthorsActionPayload = {
@@ -11,7 +11,6 @@ const fetchAuthors = () => async (dispatch, getState) => {
   }
 
   try {
-    const ownerId = process.env.BOOKLYER_FIREBASE_TEMP_OWNER_ID
     payload.authors = await service.fetchAuthorsByOwner(ownerId)
 
     dispatch({

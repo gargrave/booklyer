@@ -17,20 +17,11 @@ const AuthorsListPage: React.FunctionComponent<AuthorsListPageProps> = ({
   history,
 }) => {
   const { user } = useRequiredAuthentication(history)
-  const [authors, setAuthors] = React.useState([] as Author[])
-
-  const initializeAuthors = async () => {
-    const fetchedAuthors = getAuthors()
-    if (!fetchedAuthors.length) {
-      await fetchAuthors()
-    } else {
-      setAuthors(fetchedAuthors)
-    }
-  }
+  const [authors, setAuthors] = React.useState(getAuthors())
 
   React.useEffect(() => {
-    if (user) {
-      initializeAuthors()
+    if (user && !authors.length) {
+      fetchAuthors(user.id)
     }
   }, [])
 
