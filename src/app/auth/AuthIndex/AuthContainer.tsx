@@ -4,11 +4,8 @@ import { AppState } from 'store/reducers'
 import actions from '../store/actions'
 
 import AuthIndex from './AuthIndex'
-import { getUser } from '../store/selectors'
 
-const mapStateToProps = (state: AppState) => ({
-  getUser: () => getUser(state.auth),
-})
+const mapStateToProps = (state: AppState) => ({})
 
 const mapDispatchToProps = dispatch => {
   const { login } = actions

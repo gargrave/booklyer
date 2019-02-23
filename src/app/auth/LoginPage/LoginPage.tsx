@@ -28,10 +28,7 @@ const fields = [
   },
 ]
 
-const LoginPage: React.FunctionComponent<LoginPageProps> = ({
-  getUser,
-  login,
-}) => {
+const LoginPage: React.FunctionComponent<LoginPageProps> = ({ login }) => {
   const [error, setError] = React.useState('')
 
   const onSubmit = async payload => {

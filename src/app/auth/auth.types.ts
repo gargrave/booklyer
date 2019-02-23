@@ -22,6 +22,5 @@ export const UserPropertyNames = [
 ]
 
 export type AuthReduxProps = {
-  getUser: () => User
   login: (email: string, password: string) => Promise<User>
 }
