@@ -11,7 +11,7 @@
   },
   "rules": {
     "array-type": false,
-    "arrow-return-shorthand": [true, "multiline"],
+    "arrow-return-shorthand": [true],
     "await-promise": true,
     "ban-comma-operator": true,
     "ban-types": [
