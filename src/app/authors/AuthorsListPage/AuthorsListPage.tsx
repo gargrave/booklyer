@@ -32,10 +32,14 @@ const AuthorsListPage: React.FunctionComponent<AuthorsListPageProps> = ({
     }
   }, [getAuthors])
 
+  function handleAddAuthorClick() {
+    history.push('/authors/new')
+  }
+
   return user ? (
     <div>
       <h2>My Authors</h2>
-      <Button onClick={() => void 0}>Add an Author</Button>
+      <Button onClick={handleAddAuthorClick}>Add an Author</Button>
       {authors.map(author => (
         <AuthorCard author={author} key={author.id} />
       ))}
