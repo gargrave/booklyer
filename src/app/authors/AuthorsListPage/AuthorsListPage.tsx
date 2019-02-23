@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Author, AuthorsReduxProps } from '../authors.types'
+import { AuthorsReduxProps } from '../authors.types'
 
 import { useRequiredAuthentication } from 'app/auth/utils/useRequiredAuthentication'
 
@@ -16,8 +16,10 @@ const AuthorsListPage: React.FunctionComponent<AuthorsListPageProps> = ({
   getAuthors,
   history,
 }) => {
-  const { user } = useRequiredAuthentication(history)
+  const { getUser } = useRequiredAuthentication(history)
   const [authors, setAuthors] = React.useState(getAuthors())
+
+  const user = getUser()
 
   React.useEffect(() => {
     if (user && !authors.length) {

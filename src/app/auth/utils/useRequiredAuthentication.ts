@@ -11,13 +11,13 @@ export const useRequiredAuthentication = (
   history: RouterHistory,
   options: AuthenticationOptions = {} as AuthenticationOptions,
 ) => {
-  const { user } = useAuthentication(options)
+  const { getUser, user } = useAuthentication(options)
 
-  if (!user) {
+  if (!getUser()) {
     setTimeout(() => {
       history.push('account/login')
     }, 0)
   }
 
-  return { user }
+  return { getUser, user }
 }
