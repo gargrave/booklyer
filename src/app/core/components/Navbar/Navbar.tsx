@@ -9,7 +9,8 @@ import Button from 'app/common/Button/Button'
 export type NavbarProps = {}
 
 const Navbar: React.FunctionComponent<NavbarProps> = () => {
-  const { logout, user } = useAuthentication()
+  const { logout, getUser } = useAuthentication()
+  const user = getUser()
 
   return (
     <>

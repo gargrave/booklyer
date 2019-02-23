@@ -18,7 +18,6 @@ const AuthorsListPage: React.FunctionComponent<AuthorsListPageProps> = ({
 }) => {
   const { getUser } = useRequiredAuthentication(history)
   const [authors, setAuthors] = React.useState(getAuthors())
-
   const user = getUser()
 
   React.useEffect(() => {

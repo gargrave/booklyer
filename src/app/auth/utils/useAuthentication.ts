@@ -29,5 +29,5 @@ export const useAuthentication = (
     await auth.signOut()
   }
 
-  return { authInitialized, getUser: () => user, logout, user }
+  return { authInitialized, logout, getUser: () => user }
 }

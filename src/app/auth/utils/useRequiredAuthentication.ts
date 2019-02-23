@@ -11,7 +11,7 @@ export const useRequiredAuthentication = (
   history: RouterHistory,
   options: AuthenticationOptions = {} as AuthenticationOptions,
 ) => {
-  const { getUser, user } = useAuthentication(options)
+  const { getUser } = useAuthentication(options)
 
   if (!getUser()) {
     setTimeout(() => {
@@ -19,5 +19,5 @@ export const useRequiredAuthentication = (
     }, 0)
   }
 
-  return { getUser, user }
+  return { getUser }
 }

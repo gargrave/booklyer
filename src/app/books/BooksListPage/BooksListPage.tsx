@@ -16,8 +16,9 @@ const BooksListPage: React.FunctionComponent<BooksListPageProps> = ({
   getBooks,
   history,
 }) => {
-  const { user } = useRequiredAuthentication(history)
+  const { getUser } = useRequiredAuthentication(history)
   const [books, setBooks] = React.useState(getBooks())
+  const user = getUser()
 
   React.useEffect(() => {
     if (user && !books.length) {

@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { BrowserRouter } from 'react-router-dom'
 
 import { User } from 'app/auth/auth.types'
 import { useAuthentication } from 'app/auth/utils/useAuthentication'
@@ -8,7 +9,6 @@ import Titlebar from '../components/Titlebar/Titlebar'
 import Router from '../Router'
 
 import styles from './AppIndex.module.scss'
-import { BrowserRouter } from 'react-router-dom'
 
 const AuthContent = ({ authInitialized }) => {
   if (!authInitialized) {
@@ -30,9 +30,10 @@ export type AppProps = {
 }
 
 const AppIndex: React.FunctionComponent<AppProps> = ({ setLocalUserData }) => {
-  const { authInitialized, user } = useAuthentication({
+  const { authInitialized, getUser } = useAuthentication({
     waitForInitialization: true,
   })
+  const user = getUser()
 
   React.useEffect(() => {
     if (authInitialized) {
