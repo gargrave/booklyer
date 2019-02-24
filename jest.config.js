@@ -1,5 +1,11 @@
 module.exports = {
-  collectCoverageFrom: ['src/**/*.{js,jsx,ts,tsx}', '!src/**/*.d.ts'],
+  collectCoverageFrom: [
+    'src/**/*.{js,jsx,ts,tsx}',
+    '!src/**/*.d.ts',
+    '!src/**/*Container.tsx',
+    '!src/**/*Index.tsx',
+    '!src/**/*.service.{tsx,ts}',
+  ],
   moduleFileExtensions: [
     'web.js',
     'js',

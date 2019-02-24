@@ -1,7 +1,91 @@
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write;
+    // basic validations
+    function validateString(str, minLen, maxLen) {
+      return str is string
+      && str.size() >= minLen
+      && str.size() <= maxLen;
+    }
+
+    // basic fields for all CRUD resources
+    function hasBasicFields() {
+      // return request.auth.token.email_verified == true
+      return request.resource.data.keys().hasAll([
+        'owner', 'created', 'updated'
+      ])
+      && request.resource.data.owner is string
+      && request.resource.data.owner == request.auth.uid
+      && request.resource.data.created is timestamp
+      && request.resource.data.updated is timestamp;
+    }
+
+    // Profile rules
+    match /profiles/{profileId} {
+      function validateProfileFields() {
+        return validateString(request.resource.data.firstName, 0, 255)
+        && validateString(request.resource.data.lastName, 0, 255);
+      }
+
+      allow read: if request.auth.uid == profileId;
+
+      allow create:
+        if request.auth.uid != null
+        && request.resource.data.keys().hasAll([
+          'firstName', 'lastName'
+        ])
+        && request.resource.data.size() == 5
+        && validateProfileFields();
+
+      allow update:
+        if hasBasicFields()
+        && request.resource.data.keys().hasAll([
+          'firstName', 'lastName'
+        ])
+        && request.resource.data.size() == 5
+        && validateProfileFields();
+
+      allow delete: if request.auth.uid == resource.data.owner;
+    }
+
+    // Author rules
+    match /authors/{authorId} {
+      function validateAuthorFields() {
+        return validateString(request.resource.data.firstName, 1, 255)
+        && validateString(request.resource.data.lastName, 1, 255);
+      }
+
+      allow read: if request.auth.uid == resource.data.owner;
+
+      allow create, update:
+        if hasBasicFields()
+        && request.resource.data.keys().hasAll([
+          'firstName', 'lastName'
+        ])
+        && request.resource.data.size() == 5
+        && validateAuthorFields();
+
+      allow delete: if request.auth.uid == resource.data.owner;
+    }
+
+    // Book rules
+     match /books/{bookId} {
+      function validateBookFields() {
+        return validateString(request.resource.data.title, 1, 255);
+      }
+
+      allow read: if request.auth.uid == resource.data.owner;
+
+      allow create, update:
+        if hasBasicFields()
+        && request.resource.data.keys().hasAll([
+          'title', 'authorId', 'sortBy'
+        ])
+        && request.resource.data.size() == 6
+        && validateBookFields()
+        // validate authorId as existing Author
+        && exists(/databases/$(database)/documents/authors/$(request.resource.data.authorId));
+
+      allow delete: if request.auth.uid == resource.data.owner;
     }
   }
 }

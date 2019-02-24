@@ -9,6 +9,7 @@ import InputField, { InputFieldType } from '../InputField/InputField'
 export type FieldConfig = {
   label?: string
   name: string
+  placeholder?: string
   required?: boolean
   type: InputFieldType
   validations?: {
@@ -48,7 +49,7 @@ const ManagedForm: React.FunctionComponent<ManagedFormProps> = props => {
 
   return (
     <Form {...props} onSubmit={validatedOnSubmit}>
-      {props.fields.map(({ label, name, type }) => (
+      {props.fields.map(({ label, name, placeholder, type }) => (
         <InputField
           boundValue={formState[name]}
           error={validationErrors[name]}
@@ -56,6 +57,7 @@ const ManagedForm: React.FunctionComponent<ManagedFormProps> = props => {
           label={label}
           name={name}
           onInputChange={handleInputChange}
+          placeholder={placeholder || label}
           type={type}
         />
       ))}
