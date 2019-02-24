@@ -27,8 +27,8 @@ export const useAuthentication = (
     return unsub
   }, [])
 
-  const logout = async () => {
-    await auth.signOut()
+  const logout = () => {
+    auth.signOut()
   }
 
   return { authInitialized, logout, getUser: (): User => user }
