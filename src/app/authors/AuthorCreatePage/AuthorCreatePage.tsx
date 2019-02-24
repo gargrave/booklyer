@@ -25,9 +25,17 @@ const AuthorCreatePage: React.FunctionComponent<AuthorCreatePageProps> = ({
     }
   }
 
+  function handleCancel() {
+    history.push('/authors')
+  }
+
   return user ? (
     <>
-      <AuthorForm error={error} onSubmit={handleSubmit} />
+      <AuthorForm
+        error={error}
+        onCancel={handleCancel}
+        onSubmit={handleSubmit}
+      />
     </>
   ) : null
 }

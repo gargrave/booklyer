@@ -39,6 +39,7 @@ const InputField: React.FunctionComponent<InputFieldProps> = ({
     <input
       className={classNames({ [styles.invalid]: !!error })}
       disabled={disabled}
+      id={name}
       maxLength={clamp(maxLength, 1, 255)}
       name={name}
       onChange={onInputChange}

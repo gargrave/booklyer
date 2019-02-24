@@ -8,19 +8,22 @@ import ManagedForm, {
 
 export type AuthorFormProps = {
   error?: string
+  onCancel: () => void
   onSubmit: (payload: ManagedFormState) => void
 }
 
 const AuthorForm: React.FunctionComponent<AuthorFormProps> = ({
   error,
+  onCancel,
   onSubmit,
 }) => {
   return (
     <ManagedForm
       error={error}
       fields={authorFormFields}
+      onCancel={onCancel}
       onSubmit={onSubmit}
-      title="Add a New Author"
+      title="Add an Author"
     />
   )
 }

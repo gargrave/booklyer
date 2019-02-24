@@ -17,5 +17,4 @@ const AuthorCard: React.SFC<AuthorCardProps> = ({ author }) => (
   </Card>
 )
 
-export { AuthorCard as UnwrappedAuthor }
 export default React.memo(AuthorCard)
