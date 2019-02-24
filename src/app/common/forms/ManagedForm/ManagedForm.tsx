@@ -3,7 +3,7 @@ import { produce } from 'immer'
 
 import { useFormValidation } from './useFormValidation'
 
-import Form, { FormProps } from '../Form/Form'
+import Form, { FormProps, OptionalFormProps } from '../Form/Form'
 import InputField, { InputFieldType } from '../InputField/InputField'
 
 export type FieldConfig = {
@@ -19,7 +19,7 @@ export type FieldConfig = {
 export type ManagedFormProps = {
   fields: FieldConfig[]
   onSubmit: (payload: ManagedFormState) => void
-} & FormProps
+} & OptionalFormProps
 
 export type ManagedFormState = {
   [key: string]: string

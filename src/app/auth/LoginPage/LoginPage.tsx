@@ -5,8 +5,6 @@ import { AuthReduxProps } from '../auth.types'
 import { InputFieldType } from 'app/common/forms/InputField/InputField'
 import ManagedForm from 'app/common/forms/ManagedForm/ManagedForm'
 
-export type LoginPageProps = {} & AuthReduxProps
-
 const fields = [
   {
     label: 'Email',
@@ -28,10 +26,12 @@ const fields = [
   },
 ]
 
+export type LoginPageProps = {} & AuthReduxProps
+
 const LoginPage: React.FunctionComponent<LoginPageProps> = ({ login }) => {
   const [error, setError] = React.useState('')
 
-  const onSubmit = async payload => {
+  const handleSubmit = async payload => {
     const { email, password } = payload
     if (email && password) {
       setError('')
@@ -50,7 +50,7 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = ({ login }) => {
       <ManagedForm
         error={error}
         fields={fields}
-        onSubmit={onSubmit}
+        onSubmit={handleSubmit}
         title="Log In"
       />
     </>

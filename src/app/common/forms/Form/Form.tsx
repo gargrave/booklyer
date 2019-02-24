@@ -10,18 +10,21 @@ export type FormSubmitEvent =
   | React.FormEvent<HTMLFormElement>
   | React.MouseEvent<HTMLButtonElement>
 
-export type FormProps = {
+export type OptionalFormProps = {
   cancelBtnText?: string
   children?: React.ReactNode
   classes?: string[]
   disabled?: boolean
   error?: string
   onCancel?: () => void
-  onSubmit: (event: FormSubmitEvent) => void
   submitBtnText?: string
   submitDisabled?: boolean
   title?: string
 }
+
+export type FormProps = {
+  onSubmit: (event: FormSubmitEvent) => void
+} & OptionalFormProps
 
 const Form: React.FunctionComponent<FormProps> = ({
   cancelBtnText = 'Cancel',
