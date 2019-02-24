@@ -1,5 +1,5 @@
 import { AuthorIdMap } from '../../authors.types'
-import { actionTypes, AuthorsActionPayload } from '../authors.reducers'
+import { actionTypes, AuthorsActionPayload } from '../authors.reducer'
 import service from '../authors.service'
 
 const fetchAuthors = (ownerId: string) => async dispatch => {

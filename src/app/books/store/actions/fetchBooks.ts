@@ -2,7 +2,7 @@ import authorsActions from 'app/authors/store/actions'
 import { getAuthors } from 'app/authors/store/selectors'
 
 import { BookIdMap } from '../../books.types'
-import { actionTypes, BooksActionPayload } from '../books.reducers'
+import { actionTypes, BooksActionPayload } from '../books.reducer'
 import service from '../books.service'
 
 const fetchBooks = (ownerId: string) => async (dispatch, getState) => {

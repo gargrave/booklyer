@@ -24,13 +24,13 @@ export type AuthState = {
   requestPending: boolean
 }
 
-const defaultState = (): AuthState => ({
+export const defaultState = (): AuthState => ({
   data: {} as User,
   error: undefined,
   requestPending: false,
 })
 
-const reducers = (
+export const authReducer = (
   state: AuthState = defaultState(),
   action: ReduxAction<AuthActionPayload>,
 ) =>
@@ -58,5 +58,3 @@ const reducers = (
         return
     }
   })
-
-export default reducers

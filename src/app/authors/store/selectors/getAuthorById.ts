@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import pick from 'lodash/pick'
 
-import { AuthorsState } from '../authors.reducers'
+import { AuthorsState } from '../authors.reducer'
 import { Author, AuthorPropertyNames } from '../../authors.types'
 
 const rawGetAuthorById = (

@@ -1,5 +1,5 @@
 import { User } from '../../auth.types'
-import { actionTypes, AuthActionPayload } from '../auth.reducers'
+import { actionTypes, AuthActionPayload } from '../auth.reducer'
 import service from '../auth.service'
 
 const login = (email: string, password: string) => async dispatch => {

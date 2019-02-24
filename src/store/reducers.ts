@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
 
-import auth, { AuthState } from 'app/auth/store/auth.reducers'
-import authors, { AuthorsState } from 'app/authors/store/authors.reducers'
-import books, { BooksState } from 'app/books/store/books.reducers'
+import { authReducer, AuthState } from 'app/auth/store/auth.reducer'
+import { authorsReducer, AuthorsState } from 'app/authors/store/authors.reducer'
+import { booksReducer, BooksState } from 'app/books/store/books.reducer'
 
 export type AppState = {
   auth: AuthState
@@ -10,4 +10,8 @@ export type AppState = {
   books: BooksState
 }
 
-export default combineReducers({ auth, authors, books })
+export default combineReducers({
+  auth: authReducer,
+  authors: authorsReducer,
+  books: booksReducer,
+})

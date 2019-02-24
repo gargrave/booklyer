@@ -25,13 +25,13 @@ export type AuthorsState = {
   requestPending: boolean
 }
 
-const defaultState = (): AuthorsState => ({
+export const defaultState = (): AuthorsState => ({
   data: {} as AuthorIdMap,
   error: undefined,
   requestPending: false,
 })
 
-const reducers = (
+export const authorsReducer = (
   state: AuthorsState = defaultState(),
   action: ReduxAction<AuthorsActionPayload>,
 ) =>
@@ -67,5 +67,3 @@ const reducers = (
         return
     }
   })
-
-export default reducers

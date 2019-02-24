@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 
 import { Author } from '../../authors.types'
-import { AuthorsState } from '../authors.reducers'
+import { AuthorsState } from '../authors.reducer'
 
 const getAllAuthors = (state: AuthorsState): Author[] =>
   Object.values(state.data)

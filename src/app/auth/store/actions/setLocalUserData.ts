@@ -1,4 +1,4 @@
-import { actionTypes, AuthActionPayload } from '../auth.reducers'
+import { actionTypes, AuthActionPayload } from '../auth.reducer'
 
 const setLocalUserData = user => async dispatch => {
   const action = !!user ? actionTypes.LOGIN_SUCCESS : actionTypes.LOGOUT_SUCCESS
