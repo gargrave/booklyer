@@ -46,14 +46,14 @@ export const authReducer = (
         draft.requestPending = false
         return
 
-      case actionTypes.LOGIN_FAILURE:
-        draft.error = action.payload.error
-        draft.requestPending = false
-        return
-
       case actionTypes.LOGOUT_SUCCESS:
         draft.data = {} as User
         draft.error = undefined
+        draft.requestPending = false
+        return
+
+      case actionTypes.LOGIN_FAILURE:
+        draft.error = action.payload.error
         draft.requestPending = false
         return
     }

@@ -7,7 +7,7 @@ import {
 } from './firebase.types'
 
 export type ObjectIdMap<T> = {
-  ['id']: T
+  [key: string]: T
 }
 
 export async function getDocRef(

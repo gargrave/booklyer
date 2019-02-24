@@ -47,19 +47,15 @@ export const booksReducer = (
         draft.requestPending = false
         return
 
-      case actionTypes.CREATE_BOOK_FAILURE:
-        console.log('Reducer: CREATE_BOOK_FAILURE')
-        draft.requestPending = false
-        return
-
-      case actionTypes.FETCH_BOOKS_FAILURE:
-        draft.error = action.payload.error
-        draft.requestPending = false
-        return
-
       case actionTypes.FETCH_BOOKS_SUCCESS:
         draft.data = action.payload.books
         draft.error = undefined
+        draft.requestPending = false
+        return
+
+      case actionTypes.CREATE_BOOK_FAILURE:
+      case actionTypes.FETCH_BOOKS_FAILURE:
+        draft.error = action.payload.error
         draft.requestPending = false
         return
     }

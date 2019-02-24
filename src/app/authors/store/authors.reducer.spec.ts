@@ -1,17 +1,181 @@
 import 'jest-dom/extend-expect'
 
+import { ReduxAction } from 'app/core/core.types'
+import { FbError } from 'utils/firebase.types'
+
+import { mockAuthors } from 'utils/mocks/static/authors'
+
+import {
+  actionTypes,
+  AuthorsActionPayload,
+  authorsReducer,
+  AuthorsState,
+  defaultState,
+} from './authors.reducer'
+
 describe('Authors Reducers', () => {
   beforeEach(() => {})
 
-  describe('Initial state', () => {
-    it('should return the initial state', () => {
-      // const action = ({
-      //   type: '',
-      //   payload: '',
-      // } as unknown) as PayloadAction<ZonesActionTypes.FETCH_ZONE, any>
-      // const expected = initialState
-      // const actual = zonesReducer(undefined, action)
-      // expect(actual).toEqual(expected)
+  describe('initial state', () => {
+    it('returns the default state by default', () => {
+      const action = ({
+        type: '',
+        payload: '',
+      } as unknown) as ReduxAction<AuthorsActionPayload>
+
+      const expected: AuthorsState = defaultState()
+      const actual = authorsReducer(undefined, action)
+      expect(actual).toEqual(expected)
+    })
+  })
+
+  describe('initial action types', () => {
+    it('handles the CREATE_AUTHOR action correctly', () => {
+      const action = ({
+        type: actionTypes.CREATE_AUTHOR,
+        payload: null,
+      } as unknown) as ReduxAction<AuthorsActionPayload>
+
+      const expected: AuthorsState = {
+        ...defaultState(),
+        requestPending: true,
+      }
+      const actual = authorsReducer(undefined, action)
+      expect(actual).toEqual(expected)
+    })
+
+    it('handles the FETCH_AUTHORS action correctly', () => {
+      const action = ({
+        type: actionTypes.FETCH_AUTHORS,
+        payload: null,
+      } as unknown) as ReduxAction<AuthorsActionPayload>
+
+      const expected: AuthorsState = {
+        ...defaultState(),
+        requestPending: true,
+      }
+      const actual = authorsReducer(undefined, action)
+      expect(actual).toEqual(expected)
+    })
+  })
+
+  describe('success action types', () => {
+    let error: FbError
+    let previousState: AuthorsState
+
+    beforeEach(() => {
+      error = {
+        code: 'error-code',
+        message: 'Hello, this is an error message!',
+        name: 'error-name',
+      }
+
+      previousState = {
+        data: {
+          [mockAuthors[0].id]: mockAuthors[0],
+          [mockAuthors[1].id]: mockAuthors[1],
+        },
+        // set a previous error state to ensure it gets cleared
+        error,
+        // set the "pending" flag to ensure it gets cleared
+        requestPending: true,
+      }
+    })
+
+    it('handles FETCH_AUTHORS_SUCCESS correctly', () => {
+      // should:
+      // - overwrite all author data with the new ones
+      // - disable the "pending" flag
+      // - clear any existing errors
+      const action = ({
+        type: actionTypes.FETCH_AUTHORS_SUCCESS,
+        payload: {
+          authors: {
+            [mockAuthors[2].id]: mockAuthors[2],
+            [mockAuthors[3].id]: mockAuthors[3],
+          },
+        },
+      } as unknown) as ReduxAction<AuthorsActionPayload>
+
+      const expected: AuthorsState = {
+        data: {
+          [mockAuthors[2].id]: mockAuthors[2],
+          [mockAuthors[3].id]: mockAuthors[3],
+        },
+        error: undefined,
+        requestPending: false,
+      }
+      const actual = authorsReducer(previousState, action)
+      expect(actual).toEqual(expected)
+    })
+
+    it('handles CREATE_AUTHOR_SUCCESS correctly', () => {
+      // should:
+      // - append the new author to the existing ones
+      // - disable the "pending" flag
+      // - clear any existing errors
+      const action = ({
+        type: actionTypes.CREATE_AUTHOR_SUCCESS,
+        payload: {
+          authors: {
+            [mockAuthors[2].id]: mockAuthors[2],
+          },
+        },
+      } as unknown) as ReduxAction<AuthorsActionPayload>
+
+      const expected: AuthorsState = {
+        data: {
+          [mockAuthors[0].id]: mockAuthors[0],
+          [mockAuthors[1].id]: mockAuthors[1],
+          [mockAuthors[2].id]: mockAuthors[2],
+        },
+        error: undefined,
+        requestPending: false,
+      }
+      const actual = authorsReducer(previousState, action)
+      expect(actual).toEqual(expected)
+    })
+  })
+
+  describe('error action types', () => {
+    let error: FbError
+    let previousState: AuthorsState
+    let expectedState: AuthorsState
+
+    beforeEach(() => {
+      error = {
+        code: 'error-code',
+        message: 'Hello, this is an error message!',
+        name: 'error-name',
+      }
+      previousState = {
+        ...defaultState(),
+        error: undefined,
+        requestPending: true,
+      }
+      expectedState = {
+        ...previousState,
+        error,
+        requestPending: false,
+      }
+    })
+
+    it('handles the CREATE_AUTHOR_FAILURE action correctly', () => {
+      const action = ({
+        type: actionTypes.CREATE_AUTHOR_FAILURE,
+        payload: { error },
+      } as unknown) as ReduxAction<AuthorsActionPayload>
+      const actual = authorsReducer(previousState, action)
+      expect(actual).toEqual(expectedState)
+    })
+
+    it('handles the FETCH_AUTHORS_FAILURE action correctly', () => {
+      const action = ({
+        type: actionTypes.FETCH_AUTHORS_FAILURE,
+        payload: { error },
+      } as unknown) as ReduxAction<AuthorsActionPayload>
+      const actual = authorsReducer(previousState, action)
+      expect(actual).toEqual(expectedState)
     })
   })
 })

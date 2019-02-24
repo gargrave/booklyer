@@ -47,22 +47,19 @@ export const authorsReducer = (
           ...draft.data,
           ...action.payload.authors,
         }
-        draft.requestPending = false
-        return
-
-      case actionTypes.CREATE_AUTHOR_FAILURE:
-        draft.error = action.payload.error
-        draft.requestPending = false
-        return
-
-      case actionTypes.FETCH_AUTHORS_FAILURE:
-        draft.error = action.payload.error
+        draft.error = undefined
         draft.requestPending = false
         return
 
       case actionTypes.FETCH_AUTHORS_SUCCESS:
         draft.data = action.payload.authors
         draft.error = undefined
+        draft.requestPending = false
+        return
+
+      case actionTypes.CREATE_AUTHOR_FAILURE:
+      case actionTypes.FETCH_AUTHORS_FAILURE:
+        draft.error = action.payload.error
         draft.requestPending = false
         return
     }
