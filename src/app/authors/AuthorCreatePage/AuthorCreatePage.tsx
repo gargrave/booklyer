@@ -4,12 +4,12 @@ import { AuthorsReduxProps } from '../authors.types'
 
 import { useRequiredAuthentication } from 'app/auth/utils/useRequiredAuthentication'
 
-import Button from 'app/common/Button/Button'
 import AuthorForm from '../components/AuthorForm/AuthorForm'
 
 export type AuthorCreatePageProps = { history: any } & AuthorsReduxProps
 
 const AuthorCreatePage: React.FunctionComponent<AuthorCreatePageProps> = ({
+  createAuthor,
   history,
 }) => {
   const { getUser } = useRequiredAuthentication(history)
@@ -17,12 +17,12 @@ const AuthorCreatePage: React.FunctionComponent<AuthorCreatePageProps> = ({
   const user = getUser()
 
   async function handleSubmit(payload) {
-    const { firstName, lastName } = payload
-    console.log(
-      `%ccreateAuthor:`,
-      'color:green;font-size:12px;background:lightyellow;padding:2px 4px;',
-    )
-    console.log({ firstName, lastName })
+    try {
+      await createAuthor(user.id, payload)
+      history.push('/authors')
+    } catch (error) {
+      setError('There was an error creating the Author.')
+    }
   }
 
   return user ? (

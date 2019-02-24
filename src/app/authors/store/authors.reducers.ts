@@ -43,12 +43,15 @@ const reducers = (
         return
 
       case actionTypes.CREATE_AUTHOR_SUCCESS:
-        console.log('Reducer: CREATE_AUTHOR_SUCCESS')
+        draft.data = {
+          ...draft.data,
+          ...action.payload.authors,
+        }
         draft.requestPending = false
         return
 
       case actionTypes.CREATE_AUTHOR_FAILURE:
-        console.log('Reducer: CREATE_AUTHOR_FAILURE')
+        draft.error = action.payload.error
         draft.requestPending = false
         return
 

@@ -40,6 +40,16 @@ export function parseFbDoc<T>(doc: FbDoc, parseFn?: (arg: T) => T) {
   return data
 }
 
+export function singleToIdMap<T>(
+  doc: FbDoc,
+  parseFn?: (arg: any) => T,
+): ObjectIdMap<T> {
+  const parsed = parseFbDoc<T>(doc, parseFn)
+  return {
+    [parsed.id]: { ...parsed },
+  } as ObjectIdMap<T>
+}
+
 export function collectionToIdMap<T>(
   collection: FbCollection,
   parseFn?: (arg: any) => T,

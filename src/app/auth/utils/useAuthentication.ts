@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react'
 import { auth } from 'config/firebase'
 import { sanitizeUser } from './sanitizeUser'
 
+import { User } from '../auth.types'
+
 export type AuthenticationOptions = {
   waitForInitialization: boolean
 }
@@ -29,5 +31,5 @@ export const useAuthentication = (
     await auth.signOut()
   }
 
-  return { authInitialized, logout, getUser: () => user }
+  return { authInitialized, logout, getUser: (): User => user }
 }
