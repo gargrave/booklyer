@@ -1,5 +1,5 @@
 ```jsx
-const { InputFieldType } = require('../InputField/InputField')
+const { InputType } = require('../InputField/InputField')
 
 const formWrapperStyles = {
   border: `1px solid #ddd`,
@@ -49,7 +49,7 @@ const FormHarness = () => {
         label="Password"
         onInputChange={onInputChange}
         name="password"
-        type={InputFieldType.Password}
+        type={InputType.Password}
       />
     </Form>
   )

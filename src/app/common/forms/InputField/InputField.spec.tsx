@@ -4,7 +4,7 @@ import { shallow } from 'enzyme'
 import {
   UnwrappedInputField as InputField,
   InputFieldProps,
-  InputFieldType,
+  InputType,
 } from './InputField'
 
 let defaultProps: InputFieldProps
@@ -19,7 +19,7 @@ describe('InputField', () => {
       name: 'text',
       onInputChange: jest.fn(),
       placeholder: '',
-      type: InputFieldType.text,
+      type: InputType.text,
     }
   })
 
@@ -61,7 +61,7 @@ describe('InputField', () => {
 
     it('renders a "password" input correctly', () => {
       const wrapper = shallow(
-        <InputField {...defaultProps} type={InputFieldType.password} />,
+        <InputField {...defaultProps} type={InputType.password} />,
       )
       expect(wrapper.find('input[type="email"]').length).toBe(0)
       expect(wrapper.find('input[type="text"]').length).toBe(0)

@@ -1,11 +1,11 @@
-import { InputFieldType } from 'app/common/forms/InputField/InputField'
+import { InputType } from 'app/common/forms/InputField/InputField'
 
 const formFields = [
   {
     label: 'Username',
     name: 'username',
     required: true,
-    type: InputFieldType.text,
+    type: InputType.text,
     validations: {
       minLength: 8,
     },
@@ -14,7 +14,7 @@ const formFields = [
     label: 'Password',
     name: 'password',
     required: true,
-    type: InputFieldType.password,
+    type: InputType.password,
     validations: {
       minLength: 8,
     },

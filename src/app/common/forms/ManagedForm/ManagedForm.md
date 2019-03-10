@@ -1,5 +1,5 @@
 ```jsx
-const { InputFieldType } = require('../InputField/InputField')
+const { InputType } = require('../InputField/InputField')
 
 const formWrapperStyles = {
   border: `1px solid #ddd`,
@@ -14,7 +14,7 @@ const formSettings = {
       label: 'Username',
       name: 'username',
       required: true,
-      type: InputFieldType.text,
+      type: InputType.text,
       validations: {
         minLength: 8,
       },
@@ -23,7 +23,7 @@ const formSettings = {
       label: 'Password',
       name: 'password',
       required: true,
-      type: InputFieldType.password,
+      type: InputType.password,
       validations: {
         minLength: 8,
       },

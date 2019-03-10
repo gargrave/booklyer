@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { AuthReduxProps } from '../auth.types'
 
-import { InputFieldType } from 'app/common/forms/InputField/InputField'
+import { InputType } from 'app/common/forms/InputField/InputField'
 import ManagedForm from 'app/common/forms/ManagedForm/ManagedForm'
 
 const fields = [
@@ -10,7 +10,7 @@ const fields = [
     label: 'Email',
     name: 'email',
     required: true,
-    type: InputFieldType.text,
+    type: InputType.text,
     validations: {
       minLength: 8,
     },
@@ -19,7 +19,7 @@ const fields = [
     label: 'Password',
     name: 'password',
     required: true,
-    type: InputFieldType.password,
+    type: InputType.password,
     validations: {
       minLength: 8,
     },

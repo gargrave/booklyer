@@ -5,7 +5,7 @@ import {
 } from 'app/core/core.types'
 import { ObjectIdMap } from 'utils/firestore.helpers'
 
-import { InputFieldType } from 'app/common/forms/InputField/InputField'
+import { InputType } from 'app/common/forms/InputField/InputField'
 import { FieldConfig } from 'app/common/forms/ManagedForm/ManagedForm'
 
 export const AuthorPropertyNames = [
@@ -33,11 +33,11 @@ export const authorFormFields: FieldConfig[] = Object.freeze([
     label: 'First Name',
     name: 'firstName',
     required: true,
-    type: InputFieldType.text,
+    type: InputType.text,
   },
   {
     label: 'Last Name',
     name: 'lastName',
-    type: InputFieldType.text,
+    type: InputType.text,
   },
 ]) as FieldConfig[]

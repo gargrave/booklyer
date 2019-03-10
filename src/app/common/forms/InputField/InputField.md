@@ -1,5 +1,5 @@
 ```jsx
-const { InputFieldType } = require('./InputField')
+const { InputType } = require('./InputField')
 
 ;<>
   <InputField
@@ -18,7 +18,7 @@ const { InputFieldType } = require('./InputField')
   <InputField
     label="A password field"
     name="inputField-example-3"
-    type={InputFieldType.password}
+    type={InputType.password}
   />
 </>
 ```

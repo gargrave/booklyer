@@ -4,14 +4,14 @@ import { produce } from 'immer'
 import { useFormValidation } from './useFormValidation'
 
 import Form, { FormProps, OptionalFormProps } from '../Form/Form'
-import InputField, { InputFieldType } from '../InputField/InputField'
+import InputField, { InputType } from '../InputField/InputField'
 
 export type FieldConfig = {
   label?: string
   name: string
   placeholder?: string
   required?: boolean
-  type: InputFieldType
+  type: InputType
   validations?: {
     minLength?: number
   }

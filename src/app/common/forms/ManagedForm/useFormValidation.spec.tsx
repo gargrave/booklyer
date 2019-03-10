@@ -1,7 +1,7 @@
 import 'jest-dom/extend-expect'
 
 import { initialState, useFormValidation, validate } from './useFormValidation'
-import { InputFieldType } from '../InputField/InputField'
+import { InputType } from '../InputField/InputField'
 
 describe('useFormValidation', () => {
   describe('initialState', () => {
@@ -10,12 +10,12 @@ describe('useFormValidation', () => {
         {
           label: 'AWESOME Field',
           name: 'awesomeField',
-          type: InputFieldType.text,
+          type: InputType.text,
         },
         {
           label: 'Super Duper Field',
           name: 'superDuperField',
-          type: InputFieldType.password,
+          type: InputType.password,
         },
       ]
       const state = initialState(fields)
@@ -35,7 +35,7 @@ describe('useFormValidation', () => {
           label: 'Username',
           name: 'username',
           required: true,
-          type: InputFieldType.text,
+          type: InputType.text,
           validations: {
             minLength: 8,
           },
@@ -44,7 +44,7 @@ describe('useFormValidation', () => {
           label: 'Password',
           name: 'password',
           required: true,
-          type: InputFieldType.password,
+          type: InputType.password,
           validations: {
             minLength: 8,
           },

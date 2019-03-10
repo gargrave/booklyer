@@ -5,7 +5,7 @@ import { clamp } from 'utils/mathHelpers'
 
 import styles from './InputField.module.scss'
 
-export enum InputFieldType {
+export enum InputType {
   password = 'password',
   text = 'text',
 }
@@ -19,7 +19,7 @@ export type InputFieldProps = {
   name: string
   onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   placeholder?: string
-  type?: InputFieldType
+  type?: InputType
 }
 
 const InputField: React.FunctionComponent<InputFieldProps> = ({
@@ -31,7 +31,7 @@ const InputField: React.FunctionComponent<InputFieldProps> = ({
   name,
   onInputChange,
   placeholder,
-  type = InputFieldType.text,
+  type = InputType.text,
 }) => (
   <div className="input-field">
     {label && <label htmlFor={name}>{label}:</label>}
@@ -55,7 +55,7 @@ const InputField: React.FunctionComponent<InputFieldProps> = ({
 InputField.defaultProps = {
   disabled: false,
   maxLength: 255,
-  type: InputFieldType.text,
+  type: InputType.text,
 }
 
 export { InputField as UnwrappedInputField }
