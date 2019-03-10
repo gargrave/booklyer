@@ -32,10 +32,14 @@ const BooksListPage: React.FunctionComponent<BooksListPageProps> = ({
     }
   }, [getBooks])
 
+  function handleAddBookClick() {
+    history.push('/books/new')
+  }
+
   return user ? (
     <div>
       <h2>My Books</h2>
-      <Button onClick={() => void 0}>Add a Book</Button>
+      <Button onClick={handleAddBookClick}>Add a Book</Button>
       {books.map(book => (
         <BookCard book={book} key={book.id} />
       ))}

@@ -1,6 +1,10 @@
 import { db } from 'config/firebase'
-import { FbCollection } from 'utils/firebase.types'
-import { collectionToIdMap, ObjectIdMap } from 'utils/firestore.helpers'
+import { FbCollection, FbDoc } from 'utils/firebase.types'
+import {
+  collectionToIdMap,
+  ObjectIdMap,
+  singleToIdMap,
+} from 'utils/firestore.helpers'
 
 import { Book } from '../books.types'
 
@@ -9,6 +13,18 @@ const booksService = {
     const query = db.collection(`books/byOwner/${ownerId}`)
     const response: FbCollection = await query.get()
     return collectionToIdMap<Book>(response)
+  },
+
+  async createBook(ownerId: string, payload: Book): Promise<ObjectIdMap<Book>> {
+    const date = new Date()
+    const book = {
+      ...payload,
+      created: date,
+      updated: date,
+    }
+    const query = await db.collection(`books/byOwner/${ownerId}`).add(book)
+    const response: FbDoc = await query.get()
+    return singleToIdMap<Book>(response)
   },
 }
 
