@@ -1,5 +1,5 @@
 ```jsx
-const { InputType } = require('../InputField/InputField')
+const { InputType } = require('../forms.types.ts')
 
 const formWrapperStyles = {
   border: `1px solid #ddd`,

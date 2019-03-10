@@ -1,5 +1,5 @@
 ```jsx
-const { InputType } = require('./InputField')
+const { InputType } = require('../forms.types')
 
 ;<>
   <InputField

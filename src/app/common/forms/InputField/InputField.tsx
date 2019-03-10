@@ -1,14 +1,11 @@
 import * as React from 'react'
 import classNames from 'classnames'
 
+import { InputType } from '../forms.types'
+
 import { clamp } from 'utils/mathHelpers'
 
 import styles from './InputField.module.scss'
-
-export enum InputType {
-  password = 'password',
-  text = 'text',
-}
 
 export type InputFieldProps = {
   boundValue: string

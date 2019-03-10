@@ -1,8 +1,8 @@
 import * as React from 'react'
 
+import { InputType } from 'app/common/forms/forms.types'
 import { AuthReduxProps } from '../auth.types'
 
-import { InputType } from 'app/common/forms/InputField/InputField'
 import ManagedForm from 'app/common/forms/ManagedForm/ManagedForm'
 
 const fields = [

@@ -1,10 +1,11 @@
 import * as React from 'react'
 import { produce } from 'immer'
 
+import { InputType } from '../forms.types'
 import { useFormValidation } from './useFormValidation'
 
-import Form, { FormProps, OptionalFormProps } from '../Form/Form'
-import InputField, { InputType } from '../InputField/InputField'
+import Form, { OptionalFormProps } from '../Form/Form'
+import InputField from '../InputField/InputField'
 
 export type FieldConfig = {
   label?: string

@@ -1,4 +1,4 @@
-import { InputType } from 'app/common/forms/InputField/InputField'
+import { InputType } from 'app/common/forms/forms.types'
 
 const formFields = [
   {

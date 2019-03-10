@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { shallow } from 'enzyme'
 
+import { InputType } from '../forms.types'
 import {
   UnwrappedInputField as InputField,
   InputFieldProps,
-  InputType,
 } from './InputField'
 
 let defaultProps: InputFieldProps

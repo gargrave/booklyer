@@ -5,7 +5,7 @@ import {
 } from 'app/core/core.types'
 import { ObjectIdMap } from 'utils/firestore.helpers'
 
-import { InputType } from 'app/common/forms/InputField/InputField'
+import { InputType } from 'app/common/forms/forms.types'
 import { FieldConfig } from 'app/common/forms/ManagedForm/ManagedForm'
 
 export const AuthorPropertyNames = [

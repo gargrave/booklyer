@@ -1,7 +1,8 @@
 import 'jest-dom/extend-expect'
 
-import { initialState, useFormValidation, validate } from './useFormValidation'
-import { InputType } from '../InputField/InputField'
+import { InputType } from 'app/common/forms/forms.types'
+
+import { initialState, validate } from './useFormValidation'
 
 describe('useFormValidation', () => {
   describe('initialState', () => {
