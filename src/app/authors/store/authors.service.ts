@@ -8,11 +8,9 @@ import {
 
 import { Author } from '../authors.types'
 
-const TABLE = 'authors'
-
 const authorsService = {
   async fetchAuthorsByOwner(ownerId: string): Promise<ObjectIdMap<Author>> {
-    const query = db.collection(TABLE).where('owner', '==', ownerId)
+    const query = db.collection(`authors/byOwner/${ownerId}`)
     const response: FbCollection = await query.get()
     return collectionToIdMap<Author>(response)
   },
@@ -21,13 +19,13 @@ const authorsService = {
     ownerId: string,
     payload: Author,
   ): Promise<ObjectIdMap<Author>> {
+    const date = new Date()
     const author = {
       ...payload,
-      created: new Date(),
-      owner: ownerId,
-      updated: new Date(),
+      created: date,
+      updated: date,
     }
-    const query = await db.collection(TABLE).add(author)
+    const query = await db.collection(`authors/byOwner/${ownerId}`).add(author)
     const response: FbDoc = await query.get()
     return singleToIdMap<Author>(response)
   },
