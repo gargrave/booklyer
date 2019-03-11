@@ -31,7 +31,7 @@ module.exports = {
         },
         {
           name: 'Forms',
-          components: componentList(['InputField', 'ManagedForm']),
+          components: componentList(['InputField', 'ManagedForm', 'Select']),
         },
       ],
     },
