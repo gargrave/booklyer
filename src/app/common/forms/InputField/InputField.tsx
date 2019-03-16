@@ -1,34 +1,29 @@
 import * as React from 'react'
 import classNames from 'classnames'
 
-import { InputType } from '../forms.types'
+import { InputType, InputProps } from '../forms.types'
 
 import { clamp } from 'utils/mathHelpers'
 
 import styles from './InputField.module.scss'
 
+export type selectConfig = {}
+
 export type InputFieldProps = {
-  boundValue: string
-  disabled?: boolean
-  error?: string
-  label?: string
   maxLength?: number
-  name: string
-  onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-  placeholder?: string
   type?: InputType
-}
+} & InputProps
 
 const InputField: React.FunctionComponent<InputFieldProps> = ({
-  boundValue,
   disabled = false,
   error,
   label,
   maxLength = 255,
   name,
-  onInputChange,
+  onChange,
   placeholder,
   type = InputType.text,
+  value,
 }) => (
   <div className="input-field">
     {label && <label htmlFor={name}>{label}:</label>}
@@ -39,10 +34,10 @@ const InputField: React.FunctionComponent<InputFieldProps> = ({
       id={name}
       maxLength={clamp(maxLength, 1, 255)}
       name={name}
-      onChange={onInputChange}
+      onChange={onChange}
       placeholder={placeholder}
       type={type}
-      value={boundValue}
+      value={value}
     />
 
     {error && <p className={styles.error}>{error}</p>}

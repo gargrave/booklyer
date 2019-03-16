@@ -12,7 +12,7 @@ let defaultProps: InputFieldProps
 describe('InputField', () => {
   beforeEach(() => {
     defaultProps = {
-      boundValue: '',
+      value: '',
       disabled: false,
       error: '',
       label: 'Whatever',

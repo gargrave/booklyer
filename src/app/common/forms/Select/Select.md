@@ -15,7 +15,7 @@ const SelectHarness = () => {
 
   return (
     <>
-      <p>No pre-selected value:</p>
+      <p>No pre-value value:</p>
       <Select
         getOptionText={author => `${author.firstName} ${author.lastName}`}
         getOptionValue={author => author.id}
@@ -24,11 +24,11 @@ const SelectHarness = () => {
         onChange={handleChange1}
         options={mockAuthors}
         placeholder="Select an Author..."
-        selected={value1}
+        value={value1}
       />
       <hr />
 
-      <p>With pre-selected value:</p>
+      <p>With pre-value value:</p>
       <Select
         getOptionText={author => `${author.firstName} ${author.lastName}`}
         getOptionValue={author => author.id}
@@ -37,7 +37,7 @@ const SelectHarness = () => {
         onChange={handleChange2}
         options={mockAuthors}
         placeholder="Select an Author..."
-        selected={value2}
+        value={value2}
       />
     </>
   )

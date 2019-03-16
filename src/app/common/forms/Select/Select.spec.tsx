@@ -24,7 +24,7 @@ describe('Select', () => {
         { id: 1, firstName: 'Seamus', lastName: 'McGee' },
       ],
       placeholder: 'awesome placeholder text',
-      selected: mockAuthors[0],
+      value: mockAuthors[0],
     }
   })
 
@@ -36,7 +36,7 @@ describe('Select', () => {
       const { label, name } = defaultProps
       expect(container.querySelectorAll('select')).toHaveLength(1)
       expect(container.querySelectorAll(`#${name}`)).toHaveLength(1)
-      expect(getByLabelText(label)).toBeInTheDocument()
+      expect(getByLabelText(label!)).toBeInTheDocument()
     })
 
     it('renders options correctly', () => {
@@ -65,13 +65,13 @@ describe('Select', () => {
     it('selects the provided value when available', () => {
       const { queryByText } = render(<Select {...defaultProps} />)
       const { placeholder } = defaultProps
-      expect(queryByText(placeholder)).not.toBeInTheDocument()
+      expect(queryByText(placeholder!)).not.toBeInTheDocument()
     })
 
     it('uses placeholder text when no default value is provided', () => {
-      const { getByText } = render(<Select {...defaultProps} selected={null} />)
+      const { getByText } = render(<Select {...defaultProps} value={null} />)
       const { placeholder } = defaultProps
-      expect(getByText(placeholder)).toBeInTheDocument()
+      expect(getByText(placeholder!)).toBeInTheDocument()
     })
 
     it('calls the "onChange" callback when value is changed', () => {

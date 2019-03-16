@@ -1,44 +1,43 @@
 import * as React from 'react'
 import classNames from 'classnames'
 
+import { InputProps } from '../forms.types'
+
 import styles from './Select.module.scss'
 
-export type SelectProps = {
+export type SelectInputTypeProps = {
   getOptionText: (option: any) => string
   getOptionValue: (option: any) => string
-  label: string
-  name: string
-  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void
   options: any[]
-  placeholder: string
-  selected: any
 }
+
+export type SelectProps = {} & SelectInputTypeProps & InputProps
 
 const Select: React.FunctionComponent<SelectProps> = ({
   getOptionText,
   getOptionValue,
-  label,
+  label = '',
   name,
   onChange,
   options,
   placeholder,
-  selected,
+  value,
 }) => {
   return (
     <div className="input-field">
-      <label htmlFor={name}>{label}</label>
+      {label && <label htmlFor={name}>{label}</label>}
       <select
-        className={classNames({ [styles.placeholder]: !selected })}
+        className={classNames({ [styles.placeholder]: !value })}
         id={name}
         name={name}
         onChange={onChange}
-        value={selected ? getOptionValue(selected) : ''}
+        value={value ? getOptionValue(value) : ''}
       >
-        {!selected && <option value="-1">{placeholder}</option>}
+        {!value && <option value="-1">{placeholder}</option>}
         {options.map(option => {
-          const value = getOptionValue(option)
+          const optionValue = getOptionValue(option)
           return (
-            <option key={value} value={value}>
+            <option key={optionValue} value={optionValue}>
               {getOptionText(option)}
             </option>
           )

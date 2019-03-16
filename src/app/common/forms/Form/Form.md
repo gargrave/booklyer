@@ -38,14 +38,14 @@ const FormHarness = () => {
       title="Example Login Form"
     >
       <InputField
-        boundValue={user}
+        value={user}
         label="Username"
         onInputChange={onInputChange}
         name="user"
       />
 
       <InputField
-        boundValue={password}
+        value={password}
         label="Password"
         onInputChange={onInputChange}
         name="password"
