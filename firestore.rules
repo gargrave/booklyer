@@ -19,6 +19,14 @@ service cloud.firestore {
       && request.resource.data.updated is timestamp;
     }
 
+    match /authors/byOwner/{ownerId}/{authorId} {
+    	allow read, write: if ownerId == request.auth.uid;
+    }
+    
+    match /books/byOwner/{ownerId}/{bookId} {
+    	allow read, write: if ownerId == request.auth.uid;
+    }
+
     // Profile rules
     match /profiles/{profileId} {
       function validateProfileFields() {
