@@ -1,3 +1,4 @@
+import getBooksRequestPending from './getBooksRequestPending'
 import getBooksWithAuthors from './getBooksWithAuthors'
 
-export { getBooksWithAuthors }
+export { getBooksRequestPending, getBooksWithAuthors }

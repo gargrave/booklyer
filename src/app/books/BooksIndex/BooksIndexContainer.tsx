@@ -5,7 +5,7 @@ import { AppState } from 'store/reducers'
 import { getAuthors } from 'app/authors/store/selectors'
 
 import actions from '../store/actions'
-import { getBooksWithAuthors } from '../store/selectors'
+import { getBooksRequestPending, getBooksWithAuthors } from '../store/selectors'
 import { Book } from '../books.types'
 
 import BooksIndex from './BooksIndex'
@@ -13,6 +13,7 @@ import BooksIndex from './BooksIndex'
 const mapStateToProps = (state: AppState) => ({
   getAuthors: () => getAuthors(state.authors),
   getBooks: () => getBooksWithAuthors(state),
+  getBooksRequestPending: () => getBooksRequestPending(state.books),
 })
 
 const mapDispatchToProps = dispatch => {
