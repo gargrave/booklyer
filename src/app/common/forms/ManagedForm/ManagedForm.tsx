@@ -30,6 +30,8 @@ export type ManagedFormState = {
 }
 
 const ManagedForm: React.FunctionComponent<ManagedFormProps> = props => {
+  const { disabled, fields } = props
+
   const {
     formState,
     setFormState,
@@ -52,7 +54,7 @@ const ManagedForm: React.FunctionComponent<ManagedFormProps> = props => {
 
   return (
     <Form {...props} onSubmit={validatedOnSubmit}>
-      {props.fields.map(fieldConfig => {
+      {fields.map(fieldConfig => {
         const { name } = fieldConfig
 
         if (fieldConfig.type === InputType.select) {
@@ -60,6 +62,7 @@ const ManagedForm: React.FunctionComponent<ManagedFormProps> = props => {
             <Select
               {...fieldConfig}
               {...fieldConfig.selectConfig!}
+              disabled={disabled}
               error={validationErrors[name]}
               key={fieldConfig.name}
               onChange={handleInputChange}
@@ -71,6 +74,7 @@ const ManagedForm: React.FunctionComponent<ManagedFormProps> = props => {
         return (
           <InputField
             {...fieldConfig}
+            disabled={disabled}
             error={validationErrors[name]}
             key={fieldConfig.name}
             onChange={handleInputChange}

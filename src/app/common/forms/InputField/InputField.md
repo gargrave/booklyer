@@ -20,5 +20,13 @@ const { InputType } = require('../forms.types')
     name="inputField-example-3"
     type={InputType.password}
   />
+
+  <InputField
+    disabled={true}
+    label="A disabled field"
+    name="inputField-example-4"
+    type={InputType.text}
+    value="Yo, you can't edit this value"
+  />
 </>
 ```

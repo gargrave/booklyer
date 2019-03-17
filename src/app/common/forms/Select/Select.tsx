@@ -14,6 +14,7 @@ export type SelectInputTypeProps = {
 export type SelectProps = {} & SelectInputTypeProps & InputProps
 
 const Select: React.FunctionComponent<SelectProps> = ({
+  disabled,
   error,
   getOptionText,
   getOptionValue,
@@ -32,6 +33,7 @@ const Select: React.FunctionComponent<SelectProps> = ({
           [styles.placeholder]: !value,
           [styles.invalid]: !!error,
         })}
+        disabled={disabled}
         id={name}
         name={name}
         onChange={onChange}

@@ -39,6 +39,20 @@ const SelectHarness = () => {
         placeholder="Select an Author..."
         value={value2}
       />
+      <hr />
+
+      <p>A disabled Select field:</p>
+      <Select
+        disabled={true}
+        getOptionText={author => `${author.firstName} ${author.lastName}`}
+        getOptionValue={author => author.id}
+        label="Author"
+        name="author-select"
+        onChange={handleChange2}
+        options={mockAuthors}
+        placeholder="Select an Author..."
+        value={value2}
+      />
     </>
   )
 }
