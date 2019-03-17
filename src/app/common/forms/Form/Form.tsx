@@ -16,7 +16,9 @@ export type OptionalFormProps = {
   classes?: string[]
   disabled?: boolean
   error?: string
+  loading?: boolean
   onCancel?: () => void
+  renderLoader?: () => React.ReactNode
   submitBtnText?: string
   submitDisabled?: boolean
   title?: string
@@ -31,8 +33,10 @@ const Form: React.FunctionComponent<FormProps> = ({
   children,
   disabled = false,
   error,
+  loading = false,
   onCancel,
   onSubmit,
+  renderLoader,
   submitBtnText = 'Submit',
   submitDisabled = false,
   title = '',
@@ -45,7 +49,11 @@ const Form: React.FunctionComponent<FormProps> = ({
 
       <ButtonRow>
         {onCancel && (
-          <Button onClick={onCancel} type={ButtonType.Light}>
+          <Button
+            disabled={disabled}
+            onClick={onCancel}
+            type={ButtonType.Light}
+          >
             {cancelBtnText}
           </Button>
         )}
@@ -59,6 +67,7 @@ const Form: React.FunctionComponent<FormProps> = ({
           {submitBtnText}
         </Button>
       </ButtonRow>
+      {loading && renderLoader && renderLoader()}
     </form>
   </div>
 )

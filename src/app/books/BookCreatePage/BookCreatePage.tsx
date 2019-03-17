@@ -16,6 +16,11 @@ const BookCreatePage: React.FunctionComponent<BookCreatePageProps> = ({
 }) => {
   const { getUser } = useRequiredAuthentication(history)
   const [error, setError] = React.useState('')
+  const [loading, setLoading] = React.useState(getBooksRequestPending())
+
+  React.useEffect(() => {
+    setLoading(getBooksRequestPending())
+  }, [getBooksRequestPending])
 
   const user = getUser()
 
@@ -36,8 +41,9 @@ const BookCreatePage: React.FunctionComponent<BookCreatePageProps> = ({
     <>
       <BookForm
         authors={getAuthors()}
-        disabled={getBooksRequestPending()}
+        disabled={loading}
         error={error}
+        loading={loading}
         onCancel={handleCancel}
         onSubmit={handleSubmit}
       />

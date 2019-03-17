@@ -7,6 +7,7 @@ import ManagedForm, {
 } from 'app/common/forms/ManagedForm/ManagedForm'
 import { InputType } from 'app/common/forms/forms.types'
 import { OptionalFormProps } from 'app/common/forms/Form/Form'
+import Loader from 'app/common/Loader/Loader'
 
 export type BookFormProps = {
   authors: Author[]
@@ -21,6 +22,7 @@ const BookForm: React.FunctionComponent<BookFormProps> = ({
   error,
   onCancel,
   onSubmit,
+  ...passThruProps
 }) => {
   const fields: FieldConfig[] = React.useMemo(
     () =>
@@ -53,13 +55,17 @@ const BookForm: React.FunctionComponent<BookFormProps> = ({
     [authors],
   )
 
+  const renderLoader = React.useCallback(() => <Loader size={44} />, [])
+
   return (
     <ManagedForm
+      {...passThruProps}
       disabled={disabled}
       error={error}
       fields={fields}
       onCancel={onCancel}
       onSubmit={onSubmit}
+      renderLoader={renderLoader}
       title="Add a Book"
     />
   )

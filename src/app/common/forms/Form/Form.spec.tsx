@@ -8,14 +8,17 @@ let defaultProps: FormProps
 
 describe('Form', () => {
   beforeEach(() => {
+    jest.resetAllMocks()
     defaultProps = {
       cancelBtnText: 'Cancel',
       children: [],
       classes: [],
       disabled: false,
       error: '',
+      loading: false,
       onCancel: jest.fn(),
       onSubmit: jest.fn(),
+      renderLoader: jest.fn(),
       submitBtnText: 'Submit',
       submitDisabled: false,
       title: '',
@@ -74,6 +77,35 @@ describe('Form', () => {
       it('renders an Alert with the error message when it is present', () => {
         const { getByRole } = render(<Form {...defaultProps} error="ONOS" />)
         expect(getByRole('alert')).toBeInTheDocument()
+      })
+    })
+
+    describe('Disabled state', () => {
+      it('Does not disable any fields by default', () => {
+        const { container } = render(<Form {...defaultProps} />)
+        const disabledButtons = container.querySelectorAll('button[disabled]')
+        expect(disabledButtons).toHaveLength(0)
+      })
+
+      it('Disables all buttons when "disabled" is true', () => {
+        const { container } = render(<Form {...defaultProps} disabled={true} />)
+        const allButtons = container.querySelectorAll('button')
+        const disabledButtons = container.querySelectorAll('button[disabled]')
+        expect(disabledButtons).toHaveLength(allButtons.length)
+      })
+    })
+
+    describe('Loader rendering', () => {
+      it('Does not call the "renderLoader" prop when none is provided, even if "loading" is true', () => {
+        const { container } = render(
+          <Form {...defaultProps} loading={true} renderLoader={undefined} />,
+        )
+        expect(defaultProps.renderLoader).toHaveBeenCalledTimes(0)
+      })
+
+      it('Calls the "renderLoader" prop when one is provided and "loading" is true', () => {
+        const { container } = render(<Form {...defaultProps} loading={true} />)
+        expect(defaultProps.renderLoader).toHaveBeenCalledTimes(1)
       })
     })
   })
