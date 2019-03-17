@@ -17,8 +17,11 @@ const booksService = {
 
   async createBook(ownerId: string, payload: Book): Promise<ObjectIdMap<Book>> {
     const date = new Date()
+    // pull "author" field off of book--will we rename this to "authorId"
+    const { author, ...rest } = payload
     const book = {
-      ...payload,
+      ...rest,
+      authorId: author,
       created: date,
       updated: date,
     }

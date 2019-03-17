@@ -6,9 +6,6 @@ import {
 } from 'app/core/core.types'
 import { ObjectIdMap } from 'utils/firestore.helpers'
 
-import { InputFieldType } from 'app/common/forms/InputField/InputField'
-import { FieldConfig } from 'app/common/forms/ManagedForm/ManagedForm'
-
 export const BookPropertyNames = [
   ...GenericResourcePropertyNames,
   'sortBy',
@@ -28,19 +25,6 @@ export type BookIdMap = ObjectIdMap<Book>
 export type BooksReduxProps = {
   createBook: (ownerId: string, book: Book) => Promise<Book[]>
   fetchBooks: (ownerId: string) => Promise<Book[]>
+  getAuthors: () => Author[]
   getBooks: () => Book[]
 }
-
-export const bookFormFields: FieldConfig[] = Object.freeze([
-  {
-    label: 'Title',
-    name: 'title',
-    required: true,
-    type: InputFieldType.text,
-  },
-  {
-    label: 'Sort By',
-    name: 'sortBy',
-    type: InputFieldType.text,
-  },
-]) as FieldConfig[]

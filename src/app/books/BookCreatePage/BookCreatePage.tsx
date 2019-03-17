@@ -10,11 +10,14 @@ export type BookCreatePageProps = { history: any } & BooksReduxProps
 
 const BookCreatePage: React.FunctionComponent<BookCreatePageProps> = ({
   createBook,
+  getAuthors,
   history,
 }) => {
   const { getUser } = useRequiredAuthentication(history)
   const [error, setError] = React.useState('')
+
   const user = getUser()
+  const authors = getAuthors()
 
   async function handleSubmit(payload) {
     try {
@@ -31,7 +34,12 @@ const BookCreatePage: React.FunctionComponent<BookCreatePageProps> = ({
 
   return user ? (
     <>
-      <BookForm error={error} onCancel={handleCancel} onSubmit={handleSubmit} />
+      <BookForm
+        authors={authors}
+        error={error}
+        onCancel={handleCancel}
+        onSubmit={handleSubmit}
+      />
     </>
   ) : null
 }

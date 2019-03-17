@@ -1,3 +1,13 @@
+@import '~styles/colors';
+
 .placeholder {
   color: #666;
+}
+
+.invalid {
+  border-color: $error !important;
+}
+
+.error {
+  color: $error;
 }

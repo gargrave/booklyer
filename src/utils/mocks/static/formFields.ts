@@ -19,6 +19,16 @@ const formFields = [
       minLength: 8,
     },
   },
+  {
+    label: 'TestSelect',
+    name: 'testSelect',
+    selectConfig: {
+      getOptionText: item => item,
+      getOptionValue: item => item,
+      options: ['A', 'B', 'C'],
+    },
+    type: InputType.select,
+  },
 ]
 
 export { formFields }

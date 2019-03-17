@@ -5,6 +5,7 @@ import { InputType } from '../forms.types'
 import { useFormValidation } from './useFormValidation'
 
 import Form, { OptionalFormProps } from '../Form/Form'
+import Select, { SelectInputTypeProps } from '../Select/Select'
 import InputField from '../InputField/InputField'
 
 export type FieldConfig = {
@@ -12,6 +13,7 @@ export type FieldConfig = {
   name: string
   placeholder?: string
   required?: boolean
+  selectConfig?: SelectInputTypeProps
   type: InputType
   validations?: {
     minLength?: number
@@ -50,16 +52,28 @@ const ManagedForm: React.FunctionComponent<ManagedFormProps> = props => {
 
   return (
     <Form {...props} onSubmit={validatedOnSubmit}>
-      {props.fields.map(({ label, name, placeholder, type }) => {
+      {props.fields.map(fieldConfig => {
+        const { name } = fieldConfig
+
+        if (fieldConfig.type === InputType.select) {
+          return (
+            <Select
+              {...fieldConfig}
+              {...fieldConfig.selectConfig!}
+              error={validationErrors[name]}
+              key={fieldConfig.name}
+              onChange={handleInputChange}
+              value={formState[name]}
+            />
+          )
+        }
+
         return (
           <InputField
+            {...fieldConfig}
             error={validationErrors[name]}
-            key={name}
-            label={label}
-            name={name}
+            key={fieldConfig.name}
             onChange={handleInputChange}
-            placeholder={placeholder || label}
-            type={type}
             value={formState[name]}
           />
         )

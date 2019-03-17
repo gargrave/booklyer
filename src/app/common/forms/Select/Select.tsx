@@ -14,6 +14,7 @@ export type SelectInputTypeProps = {
 export type SelectProps = {} & SelectInputTypeProps & InputProps
 
 const Select: React.FunctionComponent<SelectProps> = ({
+  error,
   getOptionText,
   getOptionValue,
   label = '',
@@ -27,7 +28,10 @@ const Select: React.FunctionComponent<SelectProps> = ({
     <div className="input-field">
       {label && <label htmlFor={name}>{label}</label>}
       <select
-        className={classNames({ [styles.placeholder]: !value })}
+        className={classNames({
+          [styles.placeholder]: !value,
+          [styles.invalid]: !!error,
+        })}
         id={name}
         name={name}
         onChange={onChange}
@@ -43,6 +47,8 @@ const Select: React.FunctionComponent<SelectProps> = ({
           )
         })}
       </select>
+
+      {error && <p className={styles.error}>{error}</p>}
     </div>
   )
 }

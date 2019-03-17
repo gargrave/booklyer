@@ -35,7 +35,7 @@ const InputField: React.FunctionComponent<InputFieldProps> = ({
       maxLength={clamp(maxLength, 1, 255)}
       name={name}
       onChange={onChange}
-      placeholder={placeholder}
+      placeholder={placeholder || label}
       type={type}
       value={value}
     />
