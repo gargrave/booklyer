@@ -109,7 +109,7 @@ describe('Books Reducers', () => {
       expect(actual).toEqual(expected)
     })
 
-    xit('handles CREATE_BOOK_SUCCESS correctly', () => {
+    it('handles CREATE_BOOK_SUCCESS correctly', () => {
       // should:
       // - append the new book to the existing ones
       // - disable the "pending" flag
