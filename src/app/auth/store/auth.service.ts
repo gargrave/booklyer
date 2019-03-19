@@ -2,12 +2,14 @@ import { auth } from 'config/firebase'
 
 const authService = {
   async login(email: string, password: string): Promise<any> {
-    try {
-      const user = await auth.signInWithEmailAndPassword(email, password)
-      return user
-    } catch (error) {
-      throw Error
-    }
+    return new Promise((resolve, reject) => {
+      auth
+        .signInWithEmailAndPassword(email, password)
+        .then(() => resolve())
+        .catch(error => {
+          reject(error)
+        })
+    })
   },
 }
 
