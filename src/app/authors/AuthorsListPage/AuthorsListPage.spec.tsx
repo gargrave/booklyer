@@ -7,7 +7,7 @@ import { mockUsers } from 'utils/mocks/static/users'
 
 import AuthorsListPage, { AuthorsListPageProps } from './AuthorsListPage'
 
-// mock "userRequiredAuthentication" with mock getUser implementation
+// mock "useRequiredAuthentication" with mock getUser implementation
 const mockGetUser = jest.fn()
 jest.mock('app/auth/utils/useRequiredAuthentication', () => {
   return {

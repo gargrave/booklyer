@@ -1,6 +1,8 @@
 import * as React from 'react'
 
-export type ProfilePageProps = {}
+export type ProfilePageProps = {
+  history: any
+}
 
 const ProfilePage: React.SFC<ProfilePageProps> = () => <div>ProfilePage</div>
 
