@@ -3,10 +3,12 @@ import * as React from 'react'
 import { InputType } from 'app/common/forms/forms.types'
 import { AuthReduxProps } from '../auth.types'
 
+import Loader from 'app/common/Loader/Loader'
 import ManagedForm from 'app/common/forms/ManagedForm/ManagedForm'
 
 const fields = [
   {
+    // TODO: need to add email validation
     label: 'Email',
     name: 'email',
     required: true,
@@ -28,8 +30,16 @@ const fields = [
 
 export type LoginPageProps = {} & AuthReduxProps
 
-const LoginPage: React.FunctionComponent<LoginPageProps> = ({ login }) => {
+const LoginPage: React.FunctionComponent<LoginPageProps> = ({
+  getAuthRequestPending,
+  login,
+}) => {
   const [error, setError] = React.useState('')
+  const [loading, setLoading] = React.useState(false)
+
+  React.useEffect(() => {
+    setLoading(getAuthRequestPending())
+  }, [getAuthRequestPending])
 
   const handleSubmit = async payload => {
     const { email, password } = payload
@@ -45,12 +55,16 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = ({ login }) => {
     }
   }
 
+  const renderLoader = React.useCallback(() => <Loader size={44} />, [])
+
   return (
     <>
       <ManagedForm
         error={error}
         fields={fields}
+        loading={loading}
         onSubmit={handleSubmit}
+        renderLoader={renderLoader}
         title="Log In"
       />
     </>
