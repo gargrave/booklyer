@@ -26,8 +26,8 @@ const Navbar: React.FunctionComponent<NavbarProps> = () => {
 
       {!user && (
         <nav className={styles.navbar}>
-          <Link to="/account/login">Login</Link>
-          {/* <Link to="/account/register">Register</Link> */}
+          <Link to="/account/login">Login</Link> |{' '}
+          <Link to="/account/register">Register</Link>
         </nav>
       )}
     </>
