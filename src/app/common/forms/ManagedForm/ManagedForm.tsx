@@ -2,7 +2,7 @@ import * as React from 'react'
 import { produce } from 'immer'
 
 import { InputType } from '../forms.types'
-import { useFormValidation } from './useFormValidation'
+import { useFormValidation, ValidationFields } from './useFormValidation'
 
 import Form, { OptionalFormProps } from '../Form/Form'
 import Select, { SelectInputTypeProps } from '../Select/Select'
@@ -15,9 +15,7 @@ export type FieldConfig = {
   required?: boolean
   selectConfig?: SelectInputTypeProps
   type: InputType
-  validations?: {
-    minLength?: number
-  }
+  validations?: ValidationFields
 }
 
 export type ManagedFormProps = {

@@ -3,6 +3,11 @@ import get from 'lodash/get'
 
 import { FieldConfig, ManagedFormState } from './ManagedForm'
 
+export type ValidationFields = {
+  minLength?: number
+  mustMatch?: string
+}
+
 export type FormValidationPayload = {
   errors: ManagedFormState
   isValid: boolean
@@ -32,10 +37,20 @@ export const validate = (
       continue
     }
 
+    // minimum length validation
     const { minLength } = validations
     if (minLength && value.length) {
       if (minLength > value.length) {
         errors[name] = `Must be at least ${minLength} characters`
+        continue
+      }
+    }
+
+    // matching fields validation
+    const { mustMatch } = validations
+    if (mustMatch) {
+      if (value !== formState[mustMatch]) {
+        errors[name] = `Must be the same value as the '${mustMatch}' field`
         continue
       }
     }

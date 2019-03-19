@@ -3,11 +3,12 @@ import 'jest-dom/extend-expect'
 import { InputType } from 'app/common/forms/forms.types'
 
 import { initialState, validate } from './useFormValidation'
+import { FieldConfig } from './ManagedForm'
 
 describe('useFormValidation', () => {
   describe('initialState', () => {
     it('correctly reduces fields config to initial state', () => {
-      const fields = [
+      const fields: FieldConfig[] = [
         {
           label: 'AWESOME Field',
           name: 'awesomeField',
@@ -28,7 +29,7 @@ describe('useFormValidation', () => {
   })
 
   describe('validate', () => {
-    let fields
+    let fields: FieldConfig[]
 
     beforeEach(() => {
       fields = [
@@ -95,6 +96,54 @@ describe('useFormValidation', () => {
         const { errors, isValid } = validate(fields, state)
         expect(errors.username).not.toBeDefined()
         expect(errors.password).not.toBeDefined()
+        expect(isValid).toBe(true)
+      })
+    })
+
+    describe('Matching fields', () => {
+      beforeEach(() => {
+        fields = [
+          {
+            label: 'Password',
+            name: 'password',
+            required: true,
+            type: InputType.password,
+            validations: {
+              minLength: 8,
+            },
+          },
+          {
+            label: 'Confirm Password',
+            name: 'passwordConfirm',
+            required: true,
+            type: InputType.password,
+            validations: {
+              minLength: 8,
+              mustMatch: 'password',
+            },
+          },
+        ]
+      })
+
+      it('returns an error if matching fields do not match', () => {
+        const state = {
+          password: 'password',
+          passwordConfirm: 'it dont match',
+        }
+        const { errors, isValid } = validate(fields, state)
+        expect(errors.password).toBeUndefined()
+        expect(errors.passwordConfirm).toBeDefined()
+        expect(isValid).toBe(false)
+      })
+
+      it('passes validation if matching fields match', () => {
+        const state = {
+          password: 'myGreatPassword',
+          passwordConfirm: 'myGreatPassword',
+        }
+        const { errors, isValid } = validate(fields, state)
+        expect(errors.password).toBeUndefined()
+        expect(errors.passwordConfirm).toBeUndefined()
         expect(isValid).toBe(true)
       })
     })
