@@ -18,13 +18,21 @@ export const useAuthentication = (
   const { waitForInitialization } = options
 
   useEffect(() => {
+    let hasUnsubbed = false
+
     const unsub = auth.onAuthStateChanged(fbUser => {
-      setUser(sanitizeUser(fbUser))
-      if (waitForInitialization && !authInitialized) {
-        setAuthInitialized(true)
+      if (!hasUnsubbed) {
+        setUser(sanitizeUser(fbUser))
+        if (waitForInitialization && !authInitialized) {
+          setAuthInitialized(true)
+        }
       }
     })
-    return unsub
+
+    return () => {
+      hasUnsubbed = true
+      unsub()
+    }
   }, [])
 
   const logout = () => {

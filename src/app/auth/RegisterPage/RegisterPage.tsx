@@ -6,6 +6,7 @@ import { InputType } from 'app/common/forms/forms.types'
 import ManagedForm, {
   FieldConfig,
 } from 'app/common/forms/ManagedForm/ManagedForm'
+import { useUnauthenticated } from '../utils/useUnauthenticated'
 
 const fields: FieldConfig[] = [
   {
@@ -43,6 +44,7 @@ export type RegisterPageProps = {
 } & AuthReduxProps
 
 const RegisterPage: React.SFC<RegisterPageProps> = ({ history, register }) => {
+  const { getUser } = useUnauthenticated(history, '/books')
   const [error, setError] = React.useState('')
 
   async function handleSubmit(payload) {
@@ -58,7 +60,7 @@ const RegisterPage: React.SFC<RegisterPageProps> = ({ history, register }) => {
     }
   }
 
-  return (
+  return getUser() ? null : (
     <>
       <ManagedForm
         error={error}
