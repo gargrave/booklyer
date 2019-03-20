@@ -39,5 +39,5 @@ export const useAuthentication = (
     auth.signOut()
   }
 
-  return { authInitialized, logout, getUser: (): User => user }
+  return { authInitialized, getUser: (): User => user, logout }
 }
