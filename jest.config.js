@@ -22,6 +22,7 @@ module.exports = {
     '^react-native$': 'react-native-web',
     '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
     '^app(.*)$': '<rootDir>/src/app$1',
+    '^config(.*)$': '<rootDir>/src/config$1',
     '^utils(.*)$': '<rootDir>/src/utils$1',
   },
   resolver: 'jest-pnp-resolver',

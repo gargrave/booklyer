@@ -25,6 +25,7 @@ describe('AuthorCreatePage', () => {
       createAuthor: jest.fn(),
       fetchAuthors: jest.fn(),
       getAuthors: jest.fn(),
+      getAuthorsRequestPending: jest.fn(),
       history: {
         push: jest.fn(),
       },

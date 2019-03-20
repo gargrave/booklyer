@@ -10,10 +10,17 @@ export type AuthorCreatePageProps = { history: any } & AuthorsReduxProps
 
 const AuthorCreatePage: React.FunctionComponent<AuthorCreatePageProps> = ({
   createAuthor,
+  getAuthorsRequestPending,
   history,
 }) => {
   const { getUser } = useRequiredAuthentication(history)
   const [error, setError] = React.useState('')
+  const [loading, setLoading] = React.useState(getAuthorsRequestPending())
+
+  React.useEffect(() => {
+    setLoading(getAuthorsRequestPending())
+  }, [getAuthorsRequestPending])
+
   const user = getUser()
 
   async function handleSubmit(payload) {
@@ -32,7 +39,9 @@ const AuthorCreatePage: React.FunctionComponent<AuthorCreatePageProps> = ({
   return user ? (
     <>
       <AuthorForm
+        disabled={loading}
         error={error}
+        loading={loading}
         onCancel={handleCancel}
         onSubmit={handleSubmit}
       />

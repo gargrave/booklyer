@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 
 import { AppState } from 'store/reducers'
 import actions from '../store/actions'
-import { getAuthors } from '../store/selectors'
+import { getAuthors, getAuthorsRequestPending } from '../store/selectors'
 
 import { Author } from '../authors.types'
 
@@ -10,6 +10,7 @@ import AuthorsIndex from './AuthorsIndex'
 
 const mapStateToProps = (state: AppState) => ({
   getAuthors: () => getAuthors(state.authors),
+  getAuthorsRequestPending: () => getAuthorsRequestPending(state.authors),
 })
 
 const mapDispatchToProps = dispatch => {
