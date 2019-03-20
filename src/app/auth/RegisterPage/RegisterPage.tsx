@@ -42,15 +42,20 @@ export type RegisterPageProps = {
   history: any
 } & AuthReduxProps
 
-const RegisterPage: React.SFC<RegisterPageProps> = () => {
+const RegisterPage: React.SFC<RegisterPageProps> = ({ history, register }) => {
   const [error, setError] = React.useState('')
 
   async function handleSubmit(payload) {
-    // TODO: wire up the process on registering
-    console.log(
-      `%cREGSITER`,
-      'color:green;font-size:12px;background:lightyellow;padding:2px 4px;',
-    )
+    const { email, password } = payload
+    if (email && password) {
+      setError('')
+      try {
+        await register(email, password)
+        history.push('/authors')
+      } catch (error) {
+        setError('Registration could not be completed at this time.')
+      }
+    }
   }
 
   return (

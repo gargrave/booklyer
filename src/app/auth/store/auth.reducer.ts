@@ -12,6 +12,10 @@ export const actionTypes = {
 
   LOGOUT: 'AUTH/LOGOUT',
   LOGOUT_SUCCESS: 'AUTH/LOGOUT_SUCCESS',
+
+  REGISTER: 'AUTH/REGISTER',
+  REGISTER_FAILURE: 'AUTH/REGISTER_FAILURE',
+  REGISTER_SUCCESS: 'AUTH/REGISTER_SUCCESS',
 }
 
 export type AuthActionPayload = {
@@ -37,6 +41,7 @@ export const authReducer = (
   produce(state, draft => {
     switch (action.type) {
       case actionTypes.LOGIN:
+      case actionTypes.REGISTER:
         draft.requestPending = true
         return
 
@@ -52,7 +57,14 @@ export const authReducer = (
         draft.requestPending = false
         return
 
+      case actionTypes.REGISTER_SUCCESS:
+        draft.data = {} as User
+        draft.error = undefined
+        draft.requestPending = false
+        return
+
       case actionTypes.LOGIN_FAILURE:
+      case actionTypes.REGISTER_FAILURE:
         draft.error = action.payload.error
         draft.requestPending = false
         return

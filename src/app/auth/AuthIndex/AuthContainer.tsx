@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 
 import { AppState } from 'store/reducers'
-import { login } from '../store/actions'
+import { login, register } from '../store/actions'
 import { getAuthRequestPending } from '../store/selectors'
 
 import AuthIndex from './AuthIndex'
@@ -12,6 +12,8 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = dispatch => ({
   login: (email: string, password: string) => dispatch(login(email, password)),
+  register: (email: string, password: string) =>
+    dispatch(register(email, password)),
 })
 
 export default connect(

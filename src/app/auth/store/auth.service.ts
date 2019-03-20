@@ -11,6 +11,17 @@ const authService = {
         })
     })
   },
+
+  async register(email: string, password: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      auth
+        .createUserWithEmailAndPassword(email, password)
+        .then(() => resolve())
+        .catch(error => {
+          reject(error)
+        })
+    })
+  },
 }
 
 export default authService

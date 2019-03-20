@@ -9,7 +9,6 @@ import RegisterPage from '../RegisterPage/RegisterPage'
 
 export type AuthIndexProps = {} & AuthReduxProps
 
-// tslint:disable jsx-no-lambda
 const AuthIndex: React.SFC<AuthIndexProps> = props => (
   <Switch>
     <Route
