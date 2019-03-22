@@ -5,7 +5,10 @@ import { BooksReduxProps } from '../books.types'
 import { useRequiredAuthentication } from 'app/auth/utils/useRequiredAuthentication'
 
 import Button from 'app/common/Button/Button'
+import Loader from 'app/common/Loader/Loader'
 import BookCard from '../components/BookCard/BookCard'
+
+import styles from './BooksListPage.module.scss'
 
 export type BooksListPageProps = {
   history: any
@@ -14,11 +17,13 @@ export type BooksListPageProps = {
 const BooksListPage: React.FunctionComponent<BooksListPageProps> = ({
   fetchBooks,
   getBooks,
+  getBooksRequestPending,
   history,
 }) => {
   const { getUser } = useRequiredAuthentication(history)
   const [books, setBooks] = React.useState(getBooks())
   const user = getUser()
+  const loading = getBooksRequestPending()
 
   React.useEffect(() => {
     if (user && !books.length) {
@@ -39,10 +44,13 @@ const BooksListPage: React.FunctionComponent<BooksListPageProps> = ({
   return user ? (
     <div>
       <h2>My Books</h2>
-      <Button onClick={handleAddBookClick}>Add a Book</Button>
-      {books.map(book => (
-        <BookCard book={book} key={book.id} />
-      ))}
+      <section className={styles.contentWrapper}>
+        <Button onClick={handleAddBookClick}>Add a Book</Button>
+        {books.map(book => (
+          <BookCard book={book} key={book.id} />
+        ))}
+        {loading && <Loader size={44} />}
+      </section>
     </div>
   ) : null
 }
