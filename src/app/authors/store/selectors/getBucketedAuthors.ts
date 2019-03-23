@@ -1,7 +1,9 @@
 import { createSelector } from 'reselect'
 
+import { bucketizer } from 'utils/bucketizer'
+
 import { AuthorsState } from '../authors.reducer'
-import { Author, AuthorBucket } from '../../authors.types'
+import { Author } from '../../authors.types'
 
 const getAllAuthors = (state: AuthorsState): Author[] =>
   Object.values(state.data)
@@ -11,28 +13,12 @@ const sortByLastName = (a: Author, b: Author) =>
 
 const getBucketedAuthors = createSelector(
   getAllAuthors,
-  authors => {
-    const sortedAuthors = authors.sort(sortByLastName)
-    const mappedAuthors = {}
-
-    sortedAuthors.forEach(author => {
-      const lastInitial = author.lastName[0]
-      if (!(lastInitial in mappedAuthors)) {
-        mappedAuthors[lastInitial] = []
-      }
-      mappedAuthors[lastInitial].push(author)
-    })
-
-    return Object.keys(mappedAuthors).reduce(
-      (accum, key): AuthorBucket[] => {
-        return accum.concat({
-          key,
-          authors: mappedAuthors[key],
-        })
-      },
-      [] as AuthorBucket[],
-    )
-  },
+  allAuthors =>
+    bucketizer(
+      allAuthors,
+      sortByLastName,
+      (author: Author) => author.lastName[0],
+    ),
 )
 
 export default getBucketedAuthors

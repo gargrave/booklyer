@@ -46,17 +46,19 @@ const AuthorsListPage: React.FunctionComponent<AuthorsListPageProps> = ({
       <h2>My Authors</h2>
       <section className={styles.contentWrapper}>
         <Button onClick={handleAddAuthorClick}>Add an Author</Button>
+
         {authorBuckets.map(bucket => (
           <div
             className={styles.authorBucket}
             key={`authorBucket-${bucket.key}`}
           >
             <div className={styles.authorBucketHeader}>{bucket.key}</div>
-            {bucket.authors.map(author => (
+            {bucket.values.map(author => (
               <AuthorCard author={author} key={author.id} />
             ))}
           </div>
         ))}
+
         {loading && <Loader size={44} />}
       </section>
     </div>

@@ -29,8 +29,8 @@ export type Author = {
 export type AuthorIdMap = ObjectIdMap<Author>
 
 export type AuthorBucket = {
-  authors: Author[]
   key: string
+  values: Author[]
 }
 
 export type AuthorsReduxProps = {
