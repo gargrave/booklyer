@@ -4,7 +4,7 @@ import pick from 'lodash/pick'
 import { AppState } from 'store/reducers'
 import { Book, BookPropertyNames } from '../../books.types'
 
-import { getAuthorById, getAuthors } from '../../../authors/store/selectors'
+import { getAuthorById } from '../../../authors/store/selectors'
 
 const rawGetBooksWithAuthors = (state: AppState): Book[] =>
   Object.values(state.books.data).map(book => {

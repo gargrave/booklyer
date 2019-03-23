@@ -16,26 +16,26 @@ export type BooksListPageProps = {
 
 const BooksListPage: React.FunctionComponent<BooksListPageProps> = ({
   fetchBooks,
-  getBooks,
   getBooksRequestPending,
+  getBucketedBooks,
   history,
 }) => {
   const { getUser } = useRequiredAuthentication(history)
-  const [books, setBooks] = React.useState(getBooks())
+  const [bookBuckets, setBookBuckets] = React.useState(getBucketedBooks())
   const user = getUser()
   const loading = getBooksRequestPending()
 
   React.useEffect(() => {
-    if (user && !books.length) {
+    if (user && !bookBuckets.length) {
       fetchBooks(user.id)
     }
   }, [])
 
   React.useEffect(() => {
     if (user) {
-      setBooks(getBooks())
+      setBookBuckets(getBucketedBooks())
     }
-  }, [getBooks])
+  }, [getBucketedBooks])
 
   function handleAddBookClick() {
     history.push('/books/new')
@@ -46,9 +46,16 @@ const BooksListPage: React.FunctionComponent<BooksListPageProps> = ({
       <h2>My Books</h2>
       <section className={styles.contentWrapper}>
         <Button onClick={handleAddBookClick}>Add a Book</Button>
-        {books.map(book => (
-          <BookCard book={book} key={book.id} />
+
+        {bookBuckets.map(bucket => (
+          <div className={styles.bookBucket} key={`bookBucket-${bucket.key}`}>
+            <div className={styles.bookBucketHeader}>{bucket.key}</div>
+            {bucket.values.map(book => (
+              <BookCard book={book} key={book.id} showAuthor={false} />
+            ))}
+          </div>
         ))}
+
         {loading && <Loader size={44} />}
       </section>
     </div>

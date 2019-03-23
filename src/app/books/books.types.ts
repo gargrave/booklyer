@@ -6,6 +6,9 @@ import {
 } from 'app/core/core.types'
 import { ObjectIdMap } from 'utils/firestore.helpers'
 
+/********************************************************
+ * Base Book types
+ *******************************************************/
 export const BookPropertyNames = [
   ...GenericResourcePropertyNames,
   'sortBy',
@@ -20,7 +23,15 @@ export type Book = {
 } & Resource &
   Timestamped
 
+/********************************************************
+ * Redux & API Types
+ *******************************************************/
 export type BookIdMap = ObjectIdMap<Book>
+
+export type BookBucket = {
+  key: string
+  values: Book[]
+}
 
 export type BooksReduxProps = {
   createBook: (ownerId: string, book: Book) => Promise<Book[]>
@@ -28,4 +39,5 @@ export type BooksReduxProps = {
   getAuthors: () => Author[]
   getBooks: () => Book[]
   getBooksRequestPending: () => boolean
+  getBucketedBooks: () => BookBucket[]
 }

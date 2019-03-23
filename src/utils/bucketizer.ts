@@ -19,12 +19,14 @@ export function bucketizer<T>(
     mapped[key].push(value)
   })
 
-  return Object.keys(mapped).reduce(
-    (accum, key): TypedBucket<T>[] =>
-      accum.concat({
-        key,
-        values: mapped[key],
-      }),
-    [] as TypedBucket<T>[],
-  )
+  return Object.keys(mapped)
+    .reduce(
+      (accum, key): TypedBucket<T>[] =>
+        accum.concat({
+          key,
+          values: mapped[key],
+        }),
+      [] as TypedBucket<T>[],
+    )
+    .sort((a, b) => (a.key > b.key ? 1 : -1))
 }
