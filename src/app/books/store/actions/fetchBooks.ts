@@ -1,4 +1,4 @@
-import authorsActions from 'app/authors/store/actions'
+import { fetchAuthors } from 'app/authors/store/actions'
 import { getAuthors } from 'app/authors/store/selectors'
 
 import { BookIdMap } from '../../books.types'
@@ -17,7 +17,7 @@ const fetchBooks = (ownerId: string) => async (dispatch, getState) => {
     // ensure we have queried authors first
     const authors = getAuthors(getState().authors)
     if (!authors.length) {
-      await dispatch(authorsActions.fetchAuthors(ownerId))
+      await dispatch(fetchAuthors(ownerId))
     }
 
     payload.books = await service.fetchBooksByOwner(ownerId)

@@ -16,26 +16,26 @@ export type AuthorsListPageProps = {
 
 const AuthorsListPage: React.FunctionComponent<AuthorsListPageProps> = ({
   fetchAuthors,
-  getAuthors,
   getAuthorsRequestPending,
+  getBucketedAuthors,
   history,
 }) => {
   const { getUser } = useRequiredAuthentication(history)
-  const [authors, setAuthors] = React.useState(getAuthors())
+  const [authorBuckets, setAuthorBuckets] = React.useState(getBucketedAuthors())
   const user = getUser()
   const loading = getAuthorsRequestPending()
 
   React.useEffect(() => {
-    if (user && !authors.length) {
+    if (user && !authorBuckets.length) {
       fetchAuthors(user.id)
     }
   }, [])
 
   React.useEffect(() => {
     if (user) {
-      setAuthors(getAuthors())
+      setAuthorBuckets(getBucketedAuthors())
     }
-  }, [getAuthors])
+  }, [getBucketedAuthors])
 
   function handleAddAuthorClick() {
     history.push('/authors/new')
@@ -46,8 +46,16 @@ const AuthorsListPage: React.FunctionComponent<AuthorsListPageProps> = ({
       <h2>My Authors</h2>
       <section className={styles.contentWrapper}>
         <Button onClick={handleAddAuthorClick}>Add an Author</Button>
-        {authors.map(author => (
-          <AuthorCard author={author} key={author.id} />
+        {authorBuckets.map(bucket => (
+          <div
+            className={styles.authorBucket}
+            key={`authorBucket-${bucket.key}`}
+          >
+            <div className={styles.authorBucketHeader}>{bucket.key}</div>
+            {bucket.authors.map(author => (
+              <AuthorCard author={author} key={author.id} />
+            ))}
+          </div>
         ))}
         {loading && <Loader size={44} />}
       </section>

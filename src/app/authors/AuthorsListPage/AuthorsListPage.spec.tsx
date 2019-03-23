@@ -26,6 +26,8 @@ describe('AuthorsListPage', () => {
       createAuthor: jest.fn(),
       fetchAuthors: jest.fn(),
       getAuthors: jest.fn(() => mockAuthors),
+      getBucketedAuthors: jest.fn(),
+      getAuthorsRequestPending: jest.fn(),
       history: {},
     }
   })

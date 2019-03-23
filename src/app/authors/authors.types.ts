@@ -8,6 +8,9 @@ import { ObjectIdMap } from 'utils/firestore.helpers'
 import { InputType } from 'app/common/forms/forms.types'
 import { FieldConfig } from 'app/common/forms/ManagedForm/ManagedForm'
 
+/********************************************************
+ * Base Author types
+ *******************************************************/
 export const AuthorPropertyNames = [
   ...GenericResourcePropertyNames,
   'firstName',
@@ -20,12 +23,21 @@ export type Author = {
 } & Resource &
   Timestamped
 
+/********************************************************
+ * Redux & API Types
+ *******************************************************/
 export type AuthorIdMap = ObjectIdMap<Author>
+
+export type AuthorBucket = {
+  authors: Author[]
+  key: string
+}
 
 export type AuthorsReduxProps = {
   createAuthor: (ownerId: string, author: Author) => Promise<Author[]>
   fetchAuthors: (ownerId: string) => Promise<Author[]>
   getAuthors: () => Author[]
+  getBucketedAuthors: () => AuthorBucket[]
   getAuthorsRequestPending: () => boolean
 }
 
