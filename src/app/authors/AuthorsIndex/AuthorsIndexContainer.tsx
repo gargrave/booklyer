@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { AppState } from 'store/reducers'
 import { createAuthor, fetchAuthors } from '../store/actions'
 import {
+  getAuthorById,
   getAuthorsRequestPending,
   getAuthorsSortedByLastName,
   getBucketedAuthors,
@@ -13,6 +14,7 @@ import { Author } from '../authors.types'
 import AuthorsIndex from './AuthorsIndex'
 
 const mapStateToProps = (state: AppState) => ({
+  getAuthorById: (id: string) => getAuthorById(state.authors, id),
   getAuthors: () => getAuthorsSortedByLastName(state.authors),
   getAuthorsRequestPending: () => getAuthorsRequestPending(state.authors),
   getBucketedAuthors: () => getBucketedAuthors(state.authors),

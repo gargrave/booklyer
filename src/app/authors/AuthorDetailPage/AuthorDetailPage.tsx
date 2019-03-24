@@ -1,12 +1,16 @@
 import * as React from 'react'
 
-export type AuthorDetailPageProps = {
-  history: any
-}
+import { DetailRouteProps } from 'app/core/core.types'
+import { AuthorsReduxProps } from '../authors.types'
+
+export type AuthorDetailPageProps = {} & DetailRouteProps & AuthorsReduxProps
 
 const AuthorDetailPage: React.FunctionComponent<AuthorDetailPageProps> = ({
-  history,
+  getAuthorById,
+  match,
 }) => {
+  const id = match.params.id
+  const author = getAuthorById(id)
   return <div>Hello, AuthorDetailPage!</div>
 }
 

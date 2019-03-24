@@ -36,6 +36,7 @@ export type AuthorBucket = {
 export type AuthorsReduxProps = {
   createAuthor: (ownerId: string, author: Author) => Promise<Author[]>
   fetchAuthors: (ownerId: string) => Promise<Author[]>
+  getAuthorById: (id: string) => Author
   getAuthors: () => Author[]
   getBucketedAuthors: () => AuthorBucket[]
   getAuthorsRequestPending: () => boolean

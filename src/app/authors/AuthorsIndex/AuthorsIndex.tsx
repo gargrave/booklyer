@@ -14,23 +14,19 @@ const AuthorsIndex: React.FunctionComponent<AuthorsIndexProps> = props => (
     <Route
       exact={true}
       path="/authors/new"
-      render={({ history }) => (
-        <AuthorCreatePage history={history} {...props} />
-      )}
+      render={routerProps => <AuthorCreatePage {...props} {...routerProps} />}
     />
 
     <Route
       exact={true}
       path="/authors/:id"
-      render={({ history }) => (
-        <AuthorDetailPage history={history} {...props} />
-      )}
+      render={routerProps => <AuthorDetailPage {...props} {...routerProps} />}
     />
 
     <Route
       exact={true}
       path="/authors"
-      render={({ history }) => <AuthorsListPage history={history} {...props} />}
+      render={routerProps => <AuthorsListPage {...props} {...routerProps} />}
     />
   </Switch>
 )
