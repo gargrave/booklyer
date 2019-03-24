@@ -40,8 +40,11 @@ export function bookBucketizer(
   return bucketed
 }
 
+// removes words that should not be considered when sorting
+const sanitize = (str: string): string => str.replace(/^(the|a)\s*/i, '')
+
 const sortByField = (field: string) => (a: Book, b: Book) =>
-  a[field] > b[field] ? 1 : -1
+  sanitize(a[field]) > sanitize(b[field]) ? 1 : -1
 
 const sortByAuthor = (a: Book, b: Book) =>
   a.author.lastName > b.author.lastName ? 1 : -1
