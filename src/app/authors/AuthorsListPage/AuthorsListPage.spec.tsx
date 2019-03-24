@@ -6,6 +6,7 @@ import { mockAuthors } from 'utils/mocks/static/authors'
 import { mockUsers } from 'utils/mocks/static/users'
 
 import AuthorsListPage, { AuthorsListPageProps } from './AuthorsListPage'
+import { bucketizer } from 'utils/bucketizer'
 
 // mock "useRequiredAuthentication" with mock getUser implementation
 const mockGetUser = jest.fn()
@@ -17,6 +18,9 @@ jest.mock('app/auth/utils/useRequiredAuthentication', () => {
   }
 })
 
+const mockGetBucketedAuthors = () =>
+  bucketizer(mockAuthors, () => 0, author => author.lastName[0])
+
 let defaultProps: AuthorsListPageProps
 
 describe('AuthorsListPage', () => {
@@ -26,7 +30,7 @@ describe('AuthorsListPage', () => {
       createAuthor: jest.fn(),
       fetchAuthors: jest.fn(),
       getAuthors: jest.fn(() => mockAuthors),
-      getBucketedAuthors: jest.fn(),
+      getBucketedAuthors: jest.fn(mockGetBucketedAuthors),
       getAuthorsRequestPending: jest.fn(),
       history: {},
     }
@@ -60,8 +64,13 @@ describe('AuthorsListPage', () => {
       })
 
       it('calls "fetchAuthors" with userId when it does not receive any authors', () => {
-        const getAuthors = jest.fn(() => [])
-        render(<AuthorsListPage {...defaultProps} getAuthors={getAuthors} />)
+        const getBucketedAuthors = jest.fn(() => [])
+        render(
+          <AuthorsListPage
+            {...defaultProps}
+            getBucketedAuthors={getBucketedAuthors}
+          />,
+        )
         expect(defaultProps.fetchAuthors).toHaveBeenCalledTimes(1)
         expect(defaultProps.fetchAuthors).toHaveBeenCalledWith(mockUsers[0].id)
       })
