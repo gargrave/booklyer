@@ -3,6 +3,7 @@ import 'jest-dom/extend-expect'
 import { ReduxAction } from 'app/core/core.types'
 import { FbError } from 'utils/firebase.types'
 
+import { actionTypes as authActionTypes } from 'app/auth/store/auth.reducer'
 import { mockAuthors } from 'utils/mocks/static/authors'
 
 import {
@@ -133,6 +134,13 @@ describe('Authors Reducers', () => {
         requestPending: false,
       }
       const actual = authorsReducer(previousState, action)
+      expect(actual).toEqual(expected)
+    })
+
+    it('clears all data on AUTH/LOGOUT_SUCCESS', () => {
+      const action = { type: authActionTypes.LOGOUT_SUCCESS }
+      const expected = defaultState()
+      const actual = authorsReducer(previousState, action as any)
       expect(actual).toEqual(expected)
     })
   })

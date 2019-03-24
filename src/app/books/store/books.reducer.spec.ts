@@ -5,6 +5,7 @@ import { FbError } from 'utils/firebase.types'
 
 import { mockBooks } from 'utils/mocks/static/books'
 
+import { actionTypes as authActionTypes } from 'app/auth/store/auth.reducer'
 import {
   actionTypes,
   BooksActionPayload,
@@ -133,6 +134,13 @@ describe('Books Reducers', () => {
         requestPending: false,
       }
       const actual = booksReducer(previousState, action)
+      expect(actual).toEqual(expected)
+    })
+
+    it('clears all data on AUTH/LOGOUT_SUCCESS', () => {
+      const action = { type: authActionTypes.LOGOUT_SUCCESS }
+      const expected = defaultState()
+      const actual = booksReducer(previousState, action as any)
       expect(actual).toEqual(expected)
     })
   })

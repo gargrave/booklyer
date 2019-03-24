@@ -3,6 +3,7 @@ import produce from 'immer'
 import { ReduxAction, ReduxActionPayload } from 'app/core/core.types'
 import { FbError } from 'utils/firebase.types'
 
+import { actionTypes as authActionTypes } from 'app/auth/store/auth.reducer'
 import { AuthorIdMap } from '../authors.types'
 
 export const actionTypes = {
@@ -60,6 +61,13 @@ export const authorsReducer = (
       case actionTypes.CREATE_AUTHOR_FAILURE:
       case actionTypes.FETCH_AUTHORS_FAILURE:
         draft.error = action.payload.error
+        draft.requestPending = false
+        return
+
+      // clear all data on logout
+      case authActionTypes.LOGOUT_SUCCESS:
+        draft.data = {}
+        draft.error = undefined
         draft.requestPending = false
         return
     }
