@@ -15,7 +15,6 @@ export type BooksListPageProps = {
 } & BooksReduxProps
 
 const BooksListPage: React.FunctionComponent<BooksListPageProps> = ({
-  fetchBooks,
   getBooksRequestPending,
   getBucketedBooks,
   history,
@@ -24,12 +23,6 @@ const BooksListPage: React.FunctionComponent<BooksListPageProps> = ({
   const [bookBuckets, setBookBuckets] = React.useState(getBucketedBooks())
   const user = getUser()
   const loading = getBooksRequestPending()
-
-  React.useEffect(() => {
-    if (user && !bookBuckets.length) {
-      fetchBooks(user.id)
-    }
-  }, [])
 
   React.useEffect(() => {
     if (user) {

@@ -15,7 +15,6 @@ export type AuthorsListPageProps = {
 } & AuthorsReduxProps
 
 const AuthorsListPage: React.FunctionComponent<AuthorsListPageProps> = ({
-  fetchAuthors,
   getAuthorsRequestPending,
   getBucketedAuthors,
   history,
@@ -24,12 +23,6 @@ const AuthorsListPage: React.FunctionComponent<AuthorsListPageProps> = ({
   const [authorBuckets, setAuthorBuckets] = React.useState(getBucketedAuthors())
   const user = getUser()
   const loading = getAuthorsRequestPending()
-
-  React.useEffect(() => {
-    if (user && !authorBuckets.length) {
-      fetchAuthors(user.id)
-    }
-  }, [])
 
   React.useEffect(() => {
     if (user) {

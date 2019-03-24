@@ -26,10 +26,14 @@ const AuthContent = ({ authInitialized }) => {
 }
 
 export type AppProps = {
+  fetchBooks: (owerId: string) => Promise<any>
   setLocalUserData: (user: User) => void
 }
 
-const AppIndex: React.FunctionComponent<AppProps> = ({ setLocalUserData }) => {
+const AppIndex: React.FunctionComponent<AppProps> = ({
+  fetchBooks,
+  setLocalUserData,
+}) => {
   const { authInitialized, getUser } = useAuthentication({
     waitForInitialization: true,
   })
@@ -38,6 +42,7 @@ const AppIndex: React.FunctionComponent<AppProps> = ({ setLocalUserData }) => {
   React.useEffect(() => {
     if (authInitialized) {
       setLocalUserData(user)
+      fetchBooks(user.id)
     }
   }, [authInitialized, user])
 
