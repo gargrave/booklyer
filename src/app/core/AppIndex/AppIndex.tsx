@@ -44,7 +44,7 @@ const AppIndex: React.FunctionComponent<AppProps> = ({ setLocalUserData }) => {
   return (
     <BrowserRouter>
       <>
-        <Titlebar title="Booklyer" />
+        <Titlebar title="Bookly" />
         <AuthContent authInitialized={authInitialized} />
       </>
     </BrowserRouter>
