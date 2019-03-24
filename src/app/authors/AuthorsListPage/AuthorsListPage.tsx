@@ -6,7 +6,7 @@ import { useRequiredAuthentication } from 'app/auth/utils/useRequiredAuthenticat
 
 import Button from 'app/common/Button/Button'
 import Loader from 'app/common/Loader/Loader'
-import AuthorCard from '../components/AuthorCard/AuthorCard'
+import { SimpleAuthorCard } from '../components/AuthorCard'
 
 import styles from './AuthorsListPage.module.scss'
 
@@ -58,7 +58,7 @@ const AuthorsListPage: React.FunctionComponent<AuthorsListPageProps> = ({
           >
             <div className={styles.authorBucketHeader}>{bucket.key}</div>
             {bucket.values.map(author => (
-              <AuthorCard
+              <SimpleAuthorCard
                 author={author}
                 key={author.id}
                 onClick={() => handleAuthorClick(author.id)}

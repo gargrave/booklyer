@@ -4,13 +4,15 @@ import { cleanup, render } from 'react-testing-library'
 
 import { mockAuthors } from 'utils/mocks/static/authors'
 
-import AuthorCard, { AuthorCardProps } from './AuthorCard'
+import DetailedAuthorCard, {
+  DetailedAuthorCardProps,
+} from './DetailedAuthorCard'
 
 const testAuthor = { ...mockAuthors[0] }
 
-let defaultProps: AuthorCardProps
+let defaultProps: DetailedAuthorCardProps
 
-describe('AuthorCard', () => {
+describe('DetailedAuthorCard', () => {
   beforeEach(() => {
     defaultProps = {
       author: testAuthor,
@@ -21,7 +23,9 @@ describe('AuthorCard', () => {
 
   describe('Basic Rendering', () => {
     it('renders correctly', () => {
-      const { container, getByText } = render(<AuthorCard {...defaultProps} />)
+      const { container, getByText } = render(
+        <DetailedAuthorCard {...defaultProps} />,
+      )
       const wrapper = container.firstChild
       const fullName = `${testAuthor.firstName} ${testAuthor.lastName}`
 

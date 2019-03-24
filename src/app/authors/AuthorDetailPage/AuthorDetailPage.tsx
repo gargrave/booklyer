@@ -3,6 +3,8 @@ import * as React from 'react'
 import { DetailRouteProps } from 'app/core/core.types'
 import { AuthorsReduxProps } from '../authors.types'
 
+import { DetailedAuthorCard } from '../components/AuthorCard'
+
 export type AuthorDetailPageProps = {} & DetailRouteProps & AuthorsReduxProps
 
 const AuthorDetailPage: React.FunctionComponent<AuthorDetailPageProps> = ({
@@ -11,7 +13,12 @@ const AuthorDetailPage: React.FunctionComponent<AuthorDetailPageProps> = ({
 }) => {
   const id = match.params.id
   const author = getAuthorById(id)
-  return <div>Hello, AuthorDetailPage!</div>
+
+  return author ? (
+    <div>
+      <DetailedAuthorCard author={author} />
+    </div>
+  ) : null
 }
 
 export default React.memo(AuthorDetailPage)

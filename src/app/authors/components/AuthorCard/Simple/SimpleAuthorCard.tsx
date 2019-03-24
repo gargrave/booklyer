@@ -1,14 +1,17 @@
 import * as React from 'react'
 
-import { Author } from '../../authors.types'
+import { Author } from '../../../authors.types'
 
 import Card, { CardProps } from 'app/common/Card/Card'
 
-export type AuthorCardProps = {
+export type SimpleAuthorCardProps = {
   author: Author
 } & CardProps
 
-const AuthorCard: React.SFC<AuthorCardProps> = ({ author, onClick }) => (
+const SimpleAuthorCard: React.FunctionComponent<SimpleAuthorCardProps> = ({
+  author,
+  onClick,
+}) => (
   <Card hoverable={true} onClick={onClick}>
     <Card.TextLine
       text={`${author.firstName} ${author.lastName}`}
@@ -17,4 +20,4 @@ const AuthorCard: React.SFC<AuthorCardProps> = ({ author, onClick }) => (
   </Card>
 )
 
-export default React.memo(AuthorCard)
+export default React.memo(SimpleAuthorCard)
