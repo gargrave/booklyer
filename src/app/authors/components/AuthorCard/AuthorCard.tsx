@@ -2,14 +2,14 @@ import * as React from 'react'
 
 import { Author } from '../../authors.types'
 
-import Card from 'app/common/Card/Card'
+import Card, { CardProps } from 'app/common/Card/Card'
 
 export type AuthorCardProps = {
   author: Author
-}
+} & CardProps
 
-const AuthorCard: React.SFC<AuthorCardProps> = ({ author }) => (
-  <Card hoverable={true}>
+const AuthorCard: React.SFC<AuthorCardProps> = ({ author, onClick }) => (
+  <Card hoverable={true} onClick={onClick}>
     <Card.TextLine
       text={`${author.firstName} ${author.lastName}`}
       type={Card.TextLineType.Title}

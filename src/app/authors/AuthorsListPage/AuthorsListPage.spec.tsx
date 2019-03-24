@@ -1,6 +1,6 @@
 import * as React from 'react'
 import 'jest-dom/extend-expect'
-import { cleanup, render } from 'react-testing-library'
+import { cleanup, fireEvent, render } from 'react-testing-library'
 
 import { mockAuthors } from 'utils/mocks/static/authors'
 import { mockUsers } from 'utils/mocks/static/users'
@@ -32,7 +32,9 @@ describe('AuthorsListPage', () => {
       getAuthors: jest.fn(() => mockAuthors),
       getBucketedAuthors: jest.fn(mockGetBucketedAuthors),
       getAuthorsRequestPending: jest.fn(),
-      history: {},
+      history: {
+        push: jest.fn(),
+      },
     }
   })
 
@@ -54,6 +56,21 @@ describe('AuthorsListPage', () => {
         mockAuthors.forEach(author => {
           expect(getByText(new RegExp(author.lastName))).toBeInTheDocument()
         })
+      })
+    })
+
+    describe('Interactivity', () => {
+      it('navigates to an Author Detail page when the corresponding card is clicked', () => {
+        const { getByText } = render(<AuthorsListPage {...defaultProps} />)
+        const author = mockAuthors[0]
+        const authorCard = getByText(new RegExp(author.lastName))
+        const push = defaultProps.history.push
+
+        expect(authorCard).toBeInTheDocument()
+        expect(push).toHaveBeenCalledTimes(0)
+        fireEvent.click(authorCard)
+        expect(push).toHaveBeenCalledTimes(1)
+        expect(push).toHaveBeenCalledWith(`/authors/${author.id}`)
       })
     })
 

@@ -41,6 +41,10 @@ const AuthorsListPage: React.FunctionComponent<AuthorsListPageProps> = ({
     history.push('/authors/new')
   }
 
+  function handleAuthorClick(id) {
+    history.push(`/authors/${id}`)
+  }
+
   return user ? (
     <div>
       <h2>My Authors</h2>
@@ -54,7 +58,11 @@ const AuthorsListPage: React.FunctionComponent<AuthorsListPageProps> = ({
           >
             <div className={styles.authorBucketHeader}>{bucket.key}</div>
             {bucket.values.map(author => (
-              <AuthorCard author={author} key={author.id} />
+              <AuthorCard
+                author={author}
+                key={author.id}
+                onClick={() => handleAuthorClick(author.id)}
+              />
             ))}
           </div>
         ))}
