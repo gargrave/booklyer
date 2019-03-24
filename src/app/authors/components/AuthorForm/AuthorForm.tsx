@@ -29,7 +29,6 @@ const AuthorForm: React.FunctionComponent<AuthorFormProps> = ({
       onCancel={onCancel}
       onSubmit={onSubmit}
       renderLoader={renderLoader}
-      title="Add an Author"
     />
   )
 }

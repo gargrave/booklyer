@@ -4,7 +4,10 @@ import { AuthorsReduxProps } from '../authors.types'
 
 import { useRequiredAuthentication } from 'app/auth/utils/useRequiredAuthentication'
 
+import Card from 'app/common/Card/Card'
 import AuthorForm from '../components/AuthorForm/AuthorForm'
+
+import styles from './AuthorCreatePage.module.scss'
 
 export type AuthorCreatePageProps = { history: any } & AuthorsReduxProps
 
@@ -37,15 +40,18 @@ const AuthorCreatePage: React.FunctionComponent<AuthorCreatePageProps> = ({
   }
 
   return user ? (
-    <>
-      <AuthorForm
-        disabled={loading}
-        error={error}
-        loading={loading}
-        onCancel={handleCancel}
-        onSubmit={handleSubmit}
-      />
-    </>
+    <div className={styles.contentWrapper}>
+      <Card>
+        <Card.Header text="Add an Author" />
+        <AuthorForm
+          disabled={loading}
+          error={error}
+          loading={loading}
+          onCancel={handleCancel}
+          onSubmit={handleSubmit}
+        />
+      </Card>
+    </div>
   ) : null
 }
 
