@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 
 import { AppState } from 'store/reducers'
-import { getAuthors } from 'app/authors/store/selectors'
+import { getAuthorsSortedByLastName } from 'app/authors/store/selectors'
 
 import { createBook, fetchBooks } from '../store/actions'
 import {
@@ -14,7 +14,7 @@ import { Book } from '../books.types'
 import BooksIndex from './BooksIndex'
 
 const mapStateToProps = (state: AppState) => ({
-  getAuthors: () => getAuthors(state.authors),
+  getAuthorsSortedByLastName: () => getAuthorsSortedByLastName(state.authors),
   getBooks: () => getBooksWithAuthors(state),
   getBooksRequestPending: () => getBooksRequestPending(state.books),
   getBucketedBooks: () => getBucketedBooks(state),

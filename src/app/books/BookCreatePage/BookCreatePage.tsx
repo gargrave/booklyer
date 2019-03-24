@@ -10,7 +10,7 @@ export type BookCreatePageProps = { history: any } & BooksReduxProps
 
 const BookCreatePage: React.FunctionComponent<BookCreatePageProps> = ({
   createBook,
-  getAuthors,
+  getAuthorsSortedByLastName,
   getBooksRequestPending,
   history,
 }) => {
@@ -40,7 +40,7 @@ const BookCreatePage: React.FunctionComponent<BookCreatePageProps> = ({
   return user ? (
     <>
       <BookForm
-        authors={getAuthors()}
+        authors={getAuthorsSortedByLastName()}
         disabled={loading}
         error={error}
         loading={loading}
