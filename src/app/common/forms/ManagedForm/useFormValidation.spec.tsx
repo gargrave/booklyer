@@ -7,8 +7,10 @@ import { FieldConfig } from './ManagedForm'
 
 describe('useFormValidation', () => {
   describe('initialState', () => {
-    it('correctly reduces fields config to initial state', () => {
-      const fields: FieldConfig[] = [
+    let fields: FieldConfig[]
+
+    beforeEach(() => {
+      fields = [
         {
           label: 'AWESOME Field',
           name: 'awesomeField',
@@ -20,9 +22,21 @@ describe('useFormValidation', () => {
           type: InputType.password,
         },
       ]
+    })
+
+    it('correctly reduces fields config to initial state', () => {
       const state = initialState(fields)
       expect(state).toEqual({
         awesomeField: '',
+        superDuperField: '',
+      })
+    })
+
+    it('correctly applies "initialValue" fields', () => {
+      const initialValue = { awesomeField: 'OMGzzz' }
+      const state = initialState(fields, initialValue)
+      expect(state).toEqual({
+        awesomeField: 'OMGzzz',
         superDuperField: '',
       })
     })

@@ -16,6 +16,7 @@ export type OptionalFormProps = {
   classes?: string[]
   disabled?: boolean
   error?: string
+  initialValue?: any // TODO: use a generic for typing this
   loading?: boolean
   onCancel?: () => void
   renderLoader?: () => React.ReactNode

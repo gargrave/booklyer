@@ -17,6 +17,7 @@ export const validate = (
   fields: FieldConfig[],
   formState: ManagedFormState,
 ): FormValidationPayload => {
+  // TODO: validation that the state has is not identical to its initial value
   const errors = {} as ManagedFormState
 
   for (let i = 0; i < fields.length; i += 1) {
@@ -62,11 +63,14 @@ export const validate = (
   }
 }
 
-export const initialState = (fields: FieldConfig[]): ManagedFormState =>
+export const initialState = (
+  fields: FieldConfig[],
+  initialValue: any = {},
+): ManagedFormState =>
   fields.reduce(
     (acc, field) => ({
       ...acc,
-      [field.name]: '',
+      [field.name]: initialValue[field.name] || '',
     }),
     {} as ManagedFormState,
   )
@@ -74,10 +78,16 @@ export const initialState = (fields: FieldConfig[]): ManagedFormState =>
 type UseValidationProps = {
   fields: FieldConfig[]
   onSubmit: (payload: ManagedFormState) => void
+  initialValue?: any
 }
 
-export const useFormValidation = ({ fields, onSubmit }: UseValidationProps) => {
-  const [formState, setFormState] = useState(initialState(fields))
+// TODO: consider using T for generically typing "initialValue"
+export const useFormValidation = ({
+  fields,
+  onSubmit,
+  initialValue,
+}: UseValidationProps) => {
+  const [formState, setFormState] = useState(initialState(fields, initialValue))
   const [validationErrors, setValidationErrors] = useState(initialState(fields))
 
   const validatedOnSubmit = event => {

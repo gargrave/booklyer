@@ -8,40 +8,64 @@ const formWrapperStyles = {
   maxWidth: 600,
 }
 
-const formSettings = {
-  fields: [
-    {
-      label: 'Username',
-      name: 'username',
-      required: true,
-      type: InputType.text,
-      validations: {
-        minLength: 8,
-      },
+const loginFormFields = [
+  {
+    label: 'Username',
+    name: 'username',
+    required: true,
+    type: InputType.text,
+    validations: {
+      minLength: 8,
     },
-    {
-      label: 'Password',
-      name: 'password',
-      required: true,
-      type: InputType.password,
-      validations: {
-        minLength: 8,
-      },
+  },
+  {
+    label: 'Password',
+    name: 'password',
+    required: true,
+    type: InputType.password,
+    validations: {
+      minLength: 8,
     },
-  ],
-}
+  },
+]
+
+const authorFormFields = [
+  {
+    label: 'First Name',
+    name: 'firstName',
+    required: true,
+    type: InputType.text,
+  },
+  {
+    label: 'Last Name',
+    name: 'lastName',
+    type: InputType.text,
+  },
+]
+
+const authorValue = { firstName: 'Kurt', lastName: 'Vonnegut' }
 
 const ManagedFormHarness = () => {
-  const { fields } = formSettings
-
   const onSubmit = payload => {
     console.log({ payload })
   }
 
   return (
-    <ManagedForm fields={fields} onSubmit={onSubmit}>
-      <p>child</p>
-    </ManagedForm>
+    <>
+      <ManagedForm fields={loginFormFields} onSubmit={onSubmit}>
+        <p>child</p>
+      </ManagedForm>
+      <hr />
+
+      <p>With pre-populated value:</p>
+      <ManagedForm
+        fields={authorFormFields}
+        onSubmit={onSubmit}
+        initialValue={authorValue}
+      >
+        <p>child</p>
+      </ManagedForm>
+    </>
   )
 }
 
