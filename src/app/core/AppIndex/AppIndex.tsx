@@ -25,12 +25,12 @@ const AuthContent = ({ authInitialized }) => {
   )
 }
 
-export type AppProps = {
+export type AppIndexProps = {
   fetchBooks: (owerId: string) => Promise<any>
   setLocalUserData: (user: User) => void
 }
 
-const AppIndex: React.FunctionComponent<AppProps> = ({
+const AppIndex: React.FunctionComponent<AppIndexProps> = ({
   fetchBooks,
   setLocalUserData,
 }) => {
@@ -42,7 +42,7 @@ const AppIndex: React.FunctionComponent<AppProps> = ({
   React.useEffect(() => {
     if (authInitialized) {
       setLocalUserData(user)
-      if (user) {
+      if (user.id) {
         fetchBooks(user.id)
       }
     }
