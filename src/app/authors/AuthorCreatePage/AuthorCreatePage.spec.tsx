@@ -76,7 +76,6 @@ describe('AuthorCreatePage', () => {
         fireEvent.change(getByLabelText(/Last Name/i), {
           target: { value: testPayload.lastName },
         })
-        // should redirect back to "authors list" page when cancelled
         expect(defaultProps.history.push).toHaveBeenCalledTimes(0)
         fireEvent.click(getByText(/Submit/i))
         expect(defaultProps.createAuthor).toHaveBeenCalledTimes(1)
