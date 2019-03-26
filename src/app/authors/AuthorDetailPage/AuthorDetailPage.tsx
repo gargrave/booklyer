@@ -19,6 +19,7 @@ const AuthorDetailPage: React.FunctionComponent<AuthorDetailPageProps> = ({
   getAuthorsRequestPending,
   history,
   match,
+  updateAuthor,
 }) => {
   const { getUser } = useRequiredAuthentication(history)
   const [error, setError] = React.useState('')
@@ -42,8 +43,11 @@ const AuthorDetailPage: React.FunctionComponent<AuthorDetailPageProps> = ({
 
   async function handleSubmit(payload) {
     try {
-      // await createAuthor(user.id, payload)
-      console.log('TODO: submit the request to update the author')
+      const mergedAuthor = {
+        ...author,
+        ...payload,
+      }
+      await updateAuthor(user.id, mergedAuthor)
       setEditing(false)
     } catch (error) {
       setError('There was an error updating the Author.')
@@ -69,6 +73,7 @@ const AuthorDetailPage: React.FunctionComponent<AuthorDetailPageProps> = ({
             <AuthorForm
               disabled={loading}
               error={error}
+              initialValue={author}
               loading={loading}
               onCancel={handleCancel}
               onSubmit={handleSubmit}
@@ -76,7 +81,7 @@ const AuthorDetailPage: React.FunctionComponent<AuthorDetailPageProps> = ({
           </Card>
         )}
 
-        {loading && <Loader size={44} />}
+        {loading && !author && <Loader size={44} />}
       </div>
     </div>
   ) : null

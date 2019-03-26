@@ -40,6 +40,7 @@ export type AuthorsReduxProps = {
   getAuthors: () => Author[]
   getBucketedAuthors: () => AuthorBucket[]
   getAuthorsRequestPending: () => boolean
+  updateAuthor: (ownerId: string, author: Author) => Promise<Author[]>
 }
 
 export const authorFormFields: FieldConfig[] = Object.freeze([

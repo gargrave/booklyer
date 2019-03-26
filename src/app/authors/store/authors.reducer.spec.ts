@@ -58,6 +58,20 @@ describe('Authors Reducers', () => {
       const actual = authorsReducer(undefined, action)
       expect(actual).toEqual(expected)
     })
+
+    it('handles the UPDATE_AUTHOR action correctly', () => {
+      const action = {
+        type: actionTypes.UPDATE_AUTHOR,
+        payload: null,
+      }
+
+      const expected: AuthorsState = {
+        ...defaultState(),
+        requestPending: true,
+      }
+      const actual = authorsReducer(undefined, action as any)
+      expect(actual).toEqual(expected)
+    })
   })
 
   describe('success action types', () => {
@@ -137,6 +151,36 @@ describe('Authors Reducers', () => {
       expect(actual).toEqual(expected)
     })
 
+    it('handles UPDATE_AUTHOR_SUCCESS correctly', () => {
+      // should:
+      // - replace the existing author in the local store
+      // - disable the "pending" flag
+      // - clear any existing errors
+      const updatedAuthor = {
+        ...mockAuthors[2],
+        lastName: '_updated_',
+      }
+      const action = {
+        type: actionTypes.UPDATE_AUTHOR_SUCCESS,
+        payload: {
+          authors: {
+            [mockAuthors[2].id]: updatedAuthor,
+          },
+        },
+      }
+      const expected: AuthorsState = {
+        data: {
+          [mockAuthors[0].id]: mockAuthors[0],
+          [mockAuthors[1].id]: mockAuthors[1],
+          [mockAuthors[2].id]: updatedAuthor,
+        },
+        error: undefined,
+        requestPending: false,
+      }
+      const actual = authorsReducer(previousState, action)
+      expect(actual).toEqual(expected)
+    })
+
     it('clears all data on AUTH/LOGOUT_SUCCESS', () => {
       const action = { type: authActionTypes.LOGOUT_SUCCESS }
       const expected = defaultState()
@@ -169,20 +213,29 @@ describe('Authors Reducers', () => {
     })
 
     it('handles the CREATE_AUTHOR_FAILURE action correctly', () => {
-      const action = ({
+      const action = {
         type: actionTypes.CREATE_AUTHOR_FAILURE,
         payload: { error },
-      } as unknown) as ReduxAction<AuthorsActionPayload>
-      const actual = authorsReducer(previousState, action)
+      }
+      const actual = authorsReducer(previousState, action as any)
       expect(actual).toEqual(expectedState)
     })
 
     it('handles the FETCH_AUTHORS_FAILURE action correctly', () => {
-      const action = ({
+      const action = {
         type: actionTypes.FETCH_AUTHORS_FAILURE,
         payload: { error },
-      } as unknown) as ReduxAction<AuthorsActionPayload>
-      const actual = authorsReducer(previousState, action)
+      }
+      const actual = authorsReducer(previousState, action as any)
+      expect(actual).toEqual(expectedState)
+    })
+
+    it('handles the UPDATE_AUTHOR_FAILURE action correctly', () => {
+      const action = {
+        type: actionTypes.UPDATE_AUTHOR_FAILURE,
+        payload: { error },
+      }
+      const actual = authorsReducer(previousState, action as any)
       expect(actual).toEqual(expectedState)
     })
   })

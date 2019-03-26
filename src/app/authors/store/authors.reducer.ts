@@ -14,6 +14,10 @@ export const actionTypes = {
   FETCH_AUTHORS: 'AUTHORS/FETCH_AUTHORS',
   FETCH_AUTHORS_FAILURE: 'AUTHORS/FETCH_AUTHORS_FAILURE',
   FETCH_AUTHORS_SUCCESS: 'AUTHORS/FETCH_AUTHORS_SUCCESS',
+
+  UPDATE_AUTHOR: 'AUTHORS/UPDATE_AUTHOR',
+  UPDATE_AUTHOR_FAILURE: 'AUTHORS/UPDATE_AUTHOR_FAILURE',
+  UPDATE_AUTHOR_SUCCESS: 'AUTHORS/UPDATE_AUTHOR_SUCCESS',
 }
 
 export type AuthorsActionPayload = {
@@ -40,10 +44,12 @@ export const authorsReducer = (
     switch (action.type) {
       case actionTypes.CREATE_AUTHOR:
       case actionTypes.FETCH_AUTHORS:
+      case actionTypes.UPDATE_AUTHOR:
         draft.requestPending = true
         return
 
       case actionTypes.CREATE_AUTHOR_SUCCESS:
+      case actionTypes.UPDATE_AUTHOR_SUCCESS:
         draft.data = {
           ...draft.data,
           ...action.payload.authors,
@@ -60,6 +66,7 @@ export const authorsReducer = (
 
       case actionTypes.CREATE_AUTHOR_FAILURE:
       case actionTypes.FETCH_AUTHORS_FAILURE:
+      case actionTypes.UPDATE_AUTHOR_FAILURE:
         draft.error = action.payload.error
         draft.requestPending = false
         return

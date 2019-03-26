@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 
 import { AppState } from 'store/reducers'
-import { createAuthor, fetchAuthors } from '../store/actions'
+import { createAuthor, fetchAuthors, updateAuthor } from '../store/actions'
 import {
   getAuthorById,
   getAuthorsRequestPending,
@@ -24,6 +24,8 @@ const mapDispatchToProps = dispatch => ({
   createAuthor: (ownerId: string, author: Author) =>
     dispatch(createAuthor(ownerId, author)),
   fetchAuthors: (ownerId: string) => dispatch(fetchAuthors(ownerId)),
+  updateAuthor: (ownerId: string, author: Author) =>
+    dispatch(updateAuthor(ownerId, author)),
 })
 
 export default connect(
