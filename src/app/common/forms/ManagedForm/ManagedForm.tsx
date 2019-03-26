@@ -37,7 +37,7 @@ const ManagedForm: React.FunctionComponent<ManagedFormProps> = props => {
     validationErrors,
   } = useFormValidation(props)
 
-  const handleInputChange = event => {
+  const handleInputChange = React.useCallback(event => {
     const key = event.target.name
     const val = event.target.value
 
@@ -48,7 +48,7 @@ const ManagedForm: React.FunctionComponent<ManagedFormProps> = props => {
         }),
       )
     }
-  }
+  }, [])
 
   return (
     <Form {...props} onSubmit={validatedOnSubmit}>

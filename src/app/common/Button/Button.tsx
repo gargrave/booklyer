@@ -65,4 +65,4 @@ export { Button as UnwrappedButton }
  *
  * It is currently built around the [Shoelace CSS](https://shoelace.style/docs/buttons.html) button styles.
  */
-export default Button
+export default React.memo(Button)
