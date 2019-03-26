@@ -42,7 +42,9 @@ const AppIndex: React.FunctionComponent<AppProps> = ({
   React.useEffect(() => {
     if (authInitialized) {
       setLocalUserData(user)
-      fetchBooks(user.id)
+      if (user) {
+        fetchBooks(user.id)
+      }
     }
   }, [authInitialized, user])
 
