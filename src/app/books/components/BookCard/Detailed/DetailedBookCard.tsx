@@ -6,20 +6,19 @@ import Button, { ButtonType } from 'app/common/Button/Button'
 import ButtonRow from 'app/common/ButtonRow/ButtonRow'
 import Card, { CardProps } from 'app/common/Card/Card'
 
-export type SimpleBookCardProps = {
+export type DetailedBookCardProps = {
   book: Book
   onBackClick: () => void
   onEditClick: () => void
 } & CardProps
 
-const SimpleBookCard: React.SFC<SimpleBookCardProps> = ({
+const SimpleBookCard: React.SFC<DetailedBookCardProps> = ({
   book,
   onBackClick,
   onEditClick,
 }) => {
   const { author, sortBy, title } = book
-  // TODO: this should not need to be optional once we get better selectors for books
-  const authorName = author ? `${author.firstName} ${author.lastName}` : ''
+  const authorName = `${author.firstName} ${author.lastName}`
 
   return (
     <Card>
