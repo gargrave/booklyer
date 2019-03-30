@@ -1,61 +1,56 @@
 import 'jest-dom/extend-expect'
 
-import { ReduxAction } from 'app/core/core.types'
-import { FbError } from 'utils/firebase.types'
-
 import { actionTypes as authActionTypes } from 'app/auth/store/auth.reducer'
+import { FbError } from 'utils/firebase.types'
 import { mockAuthors } from 'utils/mocks/static/authors'
 
 import {
   actionTypes,
-  AuthorsActionPayload,
   authorsReducer,
   AuthorsState,
   defaultState,
 } from './authors.reducer'
 
 describe('Authors Reducers', () => {
-  beforeEach(() => {})
-
   describe('initial state', () => {
     it('returns the default state by default', () => {
-      const action = ({
+      const action = {
         type: '',
         payload: '',
-      } as unknown) as ReduxAction<AuthorsActionPayload>
+      }
 
       const expected: AuthorsState = defaultState()
-      const actual = authorsReducer(undefined, action)
+      const actual = authorsReducer(undefined, action as any)
       expect(actual).toEqual(expected)
     })
   })
 
   describe('initial action types', () => {
     it('handles the CREATE_AUTHOR action correctly', () => {
-      const action = ({
+      const action = {
         type: actionTypes.CREATE_AUTHOR,
         payload: null,
-      } as unknown) as ReduxAction<AuthorsActionPayload>
+      }
 
       const expected: AuthorsState = {
         ...defaultState(),
         requestPending: true,
       }
-      const actual = authorsReducer(undefined, action)
+      const actual = authorsReducer(undefined, action as any)
       expect(actual).toEqual(expected)
     })
 
     it('handles the FETCH_AUTHORS action correctly', () => {
-      const action = ({
+      const action = {
         type: actionTypes.FETCH_AUTHORS,
         payload: null,
-      } as unknown) as ReduxAction<AuthorsActionPayload>
+      }
 
       const expected: AuthorsState = {
         ...defaultState(),
         requestPending: true,
       }
-      const actual = authorsReducer(undefined, action)
+      const actual = authorsReducer(undefined, action as any)
       expect(actual).toEqual(expected)
     })
 
@@ -102,7 +97,7 @@ describe('Authors Reducers', () => {
       // - overwrite all author data with the new ones
       // - disable the "pending" flag
       // - clear any existing errors
-      const action = ({
+      const action = {
         type: actionTypes.FETCH_AUTHORS_SUCCESS,
         payload: {
           authors: {
@@ -110,7 +105,7 @@ describe('Authors Reducers', () => {
             [mockAuthors[3].id]: mockAuthors[3],
           },
         },
-      } as unknown) as ReduxAction<AuthorsActionPayload>
+      }
 
       const expected: AuthorsState = {
         data: {
@@ -129,14 +124,14 @@ describe('Authors Reducers', () => {
       // - append the new author to the existing ones
       // - disable the "pending" flag
       // - clear any existing errors
-      const action = ({
+      const action = {
         type: actionTypes.CREATE_AUTHOR_SUCCESS,
         payload: {
           authors: {
             [mockAuthors[2].id]: mockAuthors[2],
           },
         },
-      } as unknown) as ReduxAction<AuthorsActionPayload>
+      }
 
       const expected: AuthorsState = {
         data: {
@@ -200,11 +195,13 @@ describe('Authors Reducers', () => {
         message: 'Hello, this is an error message!',
         name: 'error-name',
       }
+
       previousState = {
         ...defaultState(),
         error: undefined,
         requestPending: true,
       }
+
       expectedState = {
         ...previousState,
         error,

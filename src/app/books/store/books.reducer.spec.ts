@@ -1,21 +1,17 @@
 import 'jest-dom/extend-expect'
 
-import { ReduxAction } from 'app/core/core.types'
 import { FbError } from 'utils/firebase.types'
 import { mockBooks } from 'utils/mocks/static/books'
 
 import { actionTypes as authActionTypes } from 'app/auth/store/auth.reducer'
 import {
   actionTypes,
-  BooksActionPayload,
   booksReducer,
   BooksState,
   defaultState,
 } from './books.reducer'
 
 describe('Books Reducers', () => {
-  beforeEach(() => {})
-
   describe('initial state', () => {
     it('returns the default state by default', () => {
       const action = {
@@ -199,11 +195,13 @@ describe('Books Reducers', () => {
         message: 'Hello, this is an error message!',
         name: 'error-name',
       }
+
       previousState = {
         ...defaultState(),
         error: undefined,
         requestPending: true,
       }
+
       expectedState = {
         ...previousState,
         error,
