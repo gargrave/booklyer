@@ -37,7 +37,9 @@ export type BooksReduxProps = {
   createBook: (ownerId: string, book: Book) => Promise<Book[]>
   fetchBooks: (ownerId: string) => Promise<Book[]>
   getAuthorsSortedByLastName: () => Author[]
+  getBookById: (id: string) => Book
   getBooks: () => Book[]
   getBooksRequestPending: () => boolean
   getBucketedBooks: () => BookBucket[]
+  updateBook: (ownerId: string, book: Book) => Promise<Book[]>
 }

@@ -30,8 +30,12 @@ const BooksListPage: React.FunctionComponent<BooksListPageProps> = ({
     }
   }, [getBucketedBooks])
 
-  function handleAddBookClick() {
+  const handleAddBookClick = React.useCallback(() => {
     history.push('/books/new')
+  }, [])
+
+  const handleBookClick = (id: string) => {
+    history.push(`/books/${id}`)
   }
 
   return user ? (
@@ -44,7 +48,12 @@ const BooksListPage: React.FunctionComponent<BooksListPageProps> = ({
           <div className={styles.bookBucket} key={`bookBucket-${bucket.key}`}>
             <div className={styles.bookBucketHeader}>{bucket.key}</div>
             {bucket.values.map(book => (
-              <SimpleBookCard book={book} key={book.id} showAuthor={false} />
+              <SimpleBookCard
+                book={book}
+                key={book.id}
+                onClick={() => handleBookClick(book.id)}
+                showAuthor={false}
+              />
             ))}
           </div>
         ))}

@@ -37,15 +37,16 @@ const authorsService = {
     payload: Author,
   ): Promise<ObjectIdMap<Author>> {
     const date = new Date()
+    const { id, ...rest } = payload
     const author = {
-      ...payload,
+      ...rest,
       updated: date,
     }
-    const id = author.id
+
     const docRef: FbDocRef = await db
       .collection(`authors/byOwner/${ownerId}`)
       .doc(id)
-    await docRef.update(payload)
+    await docRef.update(author)
     const response: FbDoc = await docRef.get()
     return singleToIdMap<Author>(response)
   },

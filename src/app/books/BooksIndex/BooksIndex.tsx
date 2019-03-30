@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom'
 import { BooksReduxProps } from '../books.types'
 
 import BookCreatePage from '../BookCreatePage/BookCreatePage'
+import BookDetailPage from '../BookDetailPage/BookDetailPage'
 import BooksListPage from '../BooksListPage/BooksListPage'
 
 export type BooksIndexProps = {} & BooksReduxProps
@@ -13,13 +14,19 @@ const BooksIndex: React.FunctionComponent<BooksIndexProps> = props => (
     <Route
       exact={true}
       path="/books/new"
-      render={({ history }) => <BookCreatePage history={history} {...props} />}
+      render={routerProps => <BookCreatePage {...props} {...routerProps} />}
+    />
+
+    <Route
+      exact={true}
+      path="/books/:id"
+      render={routerProps => <BookDetailPage {...props} {...routerProps} />}
     />
 
     <Route
       exact={true}
       path="/books"
-      render={({ history }) => <BooksListPage history={history} {...props} />}
+      render={routerProps => <BooksListPage {...props} {...routerProps} />}
     />
   </Switch>
 )

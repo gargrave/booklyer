@@ -14,6 +14,10 @@ export const actionTypes = {
   FETCH_BOOKS: 'BOOKS/FETCH_BOOKS',
   FETCH_BOOKS_FAILURE: 'BOOKS/FETCH_BOOKS_FAILURE',
   FETCH_BOOKS_SUCCESS: 'BOOKS/FETCH_BOOKS_SUCCESS',
+
+  UPDATE_BOOK: 'BOOKS/UPDATE_BOOK',
+  UPDATE_BOOK_FAILURE: 'BOOKS/UPDATE_BOOK_FAILURE',
+  UPDATE_BOOK_SUCCESS: 'BOOKS/UPDATE_BOOK_SUCCESS',
 }
 
 export type BooksActionPayload = {
@@ -40,6 +44,7 @@ export const booksReducer = (
     switch (action.type) {
       case actionTypes.CREATE_BOOK:
       case actionTypes.FETCH_BOOKS:
+      case actionTypes.UPDATE_BOOK:
         draft.requestPending = true
         return
 
@@ -60,6 +65,7 @@ export const booksReducer = (
 
       case actionTypes.CREATE_BOOK_FAILURE:
       case actionTypes.FETCH_BOOKS_FAILURE:
+      case actionTypes.UPDATE_BOOK_FAILURE:
         draft.error = action.payload.error
         draft.requestPending = false
         return

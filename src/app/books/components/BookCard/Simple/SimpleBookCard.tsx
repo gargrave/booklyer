@@ -16,8 +16,7 @@ const SimpleBookCard: React.SFC<SimpleBookCardProps> = ({
   showAuthor,
 }) => {
   const { author, sortBy, title } = book
-  // TODO: this should not need to be optional once we get better selectors for books
-  const authorName = author ? `${author.firstName} ${author.lastName}` : ''
+  const authorName = `${author.firstName} ${author.lastName}`
 
   return (
     <Card hoverable={true} onClick={onClick}>

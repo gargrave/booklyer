@@ -15,6 +15,7 @@ import styles from './BookDetailPage.module.scss'
 export type BookDetailPageProps = {} & DetailRouteProps & BooksReduxProps
 
 const BookDetailPage: React.FunctionComponent<BookDetailPageProps> = ({
+  getAuthorsSortedByLastName,
   getBookById,
   getBooksRequestPending,
   history,
@@ -28,31 +29,35 @@ const BookDetailPage: React.FunctionComponent<BookDetailPageProps> = ({
   const user = getUser()
   const loading = getBooksRequestPending()
   const book = getBookById(match.params.id || '')
+  const authors = getAuthorsSortedByLastName()
 
-  function handleBackClick() {
+  const handleBackClick = React.useCallback(() => {
     history.push('/books')
-  }
+  }, [])
 
-  function handleEditClick() {
+  const handleEditClick = React.useCallback(() => {
     setEditing(true)
-  }
+  }, [])
 
-  function handleCancel() {
+  const handleCancel = React.useCallback(() => {
     setEditing(false)
-  }
+  }, [])
 
-  async function handleSubmit(payload) {
-    try {
-      const mergedBook = {
-        ...book,
-        ...payload,
+  const handleSubmit = React.useCallback(
+    async payload => {
+      try {
+        const mergedBook = {
+          ...book,
+          ...payload,
+        }
+        await updateBook(user.id, mergedBook)
+        setEditing(false)
+      } catch (error) {
+        setError('There was an error updating the Book.')
       }
-      await updateBook(user.id, mergedBook)
-      setEditing(false)
-    } catch (error) {
-      setError('There was an error updating the Book.')
-    }
-  }
+    },
+    [book, updateBook, user],
+  )
 
   return user ? (
     <div>
@@ -67,8 +72,9 @@ const BookDetailPage: React.FunctionComponent<BookDetailPageProps> = ({
 
         {editing && (
           <Card>
-            <Card.Header text={`Update ${book.firstName} ${book.lastName}`} />
+            <Card.Header text={`Update ${book.title}`} />
             <BookForm
+              authors={authors}
               disabled={loading}
               error={error}
               initialValue={book}

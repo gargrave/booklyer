@@ -15,9 +15,6 @@ const rawGetBooksWithAuthors = (state: AppState): Book[] =>
     }
   })
 
-// TODO: this is not an actual selector, as it still relies on the messy selector above
-// fix this to properly use reselect to make a proper selector
-// (may require changing the state that is passed in)
 const getBooksWithAuthors = createSelector(
   rawGetBooksWithAuthors,
   books => books,

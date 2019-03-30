@@ -66,7 +66,6 @@ const BookForm: React.FunctionComponent<BookFormProps> = ({
       onCancel={onCancel}
       onSubmit={onSubmit}
       renderLoader={renderLoader}
-      title="Add a Book"
     />
   )
 }
