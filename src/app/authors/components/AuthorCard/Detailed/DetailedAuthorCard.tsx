@@ -5,7 +5,6 @@ import { Author } from '../../../authors.types'
 import Card, { CardProps } from 'app/common/Card/Card'
 import ButtonRow from 'app/common/ButtonRow/ButtonRow'
 import Button, { ButtonType } from 'app/common/Button/Button'
-import AuthorForm from '../../AuthorForm/AuthorForm'
 
 export type DetailedAuthorCardProps = {
   author: Author

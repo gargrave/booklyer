@@ -1,16 +1,20 @@
 import * as React from 'react'
 
-import { Book } from '../../books.types'
+import { Book } from '../../../books.types'
 
 import Card from 'app/common/Card/Card'
 
-export type BookCardProps = {
+export type SimpleBookCardProps = {
   book: Book
   onClick?: (event: React.MouseEvent<HTMLElement>) => void
   showAuthor?: boolean
 }
 
-const BookCard: React.SFC<BookCardProps> = ({ book, onClick, showAuthor }) => {
+const SimpleBookCard: React.SFC<SimpleBookCardProps> = ({
+  book,
+  onClick,
+  showAuthor,
+}) => {
   const { author, sortBy, title } = book
   // TODO: this should not need to be optional once we get better selectors for books
   const authorName = author ? `${author.firstName} ${author.lastName}` : ''
@@ -29,10 +33,4 @@ const BookCard: React.SFC<BookCardProps> = ({ book, onClick, showAuthor }) => {
   )
 }
 
-BookCard.defaultProps = {
-  onClick: () => void 0,
-  showAuthor: true,
-}
-
-export { BookCard as UnwrappedAuthor }
-export default React.memo(BookCard)
+export default React.memo(SimpleBookCard)

@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { BrowserRouter } from 'react-router-dom'
+import has from 'lodash/has'
 
 import { User } from 'app/auth/auth.types'
 import { useAuthentication } from 'app/auth/utils/useAuthentication'
@@ -42,7 +43,7 @@ const AppIndex: React.FunctionComponent<AppIndexProps> = ({
   React.useEffect(() => {
     if (authInitialized) {
       setLocalUserData(user)
-      if (user.id) {
+      if (has(user, 'id')) {
         fetchBooks(user.id)
       }
     }

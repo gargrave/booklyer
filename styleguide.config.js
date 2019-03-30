@@ -37,7 +37,7 @@ module.exports = {
     },
     {
       name: 'Booklyer',
-      components: componentList(['BookCard']),
+      components: componentList(['SimpleBookCard']),
     },
   ],
 

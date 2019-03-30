@@ -6,7 +6,7 @@ import { useRequiredAuthentication } from 'app/auth/utils/useRequiredAuthenticat
 
 import Button from 'app/common/Button/Button'
 import Loader from 'app/common/Loader/Loader'
-import BookCard from '../components/BookCard/BookCard'
+import { SimpleBookCard } from '../components/BookCard'
 
 import styles from './BooksListPage.module.scss'
 
@@ -44,7 +44,7 @@ const BooksListPage: React.FunctionComponent<BooksListPageProps> = ({
           <div className={styles.bookBucket} key={`bookBucket-${bucket.key}`}>
             <div className={styles.bookBucketHeader}>{bucket.key}</div>
             {bucket.values.map(book => (
-              <BookCard book={book} key={book.id} showAuthor={false} />
+              <SimpleBookCard book={book} key={book.id} showAuthor={false} />
             ))}
           </div>
         ))}
