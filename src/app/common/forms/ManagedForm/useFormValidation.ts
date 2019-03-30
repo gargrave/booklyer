@@ -63,15 +63,26 @@ export const validate = (
   }
 }
 
+export const defaultValueParser = (val: {}) => {
+  return get(val, 'id') || ''
+}
+
 export const initialState = (
   fields: FieldConfig[],
   initialValue: any = {},
 ): ManagedFormState =>
   fields.reduce(
-    (acc, field) => ({
-      ...acc,
-      [field.name]: initialValue[field.name] || '',
-    }),
+    (acc, field) => {
+      let value = initialValue[field.name] || ''
+      if (typeof value === 'object') {
+        value = defaultValueParser(value)
+      }
+
+      return {
+        ...acc,
+        [field.name]: value,
+      }
+    },
     {} as ManagedFormState,
   )
 
