@@ -11,6 +11,5 @@ cache:
     - node_modules
 script:
   - yarn test:ci
-script:
   - ./scripts/ci/build.sh
   - ./scripts/ci/deploy.sh
