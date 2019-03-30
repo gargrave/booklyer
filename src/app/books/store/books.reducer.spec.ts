@@ -2,7 +2,6 @@ import 'jest-dom/extend-expect'
 
 import { ReduxAction } from 'app/core/core.types'
 import { FbError } from 'utils/firebase.types'
-
 import { mockBooks } from 'utils/mocks/static/books'
 
 import { actionTypes as authActionTypes } from 'app/auth/store/auth.reducer'
@@ -19,43 +18,57 @@ describe('Books Reducers', () => {
 
   describe('initial state', () => {
     it('returns the default state by default', () => {
-      const action = ({
+      const action = {
         type: '',
         payload: '',
-      } as unknown) as ReduxAction<BooksActionPayload>
+      }
 
       const expected: BooksState = defaultState()
-      const actual = booksReducer(undefined, action)
+      const actual = booksReducer(undefined, action as any)
       expect(actual).toEqual(expected)
     })
   })
 
   describe('initial action types', () => {
     it('handles the CREATE_BOOK action correctly', () => {
-      const action = ({
+      const action = {
         type: actionTypes.CREATE_BOOK,
         payload: null,
-      } as unknown) as ReduxAction<BooksActionPayload>
+      }
 
       const expected: BooksState = {
         ...defaultState(),
         requestPending: true,
       }
-      const actual = booksReducer(undefined, action)
+      const actual = booksReducer(undefined, action as any)
       expect(actual).toEqual(expected)
     })
 
     it('handles the FETCH_BOOKS action correctly', () => {
-      const action = ({
+      const action = {
         type: actionTypes.FETCH_BOOKS,
         payload: null,
-      } as unknown) as ReduxAction<BooksActionPayload>
+      }
 
       const expected: BooksState = {
         ...defaultState(),
         requestPending: true,
       }
-      const actual = booksReducer(undefined, action)
+      const actual = booksReducer(undefined, action as any)
+      expect(actual).toEqual(expected)
+    })
+
+    it('handles the UPDATE_BOOK action correctly', () => {
+      const action = {
+        type: actionTypes.UPDATE_BOOK,
+        payload: null,
+      }
+
+      const expected: BooksState = {
+        ...defaultState(),
+        requestPending: true,
+      }
+      const actual = booksReducer(undefined, action as any)
       expect(actual).toEqual(expected)
     })
   })
@@ -88,7 +101,7 @@ describe('Books Reducers', () => {
       // - overwrite all book data with the new ones
       // - disable the "pending" flag
       // - clear any existing errors
-      const action = ({
+      const action = {
         type: actionTypes.FETCH_BOOKS_SUCCESS,
         payload: {
           books: {
@@ -96,7 +109,7 @@ describe('Books Reducers', () => {
             [mockBooks[3].id]: mockBooks[3],
           },
         },
-      } as unknown) as ReduxAction<BooksActionPayload>
+      }
 
       const expected: BooksState = {
         data: {
@@ -106,7 +119,7 @@ describe('Books Reducers', () => {
         error: undefined,
         requestPending: false,
       }
-      const actual = booksReducer(previousState, action)
+      const actual = booksReducer(previousState, action as any)
       expect(actual).toEqual(expected)
     })
 
@@ -115,14 +128,14 @@ describe('Books Reducers', () => {
       // - append the new book to the existing ones
       // - disable the "pending" flag
       // - clear any existing errors
-      const action = ({
+      const action = {
         type: actionTypes.CREATE_BOOK_SUCCESS,
         payload: {
           books: {
             [mockBooks[2].id]: mockBooks[2],
           },
         },
-      } as unknown) as ReduxAction<BooksActionPayload>
+      }
 
       const expected: BooksState = {
         data: {
@@ -133,7 +146,37 @@ describe('Books Reducers', () => {
         error: undefined,
         requestPending: false,
       }
-      const actual = booksReducer(previousState, action)
+      const actual = booksReducer(previousState, action as any)
+      expect(actual).toEqual(expected)
+    })
+
+    it('handles UPDATE_BOOK_SUCCESS correctly', () => {
+      // should:
+      // - replace the existing book with the new one
+      // - disable the "pending" flag
+      // - clear any existing errors
+      const updatedBook = {
+        ...mockBooks[1],
+        title: 'The Title Hath Been Updateth',
+      }
+      const action = {
+        type: actionTypes.UPDATE_BOOK_SUCCESS,
+        payload: {
+          books: {
+            [mockBooks[1].id]: updatedBook,
+          },
+        },
+      }
+
+      const expected: BooksState = {
+        data: {
+          [mockBooks[0].id]: mockBooks[0],
+          [mockBooks[1].id]: updatedBook,
+        },
+        error: undefined,
+        requestPending: false,
+      }
+      const actual = booksReducer(previousState, action as any)
       expect(actual).toEqual(expected)
     })
 
@@ -169,20 +212,29 @@ describe('Books Reducers', () => {
     })
 
     it('handles the CREATE_BOOK_FAILURE action correctly', () => {
-      const action = ({
+      const action = {
         type: actionTypes.CREATE_BOOK_FAILURE,
         payload: { error },
-      } as unknown) as ReduxAction<BooksActionPayload>
-      const actual = booksReducer(previousState, action)
+      }
+      const actual = booksReducer(previousState, action as any)
       expect(actual).toEqual(expectedState)
     })
 
     it('handles the FETCH_BOOKS_FAILURE action correctly', () => {
-      const action = ({
+      const action = {
         type: actionTypes.FETCH_BOOKS_FAILURE,
         payload: { error },
-      } as unknown) as ReduxAction<BooksActionPayload>
-      const actual = booksReducer(previousState, action)
+      }
+      const actual = booksReducer(previousState, action as any)
+      expect(actual).toEqual(expectedState)
+    })
+
+    it('handles the UPDATE_BOOK_FAILURE action correctly', () => {
+      const action = {
+        type: actionTypes.UPDATE_BOOK_FAILURE,
+        payload: { error },
+      }
+      const actual = booksReducer(previousState, action as any)
       expect(actual).toEqual(expectedState)
     })
   })
