@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import { DetailRouteProps } from 'app/core/core.types'
-import { AuthorsReduxProps } from '../authors.types'
+import { AuthorsReduxProps, Author } from '../authors.types'
 
 import { useRequiredAuthentication } from 'app/auth/utils/useRequiredAuthentication'
 
@@ -24,35 +24,42 @@ const AuthorDetailPage: React.FunctionComponent<AuthorDetailPageProps> = ({
   const { getUser } = useRequiredAuthentication(history)
   const [error, setError] = React.useState('')
   const [editing, setEditing] = React.useState(false)
+  const [author, setAuthor] = React.useState<Author | undefined>(undefined)
 
   const user = getUser()
   const loading = getAuthorsRequestPending()
-  const author = getAuthorById(match.params.id || '')
 
-  function handleBackClick() {
+  React.useEffect(() => {
+    setAuthor(getAuthorById(match.params.id || ''))
+  }, [getAuthorById])
+
+  const handleBackClick = React.useCallback(() => {
     history.push('/authors')
-  }
+  }, [])
 
-  function handleEditClick() {
+  const handleEditClick = React.useCallback(() => {
     setEditing(true)
-  }
+  }, [])
 
-  function handleCancel() {
+  const handleCancel = React.useCallback(() => {
     setEditing(false)
-  }
+  }, [])
 
-  async function handleSubmit(payload) {
-    try {
-      const mergedAuthor = {
-        ...author,
-        ...payload,
+  const handleSubmit = React.useCallback(
+    async payload => {
+      try {
+        const mergedAuthor = {
+          ...author,
+          ...payload,
+        }
+        await updateAuthor(user.id, mergedAuthor)
+        setEditing(false)
+      } catch (error) {
+        setError('There was an error updating the Author.')
       }
-      await updateAuthor(user.id, mergedAuthor)
-      setEditing(false)
-    } catch (error) {
-      setError('There was an error updating the Author.')
-    }
-  }
+    },
+    [author, updateAuthor, user],
+  )
 
   return user ? (
     <div>
@@ -65,7 +72,7 @@ const AuthorDetailPage: React.FunctionComponent<AuthorDetailPageProps> = ({
           />
         )}
 
-        {editing && (
+        {editing && author && (
           <Card>
             <Card.Header
               text={`Update ${author.firstName} ${author.lastName}`}

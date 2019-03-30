@@ -2,11 +2,11 @@ import * as React from 'react'
 import 'jest-dom/extend-expect'
 import { cleanup, fireEvent, render } from 'react-testing-library'
 
-import { mockAuthors } from 'utils/mocks/static/authors'
-import { mockUsers } from 'utils/mocks/static/users'
+import { Author } from '../authors.types'
+import { bucketizer } from 'utils/bucketizer'
+import { mockAuthors, mockUsers } from 'utils/mocks/static'
 
 import AuthorsListPage, { AuthorsListPageProps } from './AuthorsListPage'
-import { bucketizer } from 'utils/bucketizer'
 
 // mock "useRequiredAuthentication" with mock getUser implementation
 const mockGetUser = jest.fn()
@@ -19,7 +19,7 @@ jest.mock('app/auth/utils/useRequiredAuthentication', () => {
 })
 
 const mockGetBucketedAuthors = () =>
-  bucketizer(mockAuthors, () => 0, author => author.lastName[0])
+  bucketizer<Author>(mockAuthors, () => 0, author => author.lastName[0])
 
 let defaultProps: AuthorsListPageProps
 
@@ -71,25 +71,6 @@ describe('AuthorsListPage', () => {
         fireEvent.click(authorCard)
         expect(push).toHaveBeenCalledTimes(1)
         expect(push).toHaveBeenCalledWith(`/authors/${author.id}`)
-      })
-    })
-
-    describe('Data Handling', () => {
-      it('does not call "fetchAuthors" when it has a populated "authors" prop', () => {
-        render(<AuthorsListPage {...defaultProps} />)
-        expect(defaultProps.fetchAuthors).not.toHaveBeenCalled()
-      })
-
-      it('calls "fetchAuthors" with userId when it does not receive any authors', () => {
-        const getBucketedAuthors = jest.fn(() => [])
-        render(
-          <AuthorsListPage
-            {...defaultProps}
-            getBucketedAuthors={getBucketedAuthors}
-          />,
-        )
-        expect(defaultProps.fetchAuthors).toHaveBeenCalledTimes(1)
-        expect(defaultProps.fetchAuthors).toHaveBeenCalledWith(mockUsers[0].id)
       })
     })
   })

@@ -26,18 +26,21 @@ const AuthorCreatePage: React.FunctionComponent<AuthorCreatePageProps> = ({
 
   const user = getUser()
 
-  async function handleSubmit(payload) {
-    try {
-      await createAuthor(user.id, payload)
-      history.push('/authors')
-    } catch (error) {
-      setError('There was an error creating the Author.')
-    }
-  }
+  const handleSubmit = React.useCallback(
+    async payload => {
+      try {
+        await createAuthor(user.id, payload)
+        history.push('/authors')
+      } catch (error) {
+        setError('There was an error creating the Author.')
+      }
+    },
+    [history, user],
+  )
 
-  function handleCancel() {
+  const handleCancel = React.useCallback(() => {
     history.push('/authors')
-  }
+  }, [])
 
   return user ? (
     <div className={styles.contentWrapper}>

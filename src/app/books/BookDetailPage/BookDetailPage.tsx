@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import { DetailRouteProps } from 'app/core/core.types'
-import { BooksReduxProps } from '../books.types'
+import { BooksReduxProps, Book } from '../books.types'
 
 import { useRequiredAuthentication } from 'app/auth/utils/useRequiredAuthentication'
 
@@ -25,11 +25,15 @@ const BookDetailPage: React.FunctionComponent<BookDetailPageProps> = ({
   const { getUser } = useRequiredAuthentication(history)
   const [error, setError] = React.useState('')
   const [editing, setEditing] = React.useState(false)
+  const [book, setBook] = React.useState<Book | undefined>(undefined)
 
   const user = getUser()
   const loading = getBooksRequestPending()
-  const book = getBookById(match.params.id || '')
   const authors = getAuthorsSortedByLastName()
+
+  React.useEffect(() => {
+    setBook(getBookById(match.params.id || ''))
+  }, [getBookById])
 
   const handleBackClick = React.useCallback(() => {
     history.push('/books')
@@ -70,7 +74,7 @@ const BookDetailPage: React.FunctionComponent<BookDetailPageProps> = ({
           />
         )}
 
-        {editing && (
+        {editing && book && (
           <Card>
             <Card.Header text={`Update ${book.title}`} />
             <BookForm

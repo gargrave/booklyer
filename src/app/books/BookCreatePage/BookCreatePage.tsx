@@ -24,18 +24,21 @@ const BookCreatePage: React.FunctionComponent<BookCreatePageProps> = ({
 
   const user = getUser()
 
-  async function handleSubmit(payload) {
-    try {
-      await createBook(user.id, payload)
-      history.push('/books')
-    } catch (error) {
-      setError('There was an error creating the Book.')
-    }
-  }
+  const handleSubmit = React.useCallback(
+    async payload => {
+      try {
+        await createBook(user.id, payload)
+        history.push('/books')
+      } catch (error) {
+        setError('There was an error creating the Book.')
+      }
+    },
+    [createBook, user],
+  )
 
-  function handleCancel() {
+  const handleCancel = React.useCallback(() => {
     history.push('/books')
-  }
+  }, [])
 
   return user ? (
     <>
