@@ -27,16 +27,10 @@ describe('AuthorDetailPage', () => {
   beforeEach(() => {
     jest.resetAllMocks()
     defaultProps = {
-      createAuthor: jest.fn(),
-      fetchAuthors: jest.fn(),
       getAuthorById: jest.fn(() => mockAuthors[0]),
-      getAuthors: jest.fn(),
       getAuthorsRequestPending: jest.fn(),
-      getBucketedAuthors: jest.fn(),
       history: { push: jest.fn() } as any,
-      match: {
-        params: { id: '0' },
-      } as any,
+      match: { params: { id: '0' } } as any,
       updateAuthor: jest.fn(),
     }
   })

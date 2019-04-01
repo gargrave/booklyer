@@ -35,9 +35,10 @@ const AuthorsListPage: React.FunctionComponent<AuthorsListPageProps> = ({
     history.push('/authors/new')
   }, [])
 
-  const handleAuthorClick = React.useCallback(id => {
+  // NOTE: no useCallback() here, because it has to be bound to ID anyway
+  const handleAuthorClick = id => {
     history.push(`/authors/${id}`)
-  }, [])
+  }
 
   return appInitialized && user ? (
     <div>

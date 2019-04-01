@@ -32,16 +32,9 @@ describe('AuthorsListPage', () => {
   beforeEach(() => {
     jest.resetAllMocks()
     defaultProps = {
-      createAuthor: jest.fn(),
-      fetchAuthors: jest.fn(),
-      getAuthorById: jest.fn(),
-      getAuthors: jest.fn(() => mockAuthors),
-      getBucketedAuthors: jest.fn(mockGetBucketedAuthors),
       getAuthorsRequestPending: jest.fn(),
-      history: {
-        push: jest.fn(),
-      } as any,
-      updateAuthor: jest.fn(),
+      getBucketedAuthors: jest.fn(mockGetBucketedAuthors),
+      history: { push: jest.fn() } as any,
     }
   })
 

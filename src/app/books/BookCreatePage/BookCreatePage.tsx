@@ -1,12 +1,12 @@
 import * as React from 'react'
 
+import { AppContext } from 'app/core/AppIndex/App.context'
+import { CreateRouteProps } from 'app/core/core.types'
 import { BooksReduxProps } from '../books.types'
-
-import { useRequiredAuthentication } from 'app/auth/utils/useRequiredAuthentication'
 
 import BookForm from '../components/BookForm/BookForm'
 
-export type BookCreatePageProps = { history: any } & BooksReduxProps
+export type BookCreatePageProps = {} & CreateRouteProps & BooksReduxProps
 
 const BookCreatePage: React.FunctionComponent<BookCreatePageProps> = ({
   createBook,
@@ -14,20 +14,20 @@ const BookCreatePage: React.FunctionComponent<BookCreatePageProps> = ({
   getBooksRequestPending,
   history,
 }) => {
-  const { getUser } = useRequiredAuthentication(history)
+  const { appInitialized, user } = React.useContext(AppContext)
   const [error, setError] = React.useState('')
-  const [loading, setLoading] = React.useState(getBooksRequestPending())
+  const loading = !appInitialized || getBooksRequestPending()
 
   React.useEffect(() => {
-    setLoading(getBooksRequestPending())
-  }, [getBooksRequestPending])
-
-  const user = getUser()
+    if (appInitialized && !user) {
+      history.push('/account/login')
+    }
+  }, [appInitialized, user])
 
   const handleSubmit = React.useCallback(
     async payload => {
       try {
-        await createBook(user.id, payload)
+        await createBook(user!.id, payload)
         history.push('/books')
       } catch (error) {
         setError('There was an error creating the Book.')

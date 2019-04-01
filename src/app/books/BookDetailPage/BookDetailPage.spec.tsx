@@ -1,42 +1,38 @@
 import * as React from 'react'
 import 'jest-dom/extend-expect'
-import { cleanup, render, fireEvent, wait } from 'react-testing-library'
+import { cleanup, render, fireEvent } from 'react-testing-library'
 
+import { AppContext, IAppContext } from 'app/core/AppIndex/App.context'
 import { mockAuthors, mockBooks, mockUsers } from 'utils/mocks/static'
 
 import BookDetailPage, { BookDetailPageProps } from './BookDetailPage'
 
-// mock "useRequiredAuthentication" with mock getUser implementation
-const mockGetUser = jest.fn()
-jest.mock('app/auth/utils/useRequiredAuthentication', () => {
-  return {
-    useRequiredAuthentication: () => ({
-      getUser: mockGetUser,
-    }),
-  }
-})
+const defaultContext = {
+  appInitialized: false,
+  user: undefined,
+}
 
+const renderWithContext = (children, overrideContext = {}) =>
+  render(
+    <AppContext.Provider value={{ ...defaultContext, ...overrideContext }}>
+      {children}
+    </AppContext.Provider>,
+  )
 let defaultProps: BookDetailPageProps
 
 describe('BookDetailPage', () => {
+  let overrideContext: IAppContext
+
   beforeEach(() => {
     jest.resetAllMocks()
     defaultProps = {
-      createBook: jest.fn(),
-      fetchBooks: jest.fn(),
       getAuthorsSortedByLastName: jest.fn(() => mockAuthors),
       getBookById: jest.fn(() => mockBooks[0]),
-      getBooks: jest.fn(),
-      getBucketedBooks: jest.fn(),
       getBooksRequestPending: jest.fn(),
-      history: {
-        push: jest.fn(),
-      },
+      history: { push: jest.fn() } as any,
       match: {
-        params: {
-          id: '0',
-        },
-      },
+        params: { id: '0' },
+      } as any,
       updateBook: jest.fn(),
     }
   })
@@ -47,13 +43,14 @@ describe('BookDetailPage', () => {
     const user = mockUsers[0]
 
     beforeEach(() => {
-      mockGetUser.mockImplementation(() => user)
+      overrideContext = { appInitialized: true, user: mockUsers[0] }
     })
 
     describe('Basic Rendering', () => {
       it('renders correctly', () => {
-        const { container, getByText } = render(
+        const { container, getByText } = renderWithContext(
           <BookDetailPage {...defaultProps} />,
+          overrideContext,
         )
         // no form is rendered by default
         expect(container.querySelectorAll('form')).toHaveLength(0)
@@ -63,12 +60,13 @@ describe('BookDetailPage', () => {
 
       it('renders a loader when "loading" prop is true', () => {
         const mock = jest.fn(() => true)
-        const { container } = render(
+        const { container } = renderWithContext(
           <BookDetailPage
             {...defaultProps}
             getBookById={jest.fn(() => undefined)}
             getBooksRequestPending={mock}
           />,
+          overrideContext,
         )
         expect(container.querySelectorAll('.loaderWrapper')).toHaveLength(1)
       })
@@ -76,8 +74,9 @@ describe('BookDetailPage', () => {
 
     describe('Interactivity', () => {
       it('defaults to non-editing state', () => {
-        const { getByText, queryByText } = render(
+        const { getByText, queryByText } = renderWithContext(
           <BookDetailPage {...defaultProps} />,
+          overrideContext,
         )
         expect(getByText(/Back/i)).toBeInTheDocument()
         expect(getByText(/Edit/i)).toBeInTheDocument()
@@ -86,7 +85,10 @@ describe('BookDetailPage', () => {
       })
 
       it('navigates when "Back" button is clicked', () => {
-        const { getByText } = render(<BookDetailPage {...defaultProps} />)
+        const { getByText } = renderWithContext(
+          <BookDetailPage {...defaultProps} />,
+          overrideContext,
+        )
         const cb = defaultProps.history.push
         expect(cb).toHaveBeenCalledTimes(0)
         fireEvent.click(getByText(/Back/i))
@@ -95,8 +97,14 @@ describe('BookDetailPage', () => {
       })
 
       it('toggles editing state when "Edit" button is clicked', () => {
-        const { container, getByLabelText, getByText, queryByText } = render(
+        const {
+          container,
+          getByLabelText,
+          getByText,
+          queryByText,
+        } = renderWithContext(
           <BookDetailPage {...defaultProps} />,
+          overrideContext,
         )
         fireEvent.click(getByText(/Edit/i))
         expect(queryByText(/Back/i)).not.toBeInTheDocument()
@@ -110,8 +118,9 @@ describe('BookDetailPage', () => {
       })
 
       it('handles form "confirm" action correctly', async () => {
-        const { getByLabelText, getByText } = render(
+        const { getByLabelText, getByText } = renderWithContext(
           <BookDetailPage {...defaultProps} />,
+          overrideContext,
         )
         const testPayload = {
           ...mockBooks[0],
@@ -144,13 +153,23 @@ describe('BookDetailPage', () => {
 
   describe('Not Authenticated', () => {
     beforeEach(() => {
-      mockGetUser.mockImplementation(() => null)
+      overrideContext = { appInitialized: true, user: undefined }
     })
 
     describe('Basic Rendering', () => {
       it('renders nothing when not logged in', () => {
-        const { container } = render(<BookDetailPage {...defaultProps} />)
+        const { container } = renderWithContext(
+          <BookDetailPage {...defaultProps} />,
+          overrideContext,
+        )
         expect(container.firstChild).toBeNull()
+      })
+
+      it('redirects to login page', () => {
+        renderWithContext(<BookDetailPage {...defaultProps} />, overrideContext)
+        const { push } = defaultProps.history
+        expect(push).toHaveBeenCalledTimes(1)
+        expect(push).toHaveBeenCalledWith('/account/login')
       })
     })
   })

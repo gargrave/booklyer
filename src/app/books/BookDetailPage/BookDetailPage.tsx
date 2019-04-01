@@ -1,9 +1,8 @@
 import * as React from 'react'
 
+import { Author } from 'app/authors/authors.types'
 import { DetailRouteProps } from 'app/core/core.types'
 import { BooksReduxProps, Book } from '../books.types'
-
-import { useRequiredAuthentication } from 'app/auth/utils/useRequiredAuthentication'
 
 import Card from 'app/common/Card/Card'
 import Loader from 'app/common/Loader/Loader'
@@ -11,6 +10,7 @@ import { DetailedBookCard } from '../components/BookCard'
 import BookForm from '../components/BookForm/BookForm'
 
 import styles from './BookDetailPage.module.scss'
+import { AppContext } from 'app/core/AppIndex/App.context'
 
 export type BookDetailPageProps = {} & DetailRouteProps & BooksReduxProps
 
@@ -22,18 +22,25 @@ const BookDetailPage: React.FunctionComponent<BookDetailPageProps> = ({
   match,
   updateBook,
 }) => {
-  const { getUser } = useRequiredAuthentication(history)
+  const { appInitialized, user } = React.useContext(AppContext)
   const [error, setError] = React.useState('')
   const [editing, setEditing] = React.useState(false)
   const [book, setBook] = React.useState<Book | undefined>(undefined)
-
-  const user = getUser()
-  const loading = getBooksRequestPending()
-  const authors = getAuthorsSortedByLastName()
+  const [authors, setAuthors] = React.useState<Author[]>(
+    getAuthorsSortedByLastName(),
+  )
+  const loading = !appInitialized || getBooksRequestPending()
 
   React.useEffect(() => {
-    setBook(getBookById(match.params.id || ''))
-  }, [getBookById])
+    if (appInitialized) {
+      if (user) {
+        setAuthors(getAuthorsSortedByLastName())
+        setBook(getBookById(match.params.id || ''))
+      } else {
+        history.push('/account/login')
+      }
+    }
+  }, [appInitialized, getBookById, user])
 
   const handleBackClick = React.useCallback(() => {
     history.push('/books')
@@ -54,7 +61,7 @@ const BookDetailPage: React.FunctionComponent<BookDetailPageProps> = ({
           ...book,
           ...payload,
         }
-        await updateBook(user.id, mergedBook)
+        await updateBook(user!.id, mergedBook)
         setEditing(false)
       } catch (error) {
         setError('There was an error updating the Book.')
@@ -63,7 +70,7 @@ const BookDetailPage: React.FunctionComponent<BookDetailPageProps> = ({
     [book, updateBook, user],
   )
 
-  return user ? (
+  return appInitialized && user ? (
     <div>
       <div className={styles.contentWrapper}>
         {!editing && book && (

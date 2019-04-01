@@ -2,37 +2,35 @@ import * as React from 'react'
 import 'jest-dom/extend-expect'
 import { cleanup, fireEvent, render, wait } from 'react-testing-library'
 
+import { AppContext, IAppContext } from 'app/core/AppIndex/App.context'
 import { mockAuthors, mockUsers } from 'utils/mocks/static'
 
 import BookCreatePage, { BookCreatePageProps } from './BookCreatePage'
 
-// mock "userRequiredAuthentication" with mock getUser implementation
-const mockGetUser = jest.fn()
-jest.mock('app/auth/utils/useRequiredAuthentication', () => {
-  return {
-    useRequiredAuthentication: () => ({
-      getUser: mockGetUser,
-    }),
-  }
-})
+const defaultContext = {
+  appInitialized: false,
+  user: undefined,
+}
+
+const renderWithContext = (children, overrideContext = {}) =>
+  render(
+    <AppContext.Provider value={{ ...defaultContext, ...overrideContext }}>
+      {children}
+    </AppContext.Provider>,
+  )
 
 let defaultProps: BookCreatePageProps
 
 describe('BookCreatePage', () => {
+  let overrideContext: IAppContext
+
   beforeEach(() => {
     jest.resetAllMocks()
     defaultProps = {
       createBook: jest.fn(),
-      fetchBooks: jest.fn(),
       getAuthorsSortedByLastName: jest.fn(() => mockAuthors),
-      getBookById: jest.fn(),
-      getBooks: jest.fn(),
       getBooksRequestPending: jest.fn(),
-      getBucketedBooks: jest.fn(),
-      history: {
-        push: jest.fn(),
-      },
-      updateBook: jest.fn(),
+      history: { push: jest.fn() } as any,
     }
   })
 
@@ -42,19 +40,25 @@ describe('BookCreatePage', () => {
     let user = mockUsers[0]
 
     beforeEach(() => {
-      mockGetUser.mockImplementation(() => user)
+      overrideContext = { appInitialized: true, user }
     })
 
     describe('Basic Rendering', () => {
       it('renders correctly', () => {
-        const { container } = render(<BookCreatePage {...defaultProps} />)
+        const { container } = renderWithContext(
+          <BookCreatePage {...defaultProps} />,
+          overrideContext,
+        )
         expect(container.firstChild).not.toBeNull()
       })
     })
 
     describe('Interactivity', () => {
       it('handles form "cancel" action', () => {
-        const { getByText } = render(<BookCreatePage {...defaultProps} />)
+        const { getByText } = renderWithContext(
+          <BookCreatePage {...defaultProps} />,
+          overrideContext,
+        )
 
         // should redirect back to "books list" page when cancelled
         expect(defaultProps.history.push).toHaveBeenCalledTimes(0)
@@ -65,8 +69,9 @@ describe('BookCreatePage', () => {
       })
 
       it('handles form "confirm" action correctly', async () => {
-        const { getByLabelText, getByText } = render(
+        const { getByLabelText, getByText } = renderWithContext(
           <BookCreatePage {...defaultProps} />,
+          overrideContext,
         )
         const testPayload = {
           author: mockAuthors[0].id,
@@ -102,12 +107,15 @@ describe('BookCreatePage', () => {
 
   describe('Not Authenticated', () => {
     beforeEach(() => {
-      mockGetUser.mockImplementation(() => null)
+      overrideContext = { appInitialized: true, user: undefined }
     })
 
     describe('Basic Rendering', () => {
       it('renders nothing when not logged in', () => {
-        const { container } = render(<BookCreatePage {...defaultProps} />)
+        const { container } = renderWithContext(
+          <BookCreatePage {...defaultProps} />,
+          overrideContext,
+        )
         expect(container.firstChild).toBeNull()
       })
     })

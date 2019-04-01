@@ -1,8 +1,8 @@
 import * as React from 'react'
 
+import { AppContext } from 'app/core/AppIndex/App.context'
+import { ListRouteProps } from 'app/core/core.types'
 import { BooksReduxProps } from '../books.types'
-
-import { useRequiredAuthentication } from 'app/auth/utils/useRequiredAuthentication'
 
 import Button from 'app/common/Button/Button'
 import Loader from 'app/common/Loader/Loader'
@@ -10,35 +10,37 @@ import { SimpleBookCard } from '../components/BookCard'
 
 import styles from './BooksListPage.module.scss'
 
-export type BooksListPageProps = {
-  history: any
-} & BooksReduxProps
+export type BooksListPageProps = {} & ListRouteProps & BooksReduxProps
 
 const BooksListPage: React.FunctionComponent<BooksListPageProps> = ({
   getBooksRequestPending,
   getBucketedBooks,
   history,
 }) => {
-  const { getUser } = useRequiredAuthentication(history)
+  const { appInitialized, user } = React.useContext(AppContext)
   const [bookBuckets, setBookBuckets] = React.useState(getBucketedBooks())
-  const user = getUser()
-  const loading = getBooksRequestPending()
+  const loading = !appInitialized || getBooksRequestPending()
 
   React.useEffect(() => {
-    if (user) {
-      setBookBuckets(getBucketedBooks())
+    if (appInitialized) {
+      if (user) {
+        setBookBuckets(getBucketedBooks())
+      } else {
+        history.push('/account/login')
+      }
     }
-  }, [getBucketedBooks])
+  }, [appInitialized, getBucketedBooks, user])
 
   const handleAddBookClick = React.useCallback(() => {
     history.push('/books/new')
   }, [])
 
+  // NOTE: no useCallback here, because it has to be bound to ID anyway
   const handleBookClick = (id: string) => {
     history.push(`/books/${id}`)
   }
 
-  return user ? (
+  return appInitialized && user ? (
     <div>
       <h2>My Books</h2>
       <section className={styles.contentWrapper}>

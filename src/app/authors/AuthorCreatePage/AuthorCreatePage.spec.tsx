@@ -28,15 +28,8 @@ describe('AuthorCreatePage', () => {
     jest.resetAllMocks()
     defaultProps = {
       createAuthor: jest.fn(),
-      fetchAuthors: jest.fn(),
-      getAuthorById: jest.fn(),
-      getAuthors: jest.fn(),
       getAuthorsRequestPending: jest.fn(),
-      getBucketedAuthors: jest.fn(),
-      history: {
-        push: jest.fn(),
-      } as any,
-      updateAuthor: jest.fn(),
+      history: { push: jest.fn() } as any,
     }
   })
 
@@ -46,7 +39,7 @@ describe('AuthorCreatePage', () => {
     let user = mockUsers[0]
 
     beforeEach(() => {
-      overrideContext = { appInitialized: true, user: mockUsers[0] }
+      overrideContext = { appInitialized: true, user }
     })
 
     describe('Basic Rendering', () => {
