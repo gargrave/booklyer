@@ -3,7 +3,9 @@ import { BrowserRouter } from 'react-router-dom'
 import has from 'lodash/has'
 
 import { User } from 'app/auth/auth.types'
+import { useFirebaseAuth } from 'app/auth/utils'
 import { useAuthentication } from 'app/auth/utils/useAuthentication'
+import { AppContext, initialAppContextState, IAppContext } from './App.context'
 
 import Navbar from '../components/Navbar/Navbar'
 import Titlebar from '../components/Titlebar/Titlebar'
@@ -35,9 +37,27 @@ const AppIndex: React.FunctionComponent<AppIndexProps> = ({
   fetchBooks,
   setLocalUserData,
 }) => {
+  const { authInitialized: fbAuthInitialized, user: fbUser } = useFirebaseAuth({
+    waitForInitialization: true,
+  })
   const { authInitialized, getUser } = useAuthentication({
     waitForInitialization: true,
   })
+
+  const [appContextState, setAppContextState] = React.useState<IAppContext>(
+    initialAppContextState,
+  )
+
+  React.useEffect(() => {
+    if (fbAuthInitialized) {
+      setLocalUserData(fbUser)
+      if (has(fbUser, 'id')) {
+        fetchBooks(fbUser.id)
+      }
+      setAppContextState({ appInitialized: true, user: fbUser })
+    }
+  }, [fbAuthInitialized, fbUser])
+
   const user = getUser()
 
   React.useEffect(() => {
@@ -51,10 +71,10 @@ const AppIndex: React.FunctionComponent<AppIndexProps> = ({
 
   return (
     <BrowserRouter>
-      <>
+      <AppContext.Provider value={appContextState}>
         <Titlebar title="Bookly" />
         <AuthContent authInitialized={authInitialized} />
-      </>
+      </AppContext.Provider>
     </BrowserRouter>
   )
 }
