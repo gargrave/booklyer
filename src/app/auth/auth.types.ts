@@ -1,5 +1,3 @@
-import { GenericResourcePropertyNames } from 'app/core/core.types'
-
 export type UserMetadata = {
   creationTime?: string
   lastSignInTime?: string

@@ -37,7 +37,7 @@ const Select: React.FunctionComponent<SelectProps> = ({
         id={name}
         name={name}
         onChange={onChange}
-        value={value}
+        value={value || ''}
       >
         {!value && <option value="-1">{placeholder}</option>}
         {options.map(option => {

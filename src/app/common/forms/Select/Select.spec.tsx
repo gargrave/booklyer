@@ -45,8 +45,7 @@ describe('Select', () => {
 
       expect(container.querySelectorAll('option')).toHaveLength(options.length)
       expect(getOptionText).toHaveBeenCalledTimes(options.length)
-      // gets called an extra time for the initially-selected value
-      expect(getOptionValue).toHaveBeenCalledTimes(options.length + 1)
+      expect(getOptionValue).toHaveBeenCalledTimes(options.length)
 
       // each option gets rendered according to its callbacks
       options.forEach(option => {
