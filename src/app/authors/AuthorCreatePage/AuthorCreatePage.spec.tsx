@@ -2,23 +2,28 @@ import * as React from 'react'
 import 'jest-dom/extend-expect'
 import { cleanup, fireEvent, render, wait } from 'react-testing-library'
 
-import { mockUsers } from 'utils/mocks/static/users'
+import { AppContext, IAppContext } from 'app/core/AppIndex/App.context'
+import { mockUsers } from 'utils/mocks/static'
 
 import AuthorCreatePage, { AuthorCreatePageProps } from './AuthorCreatePage'
 
-// mock "userRequiredAuthentication" with mock getUser implementation
-const mockGetUser = jest.fn()
-jest.mock('app/auth/utils/useRequiredAuthentication', () => {
-  return {
-    useRequiredAuthentication: () => ({
-      getUser: mockGetUser,
-    }),
-  }
-})
+const defaultContext = {
+  appInitialized: false,
+  user: undefined,
+}
+
+const renderWithContext = (children, overrideContext = {}) =>
+  render(
+    <AppContext.Provider value={{ ...defaultContext, ...overrideContext }}>
+      {children}
+    </AppContext.Provider>,
+  )
 
 let defaultProps: AuthorCreatePageProps
 
 describe('AuthorCreatePage', () => {
+  let overrideContext: IAppContext
+
   beforeEach(() => {
     jest.resetAllMocks()
     defaultProps = {
@@ -30,7 +35,7 @@ describe('AuthorCreatePage', () => {
       getBucketedAuthors: jest.fn(),
       history: {
         push: jest.fn(),
-      },
+      } as any,
       updateAuthor: jest.fn(),
     }
   })
@@ -41,20 +46,25 @@ describe('AuthorCreatePage', () => {
     let user = mockUsers[0]
 
     beforeEach(() => {
-      mockGetUser.mockImplementation(() => user)
+      overrideContext = { appInitialized: true, user: mockUsers[0] }
     })
 
     describe('Basic Rendering', () => {
       it('renders correctly', () => {
-        const { container } = render(<AuthorCreatePage {...defaultProps} />)
+        const { container } = renderWithContext(
+          <AuthorCreatePage {...defaultProps} />,
+          overrideContext,
+        )
         expect(container.firstChild).not.toBeNull()
       })
     })
 
     describe('Interactivity', () => {
       it('handles form "cancel" action', () => {
-        const { getByText } = render(<AuthorCreatePage {...defaultProps} />)
-
+        const { getByText } = renderWithContext(
+          <AuthorCreatePage {...defaultProps} />,
+          overrideContext,
+        )
         // should redirect back to "authors list" page when cancelled
         expect(defaultProps.history.push).toHaveBeenCalledTimes(0)
         fireEvent.click(getByText(/Cancel/i))
@@ -64,14 +74,14 @@ describe('AuthorCreatePage', () => {
       })
 
       it('handles form "confirm" action correctly', async () => {
-        const { getByLabelText, getByText } = render(
+        const { getByLabelText, getByText } = renderWithContext(
           <AuthorCreatePage {...defaultProps} />,
+          overrideContext,
         )
         const testPayload = {
           firstName: 'billy',
           lastName: 'pickles',
         }
-
         // populate required values in form to ensure it will pass validation and submit
         fireEvent.change(getByLabelText(/First Name/i), {
           target: { value: testPayload.firstName },
@@ -97,12 +107,15 @@ describe('AuthorCreatePage', () => {
 
   describe('Not Authenticated', () => {
     beforeEach(() => {
-      mockGetUser.mockImplementation(() => null)
+      overrideContext = { appInitialized: true, user: undefined }
     })
 
     describe('Basic Rendering', () => {
       it('renders nothing when not logged in', () => {
-        const { container } = render(<AuthorCreatePage {...defaultProps} />)
+        const { container } = renderWithContext(
+          <AuthorCreatePage {...defaultProps} />,
+          overrideContext,
+        )
         expect(container.firstChild).toBeNull()
       })
     })

@@ -1,35 +1,29 @@
 import * as React from 'react'
 
+import { AppContext } from 'app/core/AppIndex/App.context'
 import { AuthorsReduxProps } from '../authors.types'
-
-import { useRequiredAuthentication } from 'app/auth/utils/useRequiredAuthentication'
 
 import Card from 'app/common/Card/Card'
 import AuthorForm from '../components/AuthorForm/AuthorForm'
 
 import styles from './AuthorCreatePage.module.scss'
+import { CreateRouteProps } from 'app/core/core.types'
 
-export type AuthorCreatePageProps = { history: any } & AuthorsReduxProps
+export type AuthorCreatePageProps = {} & CreateRouteProps & AuthorsReduxProps
 
 const AuthorCreatePage: React.FunctionComponent<AuthorCreatePageProps> = ({
   createAuthor,
   getAuthorsRequestPending,
   history,
 }) => {
-  const { getUser } = useRequiredAuthentication(history)
+  const { appInitialized, user } = React.useContext(AppContext)
   const [error, setError] = React.useState('')
-  const [loading, setLoading] = React.useState(getAuthorsRequestPending())
-
-  React.useEffect(() => {
-    setLoading(getAuthorsRequestPending())
-  }, [getAuthorsRequestPending])
-
-  const user = getUser()
+  const loading = !appInitialized || getAuthorsRequestPending()
 
   const handleSubmit = React.useCallback(
     async payload => {
       try {
-        await createAuthor(user.id, payload)
+        await createAuthor(user!.id, payload)
         history.push('/authors')
       } catch (error) {
         setError('There was an error creating the Author.')
@@ -42,7 +36,7 @@ const AuthorCreatePage: React.FunctionComponent<AuthorCreatePageProps> = ({
     history.push('/authors')
   }, [])
 
-  return user ? (
+  return appInitialized && user ? (
     <div className={styles.contentWrapper}>
       <Card>
         <Card.Header text="Add an Author" />
