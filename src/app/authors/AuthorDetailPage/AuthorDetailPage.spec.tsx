@@ -2,23 +2,28 @@ import * as React from 'react'
 import 'jest-dom/extend-expect'
 import { cleanup, render, fireEvent, wait } from 'react-testing-library'
 
-import { mockUsers, mockAuthors } from 'utils/mocks/static'
+import { AppContext, IAppContext } from 'app/core/AppIndex/App.context'
+import { mockAuthors, mockUsers } from 'utils/mocks/static'
 
 import AuthorDetailPage, { AuthorDetailPageProps } from './AuthorDetailPage'
 
-// mock "useRequiredAuthentication" with mock getUser implementation
-const mockGetUser = jest.fn()
-jest.mock('app/auth/utils/useRequiredAuthentication', () => {
-  return {
-    useRequiredAuthentication: () => ({
-      getUser: mockGetUser,
-    }),
-  }
-})
+const defaultContext = {
+  appInitialized: false,
+  user: undefined,
+}
+
+const renderWithContext = (children, overrideContext = {}) =>
+  render(
+    <AppContext.Provider value={{ ...defaultContext, ...overrideContext }}>
+      {children}
+    </AppContext.Provider>,
+  )
 
 let defaultProps: AuthorDetailPageProps
 
 describe('AuthorDetailPage', () => {
+  let overrideContext: IAppContext
+
   beforeEach(() => {
     jest.resetAllMocks()
     defaultProps = {
@@ -26,16 +31,12 @@ describe('AuthorDetailPage', () => {
       fetchAuthors: jest.fn(),
       getAuthorById: jest.fn(() => mockAuthors[0]),
       getAuthors: jest.fn(),
-      getBucketedAuthors: jest.fn(),
       getAuthorsRequestPending: jest.fn(),
-      history: {
-        push: jest.fn(),
-      },
+      getBucketedAuthors: jest.fn(),
+      history: { push: jest.fn() } as any,
       match: {
-        params: {
-          id: '0',
-        },
-      },
+        params: { id: '0' },
+      } as any,
       updateAuthor: jest.fn(),
     }
   })
@@ -46,13 +47,14 @@ describe('AuthorDetailPage', () => {
     const user = mockUsers[0]
 
     beforeEach(() => {
-      mockGetUser.mockImplementation(() => user)
+      overrideContext = { appInitialized: true, user: mockUsers[0] }
     })
 
     describe('Basic Rendering', () => {
       it('renders correctly', () => {
-        const { container, getByText } = render(
+        const { container, getByText } = renderWithContext(
           <AuthorDetailPage {...defaultProps} />,
+          overrideContext,
         )
         const authorName = `${mockAuthors[0].firstName} ${
           mockAuthors[0].lastName
@@ -65,12 +67,13 @@ describe('AuthorDetailPage', () => {
 
       it('renders a loader when "loading" prop is true', () => {
         const mock = jest.fn(() => true)
-        const { container } = render(
+        const { container } = renderWithContext(
           <AuthorDetailPage
             {...defaultProps}
             getAuthorById={jest.fn(() => undefined)}
             getAuthorsRequestPending={mock}
           />,
+          overrideContext,
         )
         expect(container.querySelectorAll('.loaderWrapper')).toHaveLength(1)
       })
@@ -78,8 +81,9 @@ describe('AuthorDetailPage', () => {
 
     describe('Interactivity', () => {
       it('defaults to non-editing state', () => {
-        const { getByText, queryByText } = render(
+        const { getByText, queryByText } = renderWithContext(
           <AuthorDetailPage {...defaultProps} />,
+          overrideContext,
         )
         expect(getByText(/Back/i)).toBeInTheDocument()
         expect(getByText(/Edit/i)).toBeInTheDocument()
@@ -88,7 +92,10 @@ describe('AuthorDetailPage', () => {
       })
 
       it('navigates when "Back" button is clicked', () => {
-        const { getByText } = render(<AuthorDetailPage {...defaultProps} />)
+        const { getByText } = renderWithContext(
+          <AuthorDetailPage {...defaultProps} />,
+          overrideContext,
+        )
         const cb = defaultProps.history.push
         expect(cb).toHaveBeenCalledTimes(0)
         fireEvent.click(getByText(/Back/i))
@@ -97,8 +104,14 @@ describe('AuthorDetailPage', () => {
       })
 
       it('toggles editing state when "Edit" button is clicked', () => {
-        const { container, getByLabelText, getByText, queryByText } = render(
+        const {
+          container,
+          getByLabelText,
+          getByText,
+          queryByText,
+        } = renderWithContext(
           <AuthorDetailPage {...defaultProps} />,
+          overrideContext,
         )
         fireEvent.click(getByText(/Edit/i))
         expect(queryByText(/Back/i)).not.toBeInTheDocument()
@@ -111,8 +124,9 @@ describe('AuthorDetailPage', () => {
       })
 
       it('handles form "confirm" action correctly', async () => {
-        const { getByLabelText, getByText } = render(
+        const { getByLabelText, getByText } = renderWithContext(
           <AuthorDetailPage {...defaultProps} />,
+          overrideContext,
         )
         const testPayload = {
           ...mockAuthors[0],
@@ -141,12 +155,15 @@ describe('AuthorDetailPage', () => {
 
   describe('Not Authenticated', () => {
     beforeEach(() => {
-      mockGetUser.mockImplementation(() => null)
+      overrideContext = { appInitialized: true, user: undefined }
     })
 
     describe('Basic Rendering', () => {
       it('renders nothing when not logged in', () => {
-        const { container } = render(<AuthorDetailPage {...defaultProps} />)
+        const { container } = renderWithContext(
+          <AuthorDetailPage {...defaultProps} />,
+          overrideContext,
+        )
         expect(container.firstChild).toBeNull()
       })
     })

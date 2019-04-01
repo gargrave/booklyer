@@ -38,10 +38,10 @@ describe('AuthorsListPage', () => {
       getAuthors: jest.fn(() => mockAuthors),
       getBucketedAuthors: jest.fn(mockGetBucketedAuthors),
       getAuthorsRequestPending: jest.fn(),
-      updateAuthor: jest.fn(),
       history: {
         push: jest.fn(),
       } as any,
+      updateAuthor: jest.fn(),
     }
   })
 

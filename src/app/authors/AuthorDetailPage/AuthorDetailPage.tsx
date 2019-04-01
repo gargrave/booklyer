@@ -1,9 +1,8 @@
 import * as React from 'react'
 
+import { AppContext } from 'app/core/AppIndex/App.context'
 import { DetailRouteProps } from 'app/core/core.types'
 import { AuthorsReduxProps, Author } from '../authors.types'
-
-import { useRequiredAuthentication } from 'app/auth/utils/useRequiredAuthentication'
 
 import Card from 'app/common/Card/Card'
 import Loader from 'app/common/Loader/Loader'
@@ -21,13 +20,11 @@ const AuthorDetailPage: React.FunctionComponent<AuthorDetailPageProps> = ({
   match,
   updateAuthor,
 }) => {
-  const { getUser } = useRequiredAuthentication(history)
+  const { appInitialized, user } = React.useContext(AppContext)
   const [error, setError] = React.useState('')
   const [editing, setEditing] = React.useState(false)
   const [author, setAuthor] = React.useState<Author | undefined>(undefined)
-
-  const user = getUser()
-  const loading = getAuthorsRequestPending()
+  const loading = !appInitialized || getAuthorsRequestPending()
 
   React.useEffect(() => {
     setAuthor(getAuthorById(match.params.id || ''))
@@ -52,7 +49,7 @@ const AuthorDetailPage: React.FunctionComponent<AuthorDetailPageProps> = ({
           ...author,
           ...payload,
         }
-        await updateAuthor(user.id, mergedAuthor)
+        await updateAuthor(user!.id, mergedAuthor)
         setEditing(false)
       } catch (error) {
         setError('There was an error updating the Author.')
@@ -61,7 +58,7 @@ const AuthorDetailPage: React.FunctionComponent<AuthorDetailPageProps> = ({
     [author, updateAuthor, user],
   )
 
-  return user ? (
+  return appInitialized && user ? (
     <div>
       <div className={styles.contentWrapper}>
         {!editing && author && (
