@@ -20,6 +20,12 @@ const AuthorCreatePage: React.FunctionComponent<AuthorCreatePageProps> = ({
   const [error, setError] = React.useState('')
   const loading = !appInitialized || getAuthorsRequestPending()
 
+  React.useEffect(() => {
+    if (appInitialized && !user) {
+      history.push('/account/login')
+    }
+  }, [appInitialized, user])
+
   const handleSubmit = React.useCallback(
     async payload => {
       try {

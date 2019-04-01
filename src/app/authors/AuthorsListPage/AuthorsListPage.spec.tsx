@@ -100,6 +100,16 @@ describe('AuthorsListPage', () => {
         )
         expect(container.firstChild).toBeNull()
       })
+
+      it('redirects to login page', () => {
+        renderWithContext(
+          <AuthorsListPage {...defaultProps} />,
+          overrideContext,
+        )
+        const { push } = defaultProps.history
+        expect(push).toHaveBeenCalledTimes(1)
+        expect(push).toHaveBeenCalledWith('/account/login')
+      })
     })
   })
 })

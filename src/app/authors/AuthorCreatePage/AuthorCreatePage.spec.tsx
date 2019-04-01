@@ -118,6 +118,16 @@ describe('AuthorCreatePage', () => {
         )
         expect(container.firstChild).toBeNull()
       })
+
+      it('redirects to login page', () => {
+        renderWithContext(
+          <AuthorCreatePage {...defaultProps} />,
+          overrideContext,
+        )
+        const { push } = defaultProps.history
+        expect(push).toHaveBeenCalledTimes(1)
+        expect(push).toHaveBeenCalledWith('/account/login')
+      })
     })
   })
 })

@@ -22,10 +22,14 @@ const AuthorsListPage: React.FunctionComponent<AuthorsListPageProps> = ({
   const loading = !appInitialized || getAuthorsRequestPending()
 
   React.useEffect(() => {
-    if (appInitialized && user) {
-      setAuthorBuckets(getBucketedAuthors())
+    if (appInitialized) {
+      if (user) {
+        setAuthorBuckets(getBucketedAuthors())
+      } else {
+        history.push('/account/login')
+      }
     }
-  }, [getBucketedAuthors, user])
+  }, [appInitialized, getBucketedAuthors, user])
 
   const handleAddAuthorClick = React.useCallback(() => {
     history.push('/authors/new')

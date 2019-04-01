@@ -27,8 +27,14 @@ const AuthorDetailPage: React.FunctionComponent<AuthorDetailPageProps> = ({
   const loading = !appInitialized || getAuthorsRequestPending()
 
   React.useEffect(() => {
-    setAuthor(getAuthorById(match.params.id || ''))
-  }, [getAuthorById])
+    if (appInitialized) {
+      if (user) {
+        setAuthor(getAuthorById(match.params.id || ''))
+      } else {
+        history.push('/account/login')
+      }
+    }
+  }, [appInitialized, getAuthorById, user])
 
   const handleBackClick = React.useCallback(() => {
     history.push('/authors')
