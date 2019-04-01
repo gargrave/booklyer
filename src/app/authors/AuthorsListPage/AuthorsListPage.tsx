@@ -1,8 +1,8 @@
 import * as React from 'react'
 
+import { AppContext } from 'app/core/AppIndex/App.context'
+import { ListRouteProps } from 'app/core/core.types'
 import { AuthorsReduxProps } from '../authors.types'
-
-import { useRequiredAuthentication } from 'app/auth/utils/useRequiredAuthentication'
 
 import Button from 'app/common/Button/Button'
 import Loader from 'app/common/Loader/Loader'
@@ -10,35 +10,32 @@ import { SimpleAuthorCard } from '../components/AuthorCard'
 
 import styles from './AuthorsListPage.module.scss'
 
-export type AuthorsListPageProps = {
-  history: any
-} & AuthorsReduxProps
+export type AuthorsListPageProps = {} & ListRouteProps & AuthorsReduxProps
 
 const AuthorsListPage: React.FunctionComponent<AuthorsListPageProps> = ({
   getAuthorsRequestPending,
   getBucketedAuthors,
   history,
 }) => {
-  const { getUser } = useRequiredAuthentication(history)
+  const { appInitialized, user } = React.useContext(AppContext)
   const [authorBuckets, setAuthorBuckets] = React.useState(getBucketedAuthors())
-  const user = getUser()
-  const loading = getAuthorsRequestPending()
+  const loading = !appInitialized || getAuthorsRequestPending()
 
   React.useEffect(() => {
-    if (user) {
+    if (appInitialized && user) {
       setAuthorBuckets(getBucketedAuthors())
     }
-  }, [getBucketedAuthors])
+  }, [getBucketedAuthors, user])
 
-  function handleAddAuthorClick() {
+  const handleAddAuthorClick = React.useCallback(() => {
     history.push('/authors/new')
-  }
+  }, [])
 
-  function handleAuthorClick(id) {
+  const handleAuthorClick = React.useCallback(id => {
     history.push(`/authors/${id}`)
-  }
+  }, [])
 
-  return user ? (
+  return appInitialized && user ? (
     <div>
       <h2>My Authors</h2>
       <section className={styles.contentWrapper}>

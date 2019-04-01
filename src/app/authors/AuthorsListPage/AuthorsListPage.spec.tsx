@@ -2,21 +2,24 @@ import * as React from 'react'
 import 'jest-dom/extend-expect'
 import { cleanup, fireEvent, render } from 'react-testing-library'
 
-import { Author } from '../authors.types'
+import { AppContext, IAppContext } from 'app/core/AppIndex/App.context'
 import { bucketizer } from 'utils/bucketizer'
 import { mockAuthors, mockUsers } from 'utils/mocks/static'
+import { Author } from '../authors.types'
 
 import AuthorsListPage, { AuthorsListPageProps } from './AuthorsListPage'
 
-// mock "useRequiredAuthentication" with mock getUser implementation
-const mockGetUser = jest.fn()
-jest.mock('app/auth/utils/useRequiredAuthentication', () => {
-  return {
-    useRequiredAuthentication: () => ({
-      getUser: mockGetUser,
-    }),
-  }
-})
+const defaultContext = {
+  appInitialized: false,
+  user: undefined,
+}
+
+const renderWithContext = (children, overrideContext = {}) =>
+  render(
+    <AppContext.Provider value={{ ...defaultContext, ...overrideContext }}>
+      {children}
+    </AppContext.Provider>,
+  )
 
 const mockGetBucketedAuthors = () =>
   bucketizer<Author>(mockAuthors, () => 0, author => author.lastName[0])
@@ -24,17 +27,21 @@ const mockGetBucketedAuthors = () =>
 let defaultProps: AuthorsListPageProps
 
 describe('AuthorsListPage', () => {
+  let overrideContext: IAppContext
+
   beforeEach(() => {
     jest.resetAllMocks()
     defaultProps = {
       createAuthor: jest.fn(),
       fetchAuthors: jest.fn(),
+      getAuthorById: jest.fn(),
       getAuthors: jest.fn(() => mockAuthors),
       getBucketedAuthors: jest.fn(mockGetBucketedAuthors),
       getAuthorsRequestPending: jest.fn(),
+      updateAuthor: jest.fn(),
       history: {
         push: jest.fn(),
-      },
+      } as any,
     }
   })
 
@@ -42,13 +49,15 @@ describe('AuthorsListPage', () => {
 
   describe('Authenticated', () => {
     beforeEach(() => {
-      mockGetUser.mockImplementation(() => mockUsers[0])
+      overrideContext = { appInitialized: true, user: mockUsers[0] }
     })
 
     describe('Basic Rendering', () => {
       it('renders correctly', () => {
-        const { getByText } = render(<AuthorsListPage {...defaultProps} />)
-
+        const { getByText } = renderWithContext(
+          <AuthorsListPage {...defaultProps} />,
+          overrideContext,
+        )
         // renders title and "Add" button
         expect(getByText(/My Authors/i)).toBeInTheDocument()
         expect(getByText(/Add an Author/i)).toBeInTheDocument()
@@ -61,7 +70,10 @@ describe('AuthorsListPage', () => {
 
     describe('Interactivity', () => {
       it('navigates to an Author Detail page when the corresponding card is clicked', () => {
-        const { getByText } = render(<AuthorsListPage {...defaultProps} />)
+        const { getByText } = renderWithContext(
+          <AuthorsListPage {...defaultProps} />,
+          overrideContext,
+        )
         const author = mockAuthors[0]
         const authorCard = getByText(new RegExp(author.lastName))
         const push = defaultProps.history.push
@@ -77,12 +89,15 @@ describe('AuthorsListPage', () => {
 
   describe('Not Authenticated', () => {
     beforeEach(() => {
-      mockGetUser.mockImplementation(() => null)
+      overrideContext = { appInitialized: true, user: undefined }
     })
 
     describe('Basic Rendering', () => {
       it('renders nothing when not logged in', () => {
-        const { container } = render(<AuthorsListPage {...defaultProps} />)
+        const { container } = renderWithContext(
+          <AuthorsListPage {...defaultProps} />,
+          overrideContext,
+        )
         expect(container.firstChild).toBeNull()
       })
     })

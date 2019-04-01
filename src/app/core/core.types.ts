@@ -21,4 +21,5 @@ export type ReduxAction<T> = {
   type: string
 }
 
+export type ListRouteProps = RouteComponentProps
 export type DetailRouteProps = RouteComponentProps<{ id: string }>
