@@ -1,16 +1,14 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom'
 
-import { useAuthentication } from 'app/auth/utils/useAuthentication'
+import { AppContext } from 'app/core/AppIndex/App.context'
 
 import styles from './Navbar.module.scss'
 
 export type NavbarProps = {}
 
 const Navbar: React.FunctionComponent<NavbarProps> = () => {
-  const { getUser } = useAuthentication()
-  const user = getUser()
-
+  const { user } = React.useContext(AppContext)
   return (
     <>
       {user && (
