@@ -28,6 +28,7 @@ describe('AuthorDetailPage', () => {
   beforeEach(() => {
     jest.resetAllMocks()
     defaultProps = {
+      deleteAuthor: jest.fn(),
       getAuthorById: jest.fn(() => mockAuthors[0]),
       getAuthorsRequestPending: jest.fn(),
       history: { push: jest.fn() } as any,
@@ -148,6 +149,27 @@ describe('AuthorDetailPage', () => {
           user.id,
           testPayload,
         )
+      })
+
+      it('correctly makes a calls to delete the author', async () => {
+        const { getByText } = renderWithContext(
+          <AuthorDetailPage {...defaultProps} />,
+          overrideContext,
+        )
+        const { deleteAuthor, history } = defaultProps
+
+        fireEvent.click(getByText(/Edit/i))
+        fireEvent.click(getByText(/Delete/i))
+        expect(deleteAuthor).toHaveBeenCalledTimes(0)
+        expect(history.push).toHaveBeenCalledTimes(0)
+        fireEvent.click(getByText(/Click to Confirm/i))
+
+        await wait(() => {
+          expect(deleteAuthor).toHaveBeenCalledTimes(1)
+          expect(deleteAuthor).toHaveBeenCalledWith(user.id, mockAuthors[0])
+          expect(history.push).toHaveBeenCalledTimes(1)
+          expect(history.push).toHaveBeenCalledWith('/authors')
+        })
       })
     })
   })
