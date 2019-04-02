@@ -14,19 +14,19 @@ const AuthIndex: React.SFC<AuthIndexProps> = props => (
     <Route
       exact={true}
       path="/account/login"
-      render={({ history }) => <LoginPage {...props} history={history} />}
+      render={routerProps => <LoginPage {...props} {...routerProps} />}
     />
 
     <Route
       exact={true}
       path="/account/register"
-      render={({ history }) => <RegisterPage {...props} history={history} />}
+      render={routerProps => <RegisterPage {...props} {...routerProps} />}
     />
 
     <Route
       exact={true}
       path="/account"
-      render={({ history }) => <ProfilePage {...props} history={history} />}
+      render={routerProps => <ProfilePage {...props} {...routerProps} />}
     />
 
     <Redirect to="/account" />
