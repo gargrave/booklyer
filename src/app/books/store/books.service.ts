@@ -6,10 +6,11 @@ import {
   singleToIdMap,
 } from 'utils/firestore.helpers'
 
+import { Author } from 'app/authors/authors.types'
 import { Book } from '../books.types'
 
 const booksService = {
-  async fetchBooksByOwner(ownerId): Promise<ObjectIdMap<Book>> {
+  async fetchBooksByOwner(ownerId: string): Promise<ObjectIdMap<Book>> {
     const query = db.collection(`books/byOwner/${ownerId}`)
     const response: FbCollection = await query.get()
     return collectionToIdMap<Book>(response)
@@ -55,6 +56,19 @@ const booksService = {
       .collection(`books/byOwner/${ownerId}`)
       .doc(id)
     return await docRef.delete()
+  },
+
+  async deleteBooksByAuthor(
+    ownerId: string,
+    author: Author,
+  ): Promise<ObjectIdMap<Book>> {
+    const query = db
+      .collection(`books/byOwner/${ownerId}`)
+      .where('authorId', '==', author.id)
+    const books: FbCollection = await query.get()
+    const batch = db.batch()
+    books.docs.forEach((doc: FbDoc) => batch.delete(doc.ref))
+    return await batch.commit()
   },
 }
 

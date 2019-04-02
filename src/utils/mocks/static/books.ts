@@ -8,6 +8,7 @@ const stephenKing = mockAuthors[4]
 const mockBooks: Book[] = [
   {
     author: aldousHuxley,
+    authorId: aldousHuxley.id,
     created: new Date('2018-01-14T01:36:26.220Z'),
     id: 'sv3hmbefpc95MRXQsTHr',
     sortBy: '',
@@ -16,6 +17,7 @@ const mockBooks: Book[] = [
   },
   {
     author: aldousHuxley,
+    authorId: aldousHuxley.id,
     created: new Date('2018-01-15T01:36:26.220Z'),
     id: 'Hmh9eR3rs5bMvsTXfpcQ',
     sortBy: '',
@@ -24,6 +26,7 @@ const mockBooks: Book[] = [
   },
   {
     author: aldousHuxley,
+    authorId: aldousHuxley.id,
     created: new Date('2018-01-16T01:36:26.220Z'),
     id: 'eRpcQ5H3rsTXfmh9bMvs',
     sortBy: '',
@@ -32,6 +35,7 @@ const mockBooks: Book[] = [
   },
   {
     author: kurtVonnegut,
+    authorId: kurtVonnegut.id,
     created: new Date('2017-11-01T01:36:26.220Z'),
     id: 'e2TedzRQJKJ1VL5m7QhG',
     sortBy: '',
@@ -40,6 +44,7 @@ const mockBooks: Book[] = [
   },
   {
     author: kurtVonnegut,
+    authorId: kurtVonnegut.id,
     created: new Date('2017-11-01T01:39:26.220Z'),
     id: '8ZYttrQY042IhlZ11BVJ',
     sortBy: '',
@@ -48,6 +53,7 @@ const mockBooks: Book[] = [
   },
   {
     author: stephenKing,
+    authorId: stephenKing.id,
     created: new Date('2017-10-01T01:39:26.220Z'),
     id: '2IYttrQYhlZ118Z04BVJ',
     sortBy: 'Dark Tower 1',
@@ -56,6 +62,7 @@ const mockBooks: Book[] = [
   },
   {
     author: stephenKing,
+    authorId: stephenKing.id,
     created: new Date('2017-10-01T01:39:26.220Z'),
     id: '2IYt04BVltrQYhZ118ZJ',
     sortBy: 'Dark Tower 2',
