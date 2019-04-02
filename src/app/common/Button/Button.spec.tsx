@@ -1,6 +1,6 @@
 import * as React from 'react'
 import 'jest-dom/extend-expect'
-import { cleanup, render, fireEvent } from 'react-testing-library'
+import { cleanup, render, fireEvent, wait } from 'react-testing-library'
 
 import Button, { ButtonProps, ButtonType } from './Button'
 
@@ -15,6 +15,7 @@ describe('Button', () => {
       disabled: false,
       loading: false,
       onClick: jest.fn(),
+      requireExtraClick: false,
       type: ButtonType.Primary,
     }
   })
@@ -104,11 +105,48 @@ describe('Button', () => {
     })
   })
 
-  xdescribe('double-click button', () => {
-    it.todo('requires a second click to confirm an action when prop is true')
+  describe('double-click button', () => {
+    it('requires a second click to confirm an action when prop is true', async () => {
+      const { getByText, queryByText } = render(
+        <Button {...defaultProps} requireExtraClick={true}>
+          hello
+        </Button>,
+      )
 
-    it.todo(
-      'times out after a specified amount if second click does not happen',
-    )
+      const { onClick } = defaultProps
+      expect(onClick).toHaveBeenCalledTimes(0)
+      fireEvent.click(getByText(/hello/i))
+      expect(onClick).toHaveBeenCalledTimes(0)
+      expect(getByText(/click to confirm/i)).toBeInTheDocument()
+      fireEvent.click(getByText(/click to confirm/i))
+      await wait(() => {
+        expect(onClick).toHaveBeenCalledTimes(1)
+        expect(queryByText(/Click to Confirm/i)).not.toBeInTheDocument()
+      })
+    })
+
+    it('times out after a specified amount if second click does not happen', async () => {
+      const { getByText, queryByText } = render(
+        <Button
+          {...defaultProps}
+          extraClickTimeout={50}
+          requireExtraClick={true}
+        >
+          hello
+        </Button>,
+      )
+
+      const { onClick } = defaultProps
+      expect(onClick).toHaveBeenCalledTimes(0)
+      fireEvent.click(getByText(/hello/i))
+      expect(onClick).toHaveBeenCalledTimes(0)
+      expect(getByText(/click to confirm/i)).toBeInTheDocument()
+      expect(queryByText(/hello/i)).not.toBeInTheDocument()
+
+      await wait(() => {
+        expect(queryByText(/Click to Confirm/i)).not.toBeInTheDocument()
+        expect(getByText(/hello/i)).toBeInTheDocument()
+      })
+    })
   })
 })

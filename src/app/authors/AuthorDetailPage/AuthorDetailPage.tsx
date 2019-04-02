@@ -108,6 +108,7 @@ const AuthorDetailPage: React.FunctionComponent<AuthorDetailPageProps> = ({
                 disabled={loading}
                 loading={loading}
                 onClick={handleDelete}
+                requireExtraClick={true}
                 type={ButtonType.Secondary}
               >
                 Delete
