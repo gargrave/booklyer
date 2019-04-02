@@ -3,7 +3,7 @@ import { Provider } from 'react-redux'
 
 import store from '../../store/store'
 
-import AppIndexContainer from './AppIndex/AppIndexContainer'
+import { AppIndexContainer } from './AppIndex'
 
 import './App.scss'
 
