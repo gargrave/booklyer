@@ -6,7 +6,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
-    "test:ci": "yarn test --runInBand",
+    "test:ci": "yarn test --runInBand --silent",
     "lint": "tslint --project tsconfig.json --config tslint.json -t verbose",
     "styleguide": "styleguidist server",
     "deploy:dev": "yarn build && firebase use default && firebase deploy",

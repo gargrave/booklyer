@@ -17,12 +17,14 @@ let initialized = false
 let auth
 let db
 
-if (!initialized) {
-  // firebase.initializeApp(isDevEnv() ? devConfig : prodConfig)
-  firebase.initializeApp(config)
-  auth = firebase.auth()
-  db = firebase.firestore()
-  initialized = true
+if (process.env.NODE_ENV !== 'test') {
+  if (!initialized) {
+    // firebase.initializeApp(isDevEnv() ? devConfig : prodConfig)
+    firebase.initializeApp(config)
+    auth = firebase.auth()
+    db = firebase.firestore()
+    initialized = true
+  }
 }
 
 export const fbTimestamp = () => firebase.firestore.FieldValue.serverTimestamp()
