@@ -50,6 +50,23 @@ const authorsService = {
     const response: FbDoc = await docRef.get()
     return singleToIdMap<Author>(response)
   },
+
+  async deleteAuthor(
+    ownerId: string,
+    payload: Author,
+  ): Promise<ObjectIdMap<Author>> {
+    const date = new Date()
+    const { id, ...rest } = payload
+    const author = {
+      ...rest,
+      updated: date,
+    }
+
+    const docRef: FbDocRef = await db
+      .collection(`authors/byOwner/${ownerId}`)
+      .doc(id)
+    return await docRef.delete()
+  },
 }
 
 export default authorsService

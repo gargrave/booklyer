@@ -35,6 +35,7 @@ export type AuthorBucket = {
 
 export type AuthorsReduxProps = {
   createAuthor: (ownerId: string, author: Author) => Promise<Author[]>
+  deleteAuthor: (ownerId: string, author: Author) => Promise<void>
   fetchAuthors: (ownerId: string) => Promise<Author[]>
   getAuthorById: (id: string) => Author | undefined
   getAuthors: () => Author[]

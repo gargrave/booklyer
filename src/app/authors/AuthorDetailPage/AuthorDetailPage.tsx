@@ -10,10 +10,12 @@ import { DetailedAuthorCard } from '../components/AuthorCard'
 import AuthorForm from '../components/AuthorForm/AuthorForm'
 
 import styles from './AuthorDetailPage.module.scss'
+import Button, { ButtonType } from 'app/common/Button/Button'
 
 export type AuthorDetailPageProps = {} & DetailRouteProps & AuthorsReduxProps
 
 const AuthorDetailPage: React.FunctionComponent<AuthorDetailPageProps> = ({
+  deleteAuthor,
   getAuthorById,
   getAuthorsRequestPending,
   history,
@@ -64,6 +66,16 @@ const AuthorDetailPage: React.FunctionComponent<AuthorDetailPageProps> = ({
     [author, updateAuthor, user],
   )
 
+  const handleDelete = React.useCallback(async () => {
+    try {
+      setError('')
+      await deleteAuthor(user!.id, author!)
+      history.push('/authors')
+    } catch (error) {
+      setError('There was an error deleting the Author.')
+    }
+  }, [author, deleteAuthor, user])
+
   return appInitialized && user ? (
     <div>
       <div className={styles.contentWrapper}>
@@ -76,19 +88,32 @@ const AuthorDetailPage: React.FunctionComponent<AuthorDetailPageProps> = ({
         )}
 
         {editing && author && (
-          <Card>
-            <Card.Header
-              text={`Update ${author.firstName} ${author.lastName}`}
-            />
-            <AuthorForm
-              disabled={loading}
-              error={error}
-              initialValue={author}
-              loading={loading}
-              onCancel={handleCancel}
-              onSubmit={handleSubmit}
-            />
-          </Card>
+          <>
+            <Card>
+              <Card.Header
+                text={`Update ${author.firstName} ${author.lastName}`}
+              />
+              <AuthorForm
+                disabled={loading}
+                error={error}
+                initialValue={author}
+                loading={loading}
+                onCancel={handleCancel}
+                onSubmit={handleSubmit}
+              />
+            </Card>
+            <Card>
+              <Button
+                block={true}
+                disabled={loading}
+                loading={loading}
+                onClick={handleDelete}
+                type={ButtonType.Secondary}
+              >
+                Delete
+              </Button>
+            </Card>
+          </>
         )}
 
         {loading && !author && <Loader size={44} />}

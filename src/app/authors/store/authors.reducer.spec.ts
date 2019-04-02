@@ -67,6 +67,20 @@ describe('Authors Reducers', () => {
       const actual = authorsReducer(undefined, action as any)
       expect(actual).toEqual(expected)
     })
+
+    it('handles the DELETE_AUTHOR action correctly', () => {
+      const action = {
+        type: actionTypes.DELETE_AUTHOR,
+        payload: null,
+      }
+
+      const expected: AuthorsState = {
+        ...defaultState(),
+        requestPending: true,
+      }
+      const actual = authorsReducer(undefined, action as any)
+      expect(actual).toEqual(expected)
+    })
   })
 
   describe('success action types', () => {
@@ -176,6 +190,31 @@ describe('Authors Reducers', () => {
       expect(actual).toEqual(expected)
     })
 
+    it('handles DELETE_AUTHOR_SUCCESS correctly', () => {
+      // should:
+      // - remove the existing author from local state
+      // - disable the "pending" flag
+      // - clear any existing errors
+      const authorToDelete = mockAuthors[0]
+      const action = {
+        type: actionTypes.DELETE_AUTHOR_SUCCESS,
+        payload: {
+          authors: {
+            [authorToDelete.id]: authorToDelete,
+          },
+        },
+      }
+      const expected: AuthorsState = {
+        data: {
+          [mockAuthors[1].id]: mockAuthors[1],
+        },
+        error: undefined,
+        requestPending: false,
+      }
+      const actual = authorsReducer(previousState, action)
+      expect(actual).toEqual(expected)
+    })
+
     it('clears all data on AUTH/LOGOUT_SUCCESS', () => {
       const action = { type: authActionTypes.LOGOUT_SUCCESS }
       const expected = defaultState()
@@ -230,6 +269,15 @@ describe('Authors Reducers', () => {
     it('handles the UPDATE_AUTHOR_FAILURE action correctly', () => {
       const action = {
         type: actionTypes.UPDATE_AUTHOR_FAILURE,
+        payload: { error },
+      }
+      const actual = authorsReducer(previousState, action as any)
+      expect(actual).toEqual(expectedState)
+    })
+
+    it('handles the DELETE_AUTHOR_FAILURE action correctly', () => {
+      const action = {
+        type: actionTypes.DELETE_AUTHOR_FAILURE,
         payload: { error },
       }
       const actual = authorsReducer(previousState, action as any)
