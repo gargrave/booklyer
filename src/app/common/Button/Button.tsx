@@ -59,7 +59,6 @@ Button.defaultProps = {
   type: ButtonType.Primary,
 }
 
-export { Button as UnwrappedButton }
 /**
  * Basic button component. You know what it is.
  *
