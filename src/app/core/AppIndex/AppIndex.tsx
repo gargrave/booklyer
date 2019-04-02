@@ -4,7 +4,6 @@ import has from 'lodash/has'
 
 import { User } from 'app/auth/auth.types'
 import { useFirebaseAuth } from 'app/auth/utils'
-import { useAuthentication } from 'app/auth/utils/useAuthentication'
 import { AppContext, initialAppContextState, IAppContext } from './App.context'
 
 import Navbar from '../components/Navbar/Navbar'
@@ -37,28 +36,12 @@ const AppIndex: React.FunctionComponent<AppIndexProps> = ({
   fetchBooks,
   setLocalUserData,
 }) => {
-  const { authInitialized: fbAuthInitialized, user: fbUser } = useFirebaseAuth({
+  const { authInitialized, logout, user } = useFirebaseAuth({
     waitForInitialization: true,
   })
-  const { authInitialized, getUser } = useAuthentication({
-    waitForInitialization: true,
-  })
-
   const [appContextState, setAppContextState] = React.useState<IAppContext>(
     initialAppContextState,
   )
-
-  React.useEffect(() => {
-    if (fbAuthInitialized) {
-      setLocalUserData(fbUser)
-      if (has(fbUser, 'id')) {
-        fetchBooks(fbUser.id)
-      }
-      setAppContextState({ appInitialized: true, user: fbUser })
-    }
-  }, [fbAuthInitialized, fbUser])
-
-  const user = getUser()
 
   React.useEffect(() => {
     if (authInitialized) {
@@ -66,6 +49,7 @@ const AppIndex: React.FunctionComponent<AppIndexProps> = ({
       if (has(user, 'id')) {
         fetchBooks(user.id)
       }
+      setAppContextState({ logout, user, appInitialized: true })
     }
   }, [authInitialized, user])
 
