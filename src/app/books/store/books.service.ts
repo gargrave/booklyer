@@ -48,6 +48,14 @@ const booksService = {
     const response: FbDoc = await docRef.get()
     return singleToIdMap<Book>(response)
   },
+
+  async deleteBook(ownerId: string, payload: Book): Promise<ObjectIdMap<Book>> {
+    const { id } = payload
+    const docRef: FbDocRef = await db
+      .collection(`books/byOwner/${ownerId}`)
+      .doc(id)
+    return await docRef.delete()
+  },
 }
 
 export default booksService

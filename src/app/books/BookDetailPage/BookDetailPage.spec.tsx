@@ -1,6 +1,6 @@
 import * as React from 'react'
 import 'jest-dom/extend-expect'
-import { cleanup, render, fireEvent } from 'react-testing-library'
+import { cleanup, render, fireEvent, wait } from 'react-testing-library'
 
 import { AppContext, IAppContext } from 'app/core/AppIndex/App.context'
 import { mockAuthors, mockBooks, mockUsers } from 'utils/mocks/static'
@@ -27,6 +27,7 @@ describe('BookDetailPage', () => {
   beforeEach(() => {
     jest.resetAllMocks()
     defaultProps = {
+      deleteBook: jest.fn(),
       getAuthorsSortedByLastName: jest.fn(() => mockAuthors),
       getBookById: jest.fn(() => mockBooks[0]),
       getBooksRequestPending: jest.fn(),
@@ -152,6 +153,27 @@ describe('BookDetailPage', () => {
           user.id,
           testPayload,
         )
+      })
+    })
+
+    it('correctly makes a calls to delete the author', async () => {
+      const { getByText } = renderWithContext(
+        <BookDetailPage {...defaultProps} />,
+        overrideContext,
+      )
+      const { deleteBook, history } = defaultProps
+
+      fireEvent.click(getByText(/Edit/i))
+      fireEvent.click(getByText(/Delete/i))
+      expect(deleteBook).toHaveBeenCalledTimes(0)
+      expect(history.push).toHaveBeenCalledTimes(0)
+      fireEvent.click(getByText(/Click to Confirm/i))
+
+      await wait(() => {
+        expect(deleteBook).toHaveBeenCalledTimes(1)
+        expect(deleteBook).toHaveBeenCalledWith(user.id, mockBooks[0])
+        expect(history.push).toHaveBeenCalledTimes(1)
+        expect(history.push).toHaveBeenCalledWith('/books')
       })
     })
   })

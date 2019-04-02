@@ -3,7 +3,12 @@ import { connect } from 'react-redux'
 import { AppState } from 'store/reducers'
 import { getAuthorsSortedByLastName } from 'app/authors/store/selectors'
 
-import { createBook, fetchBooks, updateBook } from '../store/actions'
+import {
+  createBook,
+  deleteBook,
+  fetchBooks,
+  updateBook,
+} from '../store/actions'
 import {
   getBookWithAuthorById,
   getBooksRequestPending,
@@ -25,6 +30,8 @@ const mapStateToProps = (state: AppState) => ({
 const mapDispatchToProps = dispatch => ({
   createBook: (ownerId: string, book: Book) =>
     dispatch(createBook(ownerId, book)),
+  deleteBook: (ownerId: string, book: Book) =>
+    dispatch(deleteBook(ownerId, book)),
   fetchBooks: (ownerId: string) => dispatch(fetchBooks(ownerId)),
   updateBook: (ownerId: string, book: Book) =>
     dispatch(updateBook(ownerId, book)),

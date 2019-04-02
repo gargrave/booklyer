@@ -4,13 +4,13 @@ import { AppContext } from 'app/core/AppIndex/App.context'
 import { DetailRouteProps } from 'app/core/core.types'
 import { AuthorsReduxProps, Author } from '../authors.types'
 
+import Button, { ButtonType } from 'app/common/Button/Button'
 import Card from 'app/common/Card/Card'
 import Loader from 'app/common/Loader/Loader'
 import { DetailedAuthorCard } from '../components/AuthorCard'
 import AuthorForm from '../components/AuthorForm/AuthorForm'
 
 import styles from './AuthorDetailPage.module.scss'
-import Button, { ButtonType } from 'app/common/Button/Button'
 
 export type AuthorDetailPageProps = {} & DetailRouteProps & AuthorsReduxProps
 

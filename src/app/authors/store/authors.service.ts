@@ -55,13 +55,7 @@ const authorsService = {
     ownerId: string,
     payload: Author,
   ): Promise<ObjectIdMap<Author>> {
-    const date = new Date()
-    const { id, ...rest } = payload
-    const author = {
-      ...rest,
-      updated: date,
-    }
-
+    const { id } = payload
     const docRef: FbDocRef = await db
       .collection(`authors/byOwner/${ownerId}`)
       .doc(id)

@@ -47,9 +47,9 @@ export const authorsReducer = (
   produce(state, draft => {
     switch (action.type) {
       case actionTypes.CREATE_AUTHOR:
+      case actionTypes.DELETE_AUTHOR:
       case actionTypes.FETCH_AUTHORS:
       case actionTypes.UPDATE_AUTHOR:
-      case actionTypes.DELETE_AUTHOR:
         draft.requestPending = true
         return
 
@@ -78,9 +78,9 @@ export const authorsReducer = (
         return
 
       case actionTypes.CREATE_AUTHOR_FAILURE:
+      case actionTypes.DELETE_AUTHOR_FAILURE:
       case actionTypes.FETCH_AUTHORS_FAILURE:
       case actionTypes.UPDATE_AUTHOR_FAILURE:
-      case actionTypes.DELETE_AUTHOR_FAILURE:
         draft.error = action.payload.error
         draft.requestPending = false
         return

@@ -4,6 +4,7 @@ import { Author } from 'app/authors/authors.types'
 import { DetailRouteProps } from 'app/core/core.types'
 import { BooksReduxProps, Book } from '../books.types'
 
+import Button, { ButtonType } from 'app/common/Button/Button'
 import Card from 'app/common/Card/Card'
 import Loader from 'app/common/Loader/Loader'
 import { DetailedBookCard } from '../components/BookCard'
@@ -15,6 +16,7 @@ import { AppContext } from 'app/core/AppIndex/App.context'
 export type BookDetailPageProps = {} & DetailRouteProps & BooksReduxProps
 
 const BookDetailPage: React.FunctionComponent<BookDetailPageProps> = ({
+  deleteBook,
   getAuthorsSortedByLastName,
   getBookById,
   getBooksRequestPending,
@@ -70,6 +72,16 @@ const BookDetailPage: React.FunctionComponent<BookDetailPageProps> = ({
     [book, updateBook, user],
   )
 
+  const handleDelete = React.useCallback(async () => {
+    try {
+      setError('')
+      await deleteBook(user!.id, book!)
+      history.push('/books')
+    } catch (error) {
+      setError('There was an error deleting the Book.')
+    }
+  }, [book, deleteBook, user])
+
   return appInitialized && user ? (
     <div>
       <div className={styles.contentWrapper}>
@@ -82,18 +94,32 @@ const BookDetailPage: React.FunctionComponent<BookDetailPageProps> = ({
         )}
 
         {editing && book && (
-          <Card>
-            <Card.Header text={`Update ${book.title}`} />
-            <BookForm
-              authors={authors}
-              disabled={loading}
-              error={error}
-              initialValue={book}
-              loading={loading}
-              onCancel={handleCancel}
-              onSubmit={handleSubmit}
-            />
-          </Card>
+          <>
+            <Card>
+              <Card.Header text={`Update ${book.title}`} />
+              <BookForm
+                authors={authors}
+                disabled={loading}
+                error={error}
+                initialValue={book}
+                loading={loading}
+                onCancel={handleCancel}
+                onSubmit={handleSubmit}
+              />
+            </Card>
+            <Card>
+              <Button
+                block={true}
+                disabled={loading}
+                loading={loading}
+                onClick={handleDelete}
+                requireExtraClick={true}
+                type={ButtonType.Secondary}
+              >
+                Delete
+              </Button>
+            </Card>
+          </>
         )}
 
         {loading && !book && <Loader size={44} />}

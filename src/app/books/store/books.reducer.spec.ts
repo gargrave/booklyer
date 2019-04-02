@@ -67,6 +67,20 @@ describe('Books Reducers', () => {
       const actual = booksReducer(undefined, action as any)
       expect(actual).toEqual(expected)
     })
+
+    it('handles the DELETE_BOOK action correctly', () => {
+      const action = {
+        type: actionTypes.DELETE_BOOK,
+        payload: null,
+      }
+
+      const expected: BooksState = {
+        ...defaultState(),
+        requestPending: true,
+      }
+      const actual = booksReducer(undefined, action as any)
+      expect(actual).toEqual(expected)
+    })
   })
 
   describe('success action types', () => {
@@ -176,6 +190,31 @@ describe('Books Reducers', () => {
       expect(actual).toEqual(expected)
     })
 
+    it('handles DELETE_BOOK_SUCCESS correctly', () => {
+      // should:
+      // - remove the existing book from local state
+      // - disable the "pending" flag
+      // - clear any existing errors
+      const bookToDelete = mockBooks[0]
+      const action = {
+        type: actionTypes.DELETE_BOOK_SUCCESS,
+        payload: {
+          books: {
+            [bookToDelete.id]: bookToDelete,
+          },
+        },
+      }
+      const expected: BooksState = {
+        data: {
+          [mockBooks[1].id]: mockBooks[1],
+        },
+        error: undefined,
+        requestPending: false,
+      }
+      const actual = booksReducer(previousState, action)
+      expect(actual).toEqual(expected)
+    })
+
     it('clears all data on AUTH/LOGOUT_SUCCESS', () => {
       const action = { type: authActionTypes.LOGOUT_SUCCESS }
       const expected = defaultState()
@@ -230,6 +269,15 @@ describe('Books Reducers', () => {
     it('handles the UPDATE_BOOK_FAILURE action correctly', () => {
       const action = {
         type: actionTypes.UPDATE_BOOK_FAILURE,
+        payload: { error },
+      }
+      const actual = booksReducer(previousState, action as any)
+      expect(actual).toEqual(expectedState)
+    })
+
+    it('handles the DELETE_BOOK_FAILURE action correctly', () => {
+      const action = {
+        type: actionTypes.DELETE_BOOK_FAILURE,
         payload: { error },
       }
       const actual = booksReducer(previousState, action as any)

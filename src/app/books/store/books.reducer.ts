@@ -11,6 +11,10 @@ export const actionTypes = {
   CREATE_BOOK_FAILURE: 'BOOKS/CREATE_BOOK_FAILURE',
   CREATE_BOOK_SUCCESS: 'BOOKS/CREATE_BOOK_SUCCESS',
 
+  DELETE_BOOK: 'BOOKS/DELETE_BOOK',
+  DELETE_BOOK_FAILURE: 'BOOKS/DELETE_BOOK_FAILURE',
+  DELETE_BOOK_SUCCESS: 'BOOKS/DELETE_BOOK_SUCCESS',
+
   FETCH_BOOKS: 'BOOKS/FETCH_BOOKS',
   FETCH_BOOKS_FAILURE: 'BOOKS/FETCH_BOOKS_FAILURE',
   FETCH_BOOKS_SUCCESS: 'BOOKS/FETCH_BOOKS_SUCCESS',
@@ -43,6 +47,7 @@ export const booksReducer = (
   produce(state, draft => {
     switch (action.type) {
       case actionTypes.CREATE_BOOK:
+      case actionTypes.DELETE_BOOK:
       case actionTypes.FETCH_BOOKS:
       case actionTypes.UPDATE_BOOK:
         draft.requestPending = true
@@ -58,6 +63,14 @@ export const booksReducer = (
         draft.requestPending = false
         return
 
+      case actionTypes.DELETE_BOOK_SUCCESS:
+        Object.values(action.payload.books).forEach(
+          deletedBook => delete draft.data[deletedBook.id],
+        )
+        draft.error = undefined
+        draft.requestPending = false
+        return
+
       case actionTypes.FETCH_BOOKS_SUCCESS:
         draft.data = action.payload.books
         draft.error = undefined
@@ -65,6 +78,7 @@ export const booksReducer = (
         return
 
       case actionTypes.CREATE_BOOK_FAILURE:
+      case actionTypes.DELETE_BOOK_FAILURE:
       case actionTypes.FETCH_BOOKS_FAILURE:
       case actionTypes.UPDATE_BOOK_FAILURE:
         draft.error = action.payload.error
