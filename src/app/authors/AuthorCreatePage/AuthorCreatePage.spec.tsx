@@ -9,6 +9,7 @@ import AuthorCreatePage, { AuthorCreatePageProps } from './AuthorCreatePage'
 
 const defaultContext = {
   appInitialized: false,
+  logout: jest.fn(),
   user: undefined,
 }
 
@@ -100,7 +101,11 @@ describe('AuthorCreatePage', () => {
 
   describe('Not Authenticated', () => {
     beforeEach(() => {
-      overrideContext = { appInitialized: true, user: undefined }
+      overrideContext = {
+        appInitialized: true,
+        logout: jest.fn(),
+        user: undefined,
+      }
     })
 
     describe('Basic Rendering', () => {

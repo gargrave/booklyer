@@ -9,6 +9,7 @@ import BookCreatePage, { BookCreatePageProps } from './BookCreatePage'
 
 const defaultContext = {
   appInitialized: false,
+  logout: jest.fn(),
   user: undefined,
 }
 
@@ -107,7 +108,11 @@ describe('BookCreatePage', () => {
 
   describe('Not Authenticated', () => {
     beforeEach(() => {
-      overrideContext = { appInitialized: true, user: undefined }
+      overrideContext = {
+        appInitialized: true,
+        logout: jest.fn(),
+        user: undefined,
+      }
     })
 
     describe('Basic Rendering', () => {

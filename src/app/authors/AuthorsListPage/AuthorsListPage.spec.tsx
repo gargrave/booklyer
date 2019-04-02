@@ -11,6 +11,7 @@ import AuthorsListPage, { AuthorsListPageProps } from './AuthorsListPage'
 
 const defaultContext = {
   appInitialized: false,
+  logout: jest.fn(),
   user: undefined,
 }
 
@@ -42,7 +43,11 @@ describe('AuthorsListPage', () => {
 
   describe('Authenticated', () => {
     beforeEach(() => {
-      overrideContext = { appInitialized: true, user: mockUsers[0] }
+      overrideContext = {
+        appInitialized: true,
+        logout: jest.fn(),
+        user: mockUsers[0],
+      }
     })
 
     describe('Basic Rendering', () => {
@@ -82,7 +87,11 @@ describe('AuthorsListPage', () => {
 
   describe('Not Authenticated', () => {
     beforeEach(() => {
-      overrideContext = { appInitialized: true, user: undefined }
+      overrideContext = {
+        appInitialized: true,
+        logout: jest.fn(),
+        user: undefined,
+      }
     })
 
     describe('Basic Rendering', () => {

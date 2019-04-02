@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import { InputType } from 'app/common/forms/forms.types'
+import { AppContext } from 'app/core/AppIndex/App.context'
 import { AuthReduxProps } from '../auth.types'
 
 import Loader from 'app/common/Loader/Loader'
@@ -39,31 +40,37 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = ({
   history,
   login,
 }) => {
+  const { appInitialized, user } = React.useContext(AppContext)
   const [error, setError] = React.useState('')
-  const [loading, setLoading] = React.useState(false)
+  const loading = !appInitialized || getAuthRequestPending()
 
   React.useEffect(() => {
-    setLoading(getAuthRequestPending())
-  }, [getAuthRequestPending])
-
-  const handleSubmit = async payload => {
-    const { email, password } = payload
-    if (email && password) {
-      setError('')
-      try {
-        await login(email, password)
-        history.push('/books')
-      } catch (error) {
-        setError(
-          'Could not login with the provided credentials. Please try again.',
-        )
-      }
+    if (appInitialized && user) {
+      history.push('/books')
     }
-  }
+  }, [appInitialized, user])
+
+  const handleSubmit = React.useCallback(
+    async payload => {
+      const { email, password } = payload
+      if (email && password) {
+        setError('')
+        try {
+          await login(email, password)
+          history.push('/books')
+        } catch (error) {
+          setError(
+            'Could not login with the provided credentials. Please try again.',
+          )
+        }
+      }
+    },
+    [login],
+  )
 
   const renderLoader = React.useCallback(() => <Loader size={44} />, [])
 
-  return (
+  return appInitialized && user ? null : (
     <>
       <ManagedForm
         error={error}

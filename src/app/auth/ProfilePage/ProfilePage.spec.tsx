@@ -2,10 +2,10 @@ import * as React from 'react'
 import 'jest-dom/extend-expect'
 import { cleanup, render } from 'react-testing-library'
 
-import { AppContext, IAppContext } from 'app/core/AppIndex/App.context'
 import { mockUsers } from 'utils/mocks/static'
+import { AppContext, IAppContext } from 'app/core/AppIndex/App.context'
 
-import RegisterPage, { RegisterPageProps } from './RegisterPage'
+import ProfilePage, { ProfilePageProps } from './ProfilePage'
 
 const defaultContext = {
   appInitialized: false,
@@ -20,53 +20,19 @@ const renderWithContext = (children, overrideContext = {}) =>
     </AppContext.Provider>,
   )
 
-let defaultProps: RegisterPageProps
+let defaultProps: ProfilePageProps
 
-describe('RegisterPage', () => {
+describe('ProfilePage', () => {
   let overrideContext: IAppContext
 
   beforeEach(() => {
     jest.resetAllMocks()
     defaultProps = {
-      getAuthRequestPending: jest.fn(),
       history: { push: jest.fn() } as any,
-      register: jest.fn(),
     }
   })
 
   afterEach(cleanup)
-
-  describe('Not Authenticated', () => {
-    beforeEach(() => {
-      overrideContext = {
-        appInitialized: true,
-        logout: jest.fn(),
-        user: undefined,
-      }
-    })
-
-    describe('Basic Rendering', () => {
-      it('renders correctly', () => {
-        const { container } = renderWithContext(
-          <RegisterPage {...defaultProps} />,
-          overrideContext,
-        )
-        expect(container.querySelectorAll('form')).toHaveLength(1)
-      })
-    })
-
-    describe('Interactivity', () => {
-      it.todo('navigates to "login" page when link is clicked')
-
-      it.todo(
-        'correctly calls "register" on the service, and redirects to "books" page',
-      )
-
-      it.todo(
-        'correctly displays an error message when the API returns an error',
-      )
-    })
-  })
 
   describe('Authenticated', () => {
     beforeEach(() => {
@@ -78,19 +44,37 @@ describe('RegisterPage', () => {
     })
 
     describe('Basic Rendering', () => {
+      it.todo('renders correctly')
+    })
+
+    describe('Interactivity', () => {
+      it.todo('calls the "logout" callback when clicked')
+    })
+  })
+
+  describe('Not Authenticated', () => {
+    beforeEach(() => {
+      overrideContext = {
+        appInitialized: true,
+        logout: jest.fn(),
+        user: undefined,
+      }
+    })
+
+    describe('Basic Rendering', () => {
       it('renders nothing when not logged in', () => {
         const { container } = renderWithContext(
-          <RegisterPage {...defaultProps} />,
+          <ProfilePage {...defaultProps} />,
           overrideContext,
         )
         expect(container.firstChild).toBeNull()
       })
 
-      it('redirects to "books" page', () => {
-        renderWithContext(<RegisterPage {...defaultProps} />, overrideContext)
+      it('redirects to login page', () => {
+        renderWithContext(<ProfilePage {...defaultProps} />, overrideContext)
         const { push } = defaultProps.history
         expect(push).toHaveBeenCalledTimes(1)
-        expect(push).toHaveBeenCalledWith('/books')
+        expect(push).toHaveBeenCalledWith('/account/login')
       })
     })
   })

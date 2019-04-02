@@ -5,7 +5,7 @@ import { cleanup, render } from 'react-testing-library'
 import { AppContext, IAppContext } from 'app/core/AppIndex/App.context'
 import { mockUsers } from 'utils/mocks/static'
 
-import RegisterPage, { RegisterPageProps } from './RegisterPage'
+import LoginPage, { LoginPageProps } from './LoginPage'
 
 const defaultContext = {
   appInitialized: false,
@@ -20,9 +20,9 @@ const renderWithContext = (children, overrideContext = {}) =>
     </AppContext.Provider>,
   )
 
-let defaultProps: RegisterPageProps
+let defaultProps: LoginPageProps
 
-describe('RegisterPage', () => {
+describe('LoginPage', () => {
   let overrideContext: IAppContext
 
   beforeEach(() => {
@@ -30,7 +30,7 @@ describe('RegisterPage', () => {
     defaultProps = {
       getAuthRequestPending: jest.fn(),
       history: { push: jest.fn() } as any,
-      register: jest.fn(),
+      login: jest.fn(),
     }
   })
 
@@ -48,7 +48,7 @@ describe('RegisterPage', () => {
     describe('Basic Rendering', () => {
       it('renders correctly', () => {
         const { container } = renderWithContext(
-          <RegisterPage {...defaultProps} />,
+          <LoginPage {...defaultProps} />,
           overrideContext,
         )
         expect(container.querySelectorAll('form')).toHaveLength(1)
@@ -56,14 +56,14 @@ describe('RegisterPage', () => {
     })
 
     describe('Interactivity', () => {
-      it.todo('navigates to "login" page when link is clicked')
+      it.todo('navigates to "register" page when link is clicked')
 
       it.todo(
-        'correctly calls "register" on the service, and redirects to "books" page',
+        'correctly calls "login" on the service and redirects to "books" after login',
       )
 
       it.todo(
-        'correctly displays an error message when the API returns an error',
+        'correctly display an error message when the API returns an error',
       )
     })
   })
@@ -80,14 +80,14 @@ describe('RegisterPage', () => {
     describe('Basic Rendering', () => {
       it('renders nothing when not logged in', () => {
         const { container } = renderWithContext(
-          <RegisterPage {...defaultProps} />,
+          <LoginPage {...defaultProps} />,
           overrideContext,
         )
         expect(container.firstChild).toBeNull()
       })
 
       it('redirects to "books" page', () => {
-        renderWithContext(<RegisterPage {...defaultProps} />, overrideContext)
+        renderWithContext(<LoginPage {...defaultProps} />, overrideContext)
         const { push } = defaultProps.history
         expect(push).toHaveBeenCalledTimes(1)
         expect(push).toHaveBeenCalledWith('/books')

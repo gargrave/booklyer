@@ -1,24 +1,28 @@
 import * as React from 'react'
 
-import { useRequiredAuthentication } from '../utils/useRequiredAuthentication'
+import { AppContext } from 'app/core/AppIndex/App.context'
 
 import Button from 'app/common/Button/Button'
+import { BasicRouteProps } from 'app/core/core.types'
 
-export type ProfilePageProps = {
-  history: any
-}
+export type ProfilePageProps = {} & BasicRouteProps
 
 const ProfilePage: React.FunctionComponent<ProfilePageProps> = ({
   history,
 }) => {
-  const { getUser, logout } = useRequiredAuthentication(history)
-  const [user, setUser] = React.useState(getUser())
+  const { appInitialized, logout, user } = React.useContext(AppContext)
 
   React.useEffect(() => {
-    setUser(getUser())
-  }, [user])
+    if (appInitialized) {
+      if (user) {
+        // TODO: fetch profile and display it!
+      } else {
+        history.push('/account/login')
+      }
+    }
+  }, [appInitialized, user])
 
-  return user ? (
+  return appInitialized && user ? (
     <>
       <h2>My Profile</h2>
       <div style={{ color: '#777', marginBottom: '1rem' }}>

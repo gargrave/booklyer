@@ -1,14 +1,14 @@
 import * as React from 'react'
 
-import { AuthReduxProps } from '../auth.types'
+import { AppContext } from 'app/core/AppIndex/App.context'
+import { BasicRouteProps } from 'app/core/core.types'
 import { InputType } from 'app/common/forms/forms.types'
+import { AuthReduxProps } from '../auth.types'
 
 import ManagedForm, {
   FieldConfig,
 } from 'app/common/forms/ManagedForm/ManagedForm'
 import Loader from 'app/common/Loader/Loader'
-
-import { useUnauthenticated } from '../utils/useUnauthenticated'
 
 const fields: FieldConfig[] = [
   {
@@ -41,39 +41,42 @@ const fields: FieldConfig[] = [
   },
 ]
 
-export type RegisterPageProps = {
-  history: any
-} & AuthReduxProps
+export type RegisterPageProps = {} & BasicRouteProps & AuthReduxProps
 
 const RegisterPage: React.SFC<RegisterPageProps> = ({
   getAuthRequestPending,
   history,
   register,
 }) => {
-  const { getUser } = useUnauthenticated(history, '/books')
+  const { appInitialized, user } = React.useContext(AppContext)
   const [error, setError] = React.useState('')
-  const [loading, setLoading] = React.useState(false)
+  const loading = !appInitialized || getAuthRequestPending()
 
   React.useEffect(() => {
-    setLoading(getAuthRequestPending())
-  }, [getAuthRequestPending])
-
-  async function handleSubmit(payload) {
-    const { email, password } = payload
-    if (email && password) {
-      setError('')
-      try {
-        await register(email, password)
-        history.push('/authors')
-      } catch (error) {
-        setError('Registration could not be completed at this time.')
-      }
+    if (appInitialized && user) {
+      history.push('/books')
     }
-  }
+  }, [appInitialized, user])
+
+  const handleSubmit = React.useCallback(
+    async payload => {
+      const { email, password } = payload
+      if (email && password) {
+        setError('')
+        try {
+          await register(email, password)
+          history.push('/authors')
+        } catch (error) {
+          setError('Registration could not be completed at this time.')
+        }
+      }
+    },
+    [register],
+  )
 
   const renderLoader = React.useCallback(() => <Loader size={44} />, [])
 
-  return getUser() ? null : (
+  return appInitialized && user ? null : (
     <>
       <ManagedForm
         error={error}

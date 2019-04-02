@@ -9,6 +9,7 @@ import AuthorDetailPage, { AuthorDetailPageProps } from './AuthorDetailPage'
 
 const defaultContext = {
   appInitialized: false,
+  logout: jest.fn(),
   user: undefined,
 }
 
@@ -41,7 +42,11 @@ describe('AuthorDetailPage', () => {
     const user = mockUsers[0]
 
     beforeEach(() => {
-      overrideContext = { appInitialized: true, user: mockUsers[0] }
+      overrideContext = {
+        appInitialized: true,
+        logout: jest.fn(),
+        user: mockUsers[0],
+      }
     })
 
     describe('Basic Rendering', () => {
@@ -149,7 +154,11 @@ describe('AuthorDetailPage', () => {
 
   describe('Not Authenticated', () => {
     beforeEach(() => {
-      overrideContext = { appInitialized: true, user: undefined }
+      overrideContext = {
+        appInitialized: true,
+        logout: jest.fn(),
+        user: undefined,
+      }
     })
 
     describe('Basic Rendering', () => {
