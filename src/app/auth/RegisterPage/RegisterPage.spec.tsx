@@ -1,6 +1,6 @@
 import * as React from 'react'
 import 'jest-dom/extend-expect'
-import { cleanup, render } from 'react-testing-library'
+import { cleanup, fireEvent, render, wait } from 'react-testing-library'
 
 import { AppContext, IAppContext } from 'app/core/AppIndex/App.context'
 import { mockUsers } from 'utils/mocks/static'
@@ -56,15 +56,45 @@ describe('RegisterPage', () => {
     })
 
     describe('Interactivity', () => {
-      it.todo('navigates to "login" page when link is clicked')
+      it('navigates to "login" page when link is clicked', () => {
+        const { getByText } = renderWithContext(
+          <RegisterPage {...defaultProps} />,
+          overrideContext,
+        )
+        expect(getByText(/sign in to your account/i)).toBeInTheDocument()
+        fireEvent.click(getByText(/sign in to your account/i))
+        expect(defaultProps.history.push).toHaveBeenCalledTimes(1)
+        expect(defaultProps.history.push).toHaveBeenCalledWith('/account/login')
+      })
 
-      it.todo(
-        'correctly calls "register" on the service, and redirects to "books" page',
-      )
+      it('correctly calls "register" on the service, and redirects to "authors" page', async () => {
+        const { getByLabelText, getByText } = renderWithContext(
+          <RegisterPage {...defaultProps} />,
+          overrideContext,
+        )
 
-      it.todo(
-        'correctly displays an error message when the API returns an error',
-      )
+        const testEmail = 'awesomeemail@email.com'
+        const testPassword = 'password'
+        const { history, register } = defaultProps
+        expect(register).toHaveBeenCalledTimes(0)
+        fireEvent.change(getByLabelText(/Email/i), {
+          target: { value: testEmail },
+        })
+        fireEvent.change(getByLabelText(/Password/i), {
+          target: { value: testPassword },
+        })
+        fireEvent.change(getByLabelText(/Confirm Password/i), {
+          target: { value: testPassword },
+        })
+        fireEvent.click(getByText(/Submit/i))
+
+        await wait(() => {
+          expect(register).toHaveBeenCalledTimes(1)
+          expect(register).toHaveBeenCalledWith(testEmail, testPassword)
+          expect(history.push).toHaveBeenCalledTimes(1)
+          expect(history.push).toHaveBeenCalledWith('/authors')
+        })
+      })
     })
   })
 

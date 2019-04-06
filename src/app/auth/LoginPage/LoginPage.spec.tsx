@@ -1,6 +1,6 @@
 import * as React from 'react'
 import 'jest-dom/extend-expect'
-import { cleanup, render } from 'react-testing-library'
+import { cleanup, fireEvent, render, wait } from 'react-testing-library'
 
 import { AppContext, IAppContext } from 'app/core/AppIndex/App.context'
 import { mockUsers } from 'utils/mocks/static'
@@ -56,15 +56,44 @@ describe('LoginPage', () => {
     })
 
     describe('Interactivity', () => {
-      it.todo('navigates to "register" page when link is clicked')
+      it('navigates to "register" page when link is clicked', () => {
+        const { getByText } = renderWithContext(
+          <LoginPage {...defaultProps} />,
+          overrideContext,
+        )
+        expect(getByText(/create an account/i)).toBeInTheDocument()
+        fireEvent.click(getByText(/create an account/i))
+        expect(defaultProps.history.push).toHaveBeenCalledTimes(1)
+        expect(defaultProps.history.push).toHaveBeenCalledWith(
+          '/account/register',
+        )
+      })
 
-      it.todo(
-        'correctly calls "login" on the service and redirects to "books" after login',
-      )
+      it('correctly calls "login" on the service and redirects to "books" after login', async () => {
+        const { getByLabelText, getByText } = renderWithContext(
+          <LoginPage {...defaultProps} />,
+          overrideContext,
+        )
 
-      it.todo(
-        'correctly display an error message when the API returns an error',
-      )
+        const testEmail = 'awesomeemail@email.com'
+        const testPassword = 'password'
+        const { history, login } = defaultProps
+        expect(login).toHaveBeenCalledTimes(0)
+        fireEvent.change(getByLabelText(/Email/i), {
+          target: { value: testEmail },
+        })
+        fireEvent.change(getByLabelText(/Password/i), {
+          target: { value: testPassword },
+        })
+        fireEvent.click(getByText(/Submit/i))
+
+        await wait(() => {
+          expect(login).toHaveBeenCalledTimes(1)
+          expect(login).toHaveBeenCalledWith(testEmail, testPassword)
+          expect(history.push).toHaveBeenCalledTimes(1)
+          expect(history.push).toHaveBeenCalledWith('/books')
+        })
+      })
     })
   })
 

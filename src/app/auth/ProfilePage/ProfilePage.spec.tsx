@@ -1,6 +1,6 @@
 import * as React from 'react'
 import 'jest-dom/extend-expect'
-import { cleanup, render } from 'react-testing-library'
+import { cleanup, fireEvent, render } from 'react-testing-library'
 
 import { mockUsers } from 'utils/mocks/static'
 import { AppContext, IAppContext } from 'app/core/AppIndex/App.context'
@@ -48,7 +48,16 @@ describe('ProfilePage', () => {
     })
 
     describe('Interactivity', () => {
-      it.todo('calls the "logout" callback when clicked')
+      it('calls the "logout" callback when clicked', () => {
+        const { getByText } = renderWithContext(
+          <ProfilePage {...defaultProps} />,
+          overrideContext,
+        )
+        const { logout } = overrideContext
+        expect(logout).toHaveBeenCalledTimes(0)
+        fireEvent.click(getByText(/Logout/i))
+        expect(logout).toHaveBeenCalledTimes(1)
+      })
     })
   })
 

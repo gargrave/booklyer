@@ -99,6 +99,18 @@ describe('Auth Reducers', () => {
       const actual = authReducer(prevStateWithUser, action as any)
       expect(actual).toEqual(defaultState())
     })
+
+    it('corectly handles the REGISTER_SUCESS action', () => {
+      const prevStateWithUser: AuthState = {
+        ...previousState,
+        data: mockUsers[0],
+      }
+      const action = {
+        type: actionTypes.REGISTER_SUCCESS,
+      }
+      const actual = authReducer(prevStateWithUser, action as any)
+      expect(actual).toEqual(defaultState())
+    })
   })
 
   describe('error action types', () => {

@@ -74,6 +74,11 @@ const RegisterPage: React.SFC<RegisterPageProps> = ({
     [register],
   )
 
+  const handleLoginClick = React.useCallback(
+    () => history.push('/account/login'),
+    [history],
+  )
+
   const renderLoader = React.useCallback(() => <Loader size={44} />, [])
 
   return appInitialized && user ? null : (
@@ -86,6 +91,13 @@ const RegisterPage: React.SFC<RegisterPageProps> = ({
         renderLoader={renderLoader}
         title="Register"
       />
+
+      <div>
+        or{' '}
+        <a onClick={handleLoginClick} style={{ cursor: 'pointer' }}>
+          sign in to your account
+        </a>
+      </div>
     </>
   )
 }

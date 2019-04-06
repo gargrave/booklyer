@@ -68,6 +68,11 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = ({
     [login],
   )
 
+  const handleRegisterLinkClick = React.useCallback(
+    () => history.push('/account/register'),
+    [history],
+  )
+
   const renderLoader = React.useCallback(() => <Loader size={44} />, [])
 
   return appInitialized && user ? null : (
@@ -80,6 +85,13 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = ({
         renderLoader={renderLoader}
         title="Log In"
       />
+
+      <div>
+        or{' '}
+        <a onClick={handleRegisterLinkClick} style={{ cursor: 'pointer' }}>
+          create an account
+        </a>
+      </div>
     </>
   )
 }
