@@ -24,9 +24,3 @@ export type FbError = {
   message: string
   name: string
 }
-
-export type FbTimestamp = {
-  nanoseconds: number
-  seconds: number
-  toDate?: () => Date
-}

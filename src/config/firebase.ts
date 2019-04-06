@@ -2,8 +2,6 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
 
-// import { isDevEnv } from './env'
-
 const config = {
   apiKey: process.env.BOOKLYER_FIREBASE_API_KEY,
   authDomain: process.env.BOOKLYER_FIREBASE_AUTH_DOMAIN,
@@ -19,14 +17,11 @@ let db
 
 if (process.env.NODE_ENV !== 'test') {
   if (!initialized) {
-    // firebase.initializeApp(isDevEnv() ? devConfig : prodConfig)
     firebase.initializeApp(config)
     auth = firebase.auth()
     db = firebase.firestore()
     initialized = true
   }
 }
-
-export const fbTimestamp = () => firebase.firestore.FieldValue.serverTimestamp()
 
 export { auth, db }

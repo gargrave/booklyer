@@ -1,10 +1,4 @@
-import {
-  FbDocRef,
-  FbDoc,
-  FbCollection,
-  FbTimestamp,
-  FbFirestoreDb,
-} from './firebase.types'
+import { FbDocRef, FbDoc, FbCollection, FbFirestoreDb } from './firebase.types'
 
 export type ObjectIdMap<T> = {
   [key: string]: T
@@ -18,22 +12,9 @@ export async function getDocRef(
   return db.collection(tableName).doc(id)
 }
 
-function convertTimestamp(timestamp: FbTimestamp) {
-  if (timestamp.toDate && typeof timestamp.toDate === 'function') {
-    return timestamp.toDate()
-  }
-  return timestamp
-}
-
 // TODO: try to find a way to pull properties here based on types, so we can have type protection here too
 export function parseFbDoc<T>(doc: FbDoc, parseFn?: (arg: T) => T) {
   let data = { id: doc.id, ...doc.data() }
-  if (data.created) {
-    data.created = convertTimestamp(data.created)
-  }
-  if (data.updated) {
-    data.updated = convertTimestamp(data.updated)
-  }
   if (parseFn) {
     data = parseFn(data)
   }
