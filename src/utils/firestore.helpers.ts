@@ -1,19 +1,10 @@
-import { FbDocRef, FbDoc, FbCollection, FbFirestoreDb } from './firebase.types'
+import { FbDoc, FbCollection } from './firebase.types'
 
 export type ObjectIdMap<T> = {
   [key: string]: T
 }
 
-export async function getDocRef(
-  db: FbFirestoreDb,
-  tableName: string,
-  id: string,
-): Promise<FbDocRef> {
-  return db.collection(tableName).doc(id)
-}
-
-// TODO: try to find a way to pull properties here based on types, so we can have type protection here too
-export function parseFbDoc<T>(doc: FbDoc, parseFn?: (arg: T) => T) {
+function parseFbDoc<T>(doc: FbDoc, parseFn?: (arg: T) => T) {
   let data = { id: doc.id, ...doc.data() }
   if (parseFn) {
     data = parseFn(data)

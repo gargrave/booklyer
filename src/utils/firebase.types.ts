@@ -11,10 +11,6 @@ export type FbDocRef = {
   update: (args?: any) => any
 }
 
-export type FbFirestoreDb = {
-  collection: (name: string) => any
-}
-
 export type FbCollection = {
   docs: FbDoc[]
 }
