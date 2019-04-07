@@ -4,7 +4,7 @@ import { cleanup, fireEvent, render } from 'react-testing-library'
 
 import { AppContext, IAppContext } from 'app/core/AppIndex/App.context'
 import { bucketizer } from 'utils/bucketizer'
-import { mockAuthors, mockUsers } from 'utils/mocks/static'
+import { mockAuthors, mockUsers } from 'packages/pseudo/src/static'
 import { Author } from '../authors.types'
 
 import AuthorsListPage, { AuthorsListPageProps } from './AuthorsListPage'

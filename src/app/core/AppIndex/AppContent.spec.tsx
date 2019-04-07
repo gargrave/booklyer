@@ -4,7 +4,7 @@ import 'jest-dom/extend-expect'
 import { cleanup, render, wait } from 'react-testing-library'
 
 import { AppContext, IAppContext } from './App.context'
-import { mockUsers } from 'utils/mocks/static'
+import { mockUsers } from 'packages/pseudo/src/static'
 
 import AppContent, { AppContentProps } from './AppContent'
 

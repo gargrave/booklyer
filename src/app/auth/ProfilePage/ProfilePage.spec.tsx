@@ -2,7 +2,7 @@ import * as React from 'react'
 import 'jest-dom/extend-expect'
 import { cleanup, fireEvent, render } from 'react-testing-library'
 
-import { mockUsers } from 'utils/mocks/static'
+import { mockUsers } from 'packages/pseudo/src/static'
 import { AppContext, IAppContext } from 'app/core/AppIndex/App.context'
 
 import ProfilePage, { ProfilePageProps } from './ProfilePage'

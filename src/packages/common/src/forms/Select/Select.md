@@ -1,5 +1,5 @@
 ```jsx
-const { mockAuthors } = require('utils/mocks/static/authors')
+const { mockAuthors } = require('packages/pseudo/src/static/authors')
 
 const SelectHarness = () => {
   const [value1, setValue1] = React.useState(null)

@@ -3,7 +3,7 @@ import 'jest-dom/extend-expect'
 import { cleanup, fireEvent, render } from 'react-testing-library'
 
 import { Book } from 'app/books/books.types'
-import { mockBooks } from 'utils/mocks/static'
+import { mockBooks } from 'packages/pseudo/src/static'
 
 import SimpleBookCard, { SimpleBookCardProps } from './SimpleBookCard'
 
