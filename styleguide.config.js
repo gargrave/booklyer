@@ -1,7 +1,7 @@
 const path = require('path')
 
-const componentList = componentNames =>
-  componentNames.map(name => `src/app/**/${name}.tsx`)
+const componentList = (componentNames, path = 'app') =>
+  componentNames.map(name => `src/${path}/**/${name}.tsx`)
 
 module.exports = {
   propsParser: require('react-docgen-typescript').withCustomConfig(
@@ -17,21 +17,27 @@ module.exports = {
       sections: [
         {
           name: 'Misc',
-          components: componentList(['Alert', 'Button']),
+          components: componentList(['Alert', 'Button'], 'packages/common'),
         },
         {
           name: 'Card',
-          components: componentList([
-            'Card',
-            'CardHeader',
-            'CardSpacer',
-            'CardTextLine',
-            'CardTextList',
-          ]),
+          components: componentList(
+            [
+              'Card',
+              'CardHeader',
+              'CardSpacer',
+              'CardTextLine',
+              'CardTextList',
+            ],
+            'packages/common',
+          ),
         },
         {
           name: 'Forms',
-          components: componentList(['InputField', 'ManagedForm', 'Select']),
+          components: componentList(
+            ['InputField', 'ManagedForm', 'Select'],
+            'packages/common',
+          ),
         },
       ],
     },

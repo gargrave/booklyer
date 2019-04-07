@@ -3,7 +3,7 @@ import * as React from 'react'
 import { AppContext } from 'app/core/AppIndex/App.context'
 import { AuthorsReduxProps } from '../authors.types'
 
-import Card from 'app/common/Card/Card'
+import Card from 'packages/common/src/Card/Card'
 import AuthorForm from '../components/AuthorForm/AuthorForm'
 
 import styles from './AuthorCreatePage.module.scss'

@@ -4,9 +4,9 @@ import { Author } from 'app/authors/authors.types'
 import { DetailRouteProps } from 'app/core/core.types'
 import { BooksReduxProps, Book } from '../books.types'
 
-import Button, { ButtonType } from 'app/common/Button/Button'
-import Card from 'app/common/Card/Card'
-import Loader from 'app/common/Loader/Loader'
+import Button, { ButtonType } from 'packages/common/src/Button/Button'
+import Card from 'packages/common/src/Card/Card'
+import Loader from 'packages/common/src/Loader/Loader'
 import { DetailedBookCard } from '../components/BookCard'
 import BookForm from '../components/BookForm/BookForm'
 

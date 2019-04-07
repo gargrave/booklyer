@@ -4,10 +4,10 @@ import { Author } from 'app/authors/authors.types'
 import ManagedForm, {
   FieldConfig,
   ManagedFormState,
-} from 'app/common/forms/ManagedForm/ManagedForm'
-import { InputType } from 'app/common/forms/forms.types'
-import { OptionalFormProps } from 'app/common/forms/Form/Form'
-import Loader from 'app/common/Loader/Loader'
+} from 'packages/common/src/forms/ManagedForm/ManagedForm'
+import { InputType } from 'packages/common/src/forms/forms.types'
+import { OptionalFormProps } from 'packages/common/src/forms/Form/Form'
+import Loader from 'packages/common/src/Loader/Loader'
 
 export type BookFormProps = {
   authors: Author[]

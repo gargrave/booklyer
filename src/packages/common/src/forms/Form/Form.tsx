@@ -1,7 +1,7 @@
 import * as React from 'react'
 
-import Alert, { AlertType } from 'app/common/Alert/Alert'
-import Button, { ButtonType } from 'app/common/Button/Button'
+import Alert, { AlertType } from '../../Alert/Alert'
+import Button, { ButtonType } from '../../Button/Button'
 import ButtonRow from '../../ButtonRow/ButtonRow'
 
 import styles from './Form.module.scss'
