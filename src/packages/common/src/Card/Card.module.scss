@@ -1,5 +1,5 @@
-@import '~styles/colors';
-@import '~styles/shadows';
+@import '~packages/prism/src/colors';
+@import '~packages/prism/src/shadows';
 
 .card {
   background: $card-bg;
