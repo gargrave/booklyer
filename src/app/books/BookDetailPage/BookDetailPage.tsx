@@ -63,6 +63,7 @@ const BookDetailPage: React.FunctionComponent<BookDetailPageProps> = ({
           ...book,
           ...payload,
         }
+        setError('')
         await updateBook(user!.id, mergedBook)
         setEditing(false)
       } catch (error) {

@@ -29,6 +29,7 @@ const AuthorCreatePage: React.FunctionComponent<AuthorCreatePageProps> = ({
   const handleSubmit = React.useCallback(
     async payload => {
       try {
+        setError('')
         await createAuthor(user!.id, payload)
         history.push('/authors')
       } catch (error) {

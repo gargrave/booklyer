@@ -27,6 +27,7 @@ const BookCreatePage: React.FunctionComponent<BookCreatePageProps> = ({
   const handleSubmit = React.useCallback(
     async payload => {
       try {
+        setError('')
         await createBook(user!.id, payload)
         history.push('/books')
       } catch (error) {

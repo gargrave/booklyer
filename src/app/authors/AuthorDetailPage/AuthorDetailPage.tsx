@@ -57,6 +57,7 @@ const AuthorDetailPage: React.FunctionComponent<AuthorDetailPageProps> = ({
           ...author,
           ...payload,
         }
+        setError('')
         await updateAuthor(user!.id, mergedAuthor)
         setEditing(false)
       } catch (error) {
