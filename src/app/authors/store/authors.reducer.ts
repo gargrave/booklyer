@@ -1,6 +1,6 @@
 import produce from 'immer'
 
-import { ReduxAction, ReduxActionPayload } from 'app/core/core.types'
+import { ReduxAction, ReduxActionPayload } from 'store/store.types'
 import { FbError } from 'utils/firebase.types'
 
 import { actionTypes as authActionTypes } from 'app/auth/store/auth.reducer'

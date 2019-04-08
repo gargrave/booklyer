@@ -2,7 +2,7 @@ import produce from 'immer'
 import get from 'lodash/get'
 
 import { Author } from 'app/authors/authors.types'
-import { ReduxAction, ReduxActionPayload } from 'app/core/core.types'
+import { ReduxAction, ReduxActionPayload } from 'store/store.types'
 import { FbError } from 'utils/firebase.types'
 
 import { actionTypes as authActionTypes } from 'app/auth/store/auth.reducer'
