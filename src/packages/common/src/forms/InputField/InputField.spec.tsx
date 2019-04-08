@@ -1,105 +1,121 @@
 import * as React from 'react'
-import { shallow } from 'enzyme'
+import 'jest-dom/extend-expect'
+import { cleanup, render } from 'react-testing-library'
 
 import { InputType } from '../forms.types'
-import {
-  UnwrappedInputField as InputField,
-  InputFieldProps,
-} from './InputField'
+import InputField, { InputFieldProps } from './InputField'
 
 let defaultProps: InputFieldProps
 
 describe('InputField', () => {
   beforeEach(() => {
+    jest.resetAllMocks()
     defaultProps = {
-      value: '',
       disabled: false,
       error: '',
       label: 'Whatever',
       name: 'text',
-      onInputChange: jest.fn(),
+      onChange: jest.fn(),
       placeholder: '',
       type: InputType.text,
+      value: '',
     }
   })
 
-  describe('Label Rendering', () => {
+  afterEach(cleanup)
+
+  describe('Basic Rendering', () => {
     it('renders the correct label text', () => {
-      const wrapper = shallow(<InputField {...defaultProps} />)
-      const label = wrapper.find('label')
-      expect(label.length).toBe(1)
-      expect(label.text()).toMatch(new RegExp(defaultProps.label!))
+      const { container, getByText } = render(<InputField {...defaultProps} />)
+      expect(container.querySelector('label')).toBeInTheDocument()
+      expect(getByText(/Whatever/i)).toBeInTheDocument()
     })
 
     it('does not render a label if prop is empty', () => {
-      const wrapper = shallow(<InputField {...defaultProps} label="" />)
-      expect(wrapper.find('label').length).toBe(0)
+      const { container, queryByText } = render(
+        <InputField {...defaultProps} label={undefined} />,
+      )
+      expect(container.querySelector('label')).not.toBeInTheDocument()
+      expect(queryByText(/Whatever/i)).not.toBeInTheDocument()
     })
   })
 
   describe('Error Display', () => {
     it('renders the error correctly when one is present', () => {
       const error = 'error!'
-      const wrapper = shallow(<InputField {...defaultProps} error={error} />)
-      expect(wrapper.find('.error').length).toBe(1)
-      expect(wrapper.find({ children: error }).length).toBe(1)
+      const { container, getAllByText } = render(
+        <InputField {...defaultProps} error={error} />,
+      )
+      expect(container.querySelectorAll('.error')).toHaveLength(1)
+      expect(getAllByText(error)).toHaveLength(1)
     })
 
     it('does not render an error if prop is empty', () => {
-      const wrapper = shallow(<InputField {...defaultProps} />)
-      expect(wrapper.find('.error').length).toBe(0)
+      const { container } = render(<InputField {...defaultProps} />)
+      expect(container.querySelectorAll('.error')).toHaveLength(0)
     })
   })
 
   describe('InputField type', () => {
     it('renders a "text" input correctly', () => {
-      const wrapper = shallow(<InputField {...defaultProps} />)
-      expect(wrapper.find('input[type="email"]').length).toBe(0)
-      expect(wrapper.find('input[type="text"]').length).toBe(1)
-      expect(wrapper.find('input[type="password"]').length).toBe(0)
+      const { container } = render(<InputField {...defaultProps} />)
+      expect(container.querySelectorAll('input[type="email"]')).toHaveLength(0)
+      expect(container.querySelectorAll('input[type="text"]')).toHaveLength(1)
+      expect(container.querySelectorAll('input[type="password"]')).toHaveLength(
+        0,
+      )
     })
 
     it('renders a "password" input correctly', () => {
-      const wrapper = shallow(
+      const { container } = render(
         <InputField {...defaultProps} type={InputType.password} />,
       )
-      expect(wrapper.find('input[type="email"]').length).toBe(0)
-      expect(wrapper.find('input[type="text"]').length).toBe(0)
-      expect(wrapper.find('input[type="password"]').length).toBe(1)
+      expect(container.querySelectorAll('input[type="email"]')).toHaveLength(0)
+      expect(container.querySelectorAll('input[type="text"]')).toHaveLength(0)
+      expect(container.querySelectorAll('input[type="password"]')).toHaveLength(
+        1,
+      )
     })
   })
 
   describe('maxLength', () => {
     it('has a default "maxlength" when none is supplied', () => {
-      const wrapper = shallow(<InputField {...defaultProps} />)
-      const input = wrapper.find('input')
-      expect(input.prop('maxLength')).toBe(255)
+      const { container } = render(<InputField {...defaultProps} />)
+      expect(container.querySelectorAll('input[maxlength="255"]')).toHaveLength(
+        1,
+      )
     })
 
     it('correctly applies the "maxLength" attirbute', () => {
-      const wrapper = shallow(<InputField {...defaultProps} maxLength={50} />)
-      const input = wrapper.find('input')
-      expect(input.prop('maxLength')).toBe(50)
+      const { container } = render(
+        <InputField {...defaultProps} maxLength={50} />,
+      )
+      expect(container.querySelectorAll('input[maxlength="50"]')).toHaveLength(
+        1,
+      )
     })
 
     it('clamps min "maxLength" with zero value', () => {
-      const wrapper = shallow(<InputField {...defaultProps} maxLength={0} />)
-      const input = wrapper.find('input')
-      expect(input.prop('maxLength')).toBe(1)
+      const { container } = render(
+        <InputField {...defaultProps} maxLength={0} />,
+      )
+      expect(container.querySelectorAll('input[maxlength="1"]')).toHaveLength(1)
     })
 
     it('clamps min "maxLength" with negative value', () => {
-      const wrapper = shallow(<InputField {...defaultProps} maxLength={-10} />)
-      const input = wrapper.find('input')
-      expect(input.prop('maxLength')).toBe(1)
+      const { container } = render(
+        <InputField {...defaultProps} maxLength={-10} />,
+      )
+      expect(container.querySelectorAll('input[maxlength="1"]')).toHaveLength(1)
     })
 
     it('clamps max "maxLength"', () => {
-      const wrapper = shallow(
+      const { container } = render(
         <InputField {...defaultProps} maxLength={10000} />,
       )
-      const input = wrapper.find('input')
-      expect(input.prop('maxLength')).toBe(255)
+      expect(container.querySelectorAll('input[maxlength="255"]')).toHaveLength(
+        1,
+      )
     })
   })
 })
