@@ -3,9 +3,9 @@ import { Route, Switch } from 'react-router-dom'
 
 import { BooksReduxProps } from '../books.types'
 
-import BookCreatePage from '../BookCreatePage/BookCreatePage'
-import BookDetailPage from '../BookDetailPage/BookDetailPage'
-import BooksListPage from '../BooksListPage/BooksListPage'
+import BookCreatePage from '../pages/BookCreatePage/BookCreatePage'
+import BookDetailPage from '../pages/BookDetailPage/BookDetailPage'
+import BooksListPage from '../pages/BooksListPage/BooksListPage'
 
 export type BooksIndexProps = {} & BooksReduxProps
 

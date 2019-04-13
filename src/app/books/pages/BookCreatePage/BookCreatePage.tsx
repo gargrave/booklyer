@@ -2,9 +2,9 @@ import * as React from 'react'
 
 import { AppContext } from 'app/core/AppIndex/App.context'
 import { CreateRouteProps } from 'app/core/core.types'
-import { BooksReduxProps } from '../books.types'
+import { BooksReduxProps } from '../../books.types'
 
-import BookForm from '../components/BookForm/BookForm'
+import BookForm from '../../components/BookForm/BookForm'
 
 export type BookCreatePageProps = {} & CreateRouteProps & BooksReduxProps
 
