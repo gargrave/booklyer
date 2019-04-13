@@ -3,7 +3,7 @@ import 'jest-dom/extend-expect'
 import { cleanup, fireEvent, render } from 'react-testing-library'
 
 import { AppContext } from 'app/core/AppIndex/App.context'
-import { mockUsers, mockAuthors, mockBooks } from 'packages/pseudo/src/static'
+import { mockUsers, mockAuthors, mockBooks } from 'packages/mocks/src/static'
 
 import HomePage, { HomePageProps } from './HomePage'
 

@@ -4,7 +4,7 @@ import 'jest-dom/extend-expect'
 import { cleanup, render } from 'react-testing-library'
 
 import { AppContext, IAppContext } from 'app/core/AppIndex/App.context'
-import { mockUsers } from 'packages/pseudo/src/static'
+import { mockUsers } from 'packages/mocks/src/static'
 
 import Navbar, { NavbarProps } from './Navbar'
 

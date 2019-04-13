@@ -3,7 +3,7 @@ import 'jest-dom/extend-expect'
 import { cleanup, fireEvent, render } from 'react-testing-library'
 
 import { AppContext, IAppContext } from 'app/core/AppIndex/App.context'
-import { mockAuthors, mockUsers } from 'packages/pseudo/src/static'
+import { mockAuthors, mockUsers } from 'packages/mocks/src/static'
 import { bucketizer } from 'utils/bucketizer'
 import { Author } from '../../authors.types'
 

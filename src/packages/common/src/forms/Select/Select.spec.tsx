@@ -3,7 +3,7 @@ import 'jest-dom/extend-expect'
 import { cleanup, fireEvent, render } from 'react-testing-library'
 
 import Select, { SelectProps } from './Select'
-import { mockAuthors } from 'packages/pseudo/src/static/authors'
+import { mockAuthors } from 'packages/mocks/src/static/authors'
 
 const mockGetOptionText = option => `${option.firstName} ${option.lastName}`
 const mockGetOptionValue = option => option.id

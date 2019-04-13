@@ -1,7 +1,7 @@
 import 'jest-dom/extend-expect'
 
 import { FbError } from 'utils/firebase.types'
-import { mockAuthors, mockBooks } from 'packages/pseudo/src/static'
+import { mockAuthors, mockBooks } from 'packages/mocks/src/static'
 
 import { actionTypes as authActionTypes } from 'app/auth/store/auth.reducer'
 import {

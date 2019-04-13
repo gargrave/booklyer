@@ -4,7 +4,7 @@ import { cleanup, fireEvent, render } from 'react-testing-library'
 
 import { AppContext, IAppContext } from 'app/core/AppIndex/App.context'
 import { bucketizer } from 'utils/bucketizer'
-import { mockBooks, mockUsers } from 'packages/pseudo/src/static'
+import { mockBooks, mockUsers } from 'packages/mocks/src/static'
 import { Book } from '../books.types'
 
 import BooksListPage, { BooksListPageProps } from './BooksListPage'

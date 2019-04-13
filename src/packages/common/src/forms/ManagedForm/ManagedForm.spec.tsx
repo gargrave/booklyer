@@ -2,7 +2,7 @@ import * as React from 'react'
 import 'jest-dom/extend-expect'
 import { cleanup, render } from 'react-testing-library'
 
-import { formFields } from 'packages/pseudo/src/static/formFields'
+import { formFields } from 'packages/mocks/src/static/formFields'
 
 import ManagedForm, { ManagedFormProps } from './ManagedForm'
 import { InputType } from '../forms.types'

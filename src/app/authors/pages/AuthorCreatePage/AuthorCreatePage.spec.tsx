@@ -3,7 +3,7 @@ import 'jest-dom/extend-expect'
 import { cleanup, fireEvent, render, wait } from 'react-testing-library'
 
 import { AppContext, IAppContext } from 'app/core/AppIndex/App.context'
-import { mockUsers } from 'packages/pseudo/src/static'
+import { mockUsers } from 'packages/mocks/src/static'
 
 import AuthorCreatePage, { AuthorCreatePageProps } from './AuthorCreatePage'
 
