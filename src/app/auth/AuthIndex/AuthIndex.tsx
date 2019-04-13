@@ -3,9 +3,9 @@ import { Redirect, Route, Switch } from 'react-router-dom'
 
 import { AuthReduxProps } from '../auth.types'
 
-import LoginPage from '../LoginPage/LoginPage'
-import ProfilePage from '../ProfilePage/ProfilePage'
-import RegisterPage from '../RegisterPage/RegisterPage'
+import LoginPage from '../pages/LoginPage/LoginPage'
+import ProfilePage from '../pages/ProfilePage/ProfilePage'
+import RegisterPage from '../pages/RegisterPage/RegisterPage'
 
 export type AuthIndexProps = {} & AuthReduxProps
 

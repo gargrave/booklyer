@@ -1,9 +1,9 @@
 import * as React from 'react'
 
+import { BasicRouteProps } from 'app/core/core.types'
 import { AppContext } from 'app/core/AppIndex/App.context'
 
 import Button from 'packages/common/src/Button/Button'
-import { BasicRouteProps } from 'app/core/core.types'
 
 export type ProfilePageProps = {} & BasicRouteProps
 

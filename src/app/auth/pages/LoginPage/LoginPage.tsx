@@ -1,14 +1,13 @@
 import * as React from 'react'
 
-import { AppContext } from 'app/core/AppIndex/App.context'
-import { BasicRouteProps } from 'app/core/core.types'
 import { InputType } from 'packages/common/src/forms/forms.types'
-import { AuthReduxProps } from '../auth.types'
+import { AppContext } from 'app/core/AppIndex/App.context'
+import { AuthReduxProps } from '../../auth.types'
 
+import Loader from 'packages/common/src/Loader/Loader'
 import ManagedForm, {
   FieldConfig,
 } from 'packages/common/src/forms/ManagedForm/ManagedForm'
-import Loader from 'packages/common/src/Loader/Loader'
 
 const fields: FieldConfig[] = [
   {
@@ -30,23 +29,16 @@ const fields: FieldConfig[] = [
       minLength: 8,
     },
   },
-  {
-    label: 'Confirm Password',
-    name: 'passwordConfirm',
-    required: true,
-    type: InputType.password,
-    validations: {
-      mustMatch: 'password',
-    },
-  },
 ]
 
-export type RegisterPageProps = {} & BasicRouteProps & AuthReduxProps
+export type LoginPageProps = {
+  history: any
+} & AuthReduxProps
 
-const RegisterPage: React.SFC<RegisterPageProps> = ({
+const LoginPage: React.FunctionComponent<LoginPageProps> = ({
   getAuthRequestPending,
   history,
-  register,
+  login,
 }) => {
   const { appInitialized, user } = React.useContext(AppContext)
   const [error, setError] = React.useState('')
@@ -64,18 +56,20 @@ const RegisterPage: React.SFC<RegisterPageProps> = ({
       if (email && password) {
         setError('')
         try {
-          await register(email, password)
-          history.push('/authors')
+          await login(email, password)
+          history.push('/books')
         } catch (error) {
-          setError('Registration could not be completed at this time.')
+          setError(
+            'Could not login with the provided credentials. Please try again.',
+          )
         }
       }
     },
-    [register],
+    [login],
   )
 
-  const handleLoginClick = React.useCallback(
-    () => history.push('/account/login'),
+  const handleRegisterLinkClick = React.useCallback(
+    () => history.push('/account/register'),
     [history],
   )
 
@@ -89,17 +83,17 @@ const RegisterPage: React.SFC<RegisterPageProps> = ({
         loading={loading}
         onSubmit={handleSubmit}
         renderLoader={renderLoader}
-        title="Register"
+        title="Log In"
       />
 
       <div>
         or{' '}
-        <a onClick={handleLoginClick} style={{ cursor: 'pointer' }}>
-          sign in to your account
+        <a onClick={handleRegisterLinkClick} style={{ cursor: 'pointer' }}>
+          create an account
         </a>
       </div>
     </>
   )
 }
 
-export default RegisterPage
+export default React.memo(LoginPage)
