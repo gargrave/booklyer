@@ -2,13 +2,13 @@ import * as React from 'react'
 
 import { AppContext } from 'app/core/AppIndex/App.context'
 import { DetailRouteProps } from 'app/core/core.types'
-import { AuthorsReduxProps, Author } from '../authors.types'
+import { AuthorsReduxProps, Author } from '../../authors.types'
 
 import Button, { ButtonType } from 'packages/common/src/Button/Button'
 import Card from 'packages/common/src/Card/Card'
 import Loader from 'packages/common/src/Loader/Loader'
-import { DetailedAuthorCard } from '../components/AuthorCard'
-import AuthorForm from '../components/AuthorForm/AuthorForm'
+import { DetailedAuthorCard } from '../../components/AuthorCard'
+import AuthorForm from '../../components/AuthorForm/AuthorForm'
 
 import styles from './AuthorDetailPage.module.scss'
 

@@ -3,9 +3,9 @@ import { Route, Switch } from 'react-router-dom'
 
 import { AuthorsReduxProps } from '../authors.types'
 
-import AuthorCreatePage from '../AuthorCreatePage/AuthorCreatePage'
-import AuthorDetailPage from '../AuthorDetailPage/AuthorDetailPage'
-import AuthorsListPage from '../AuthorsListPage/AuthorsListPage'
+import AuthorCreatePage from '../pages/AuthorCreatePage/AuthorCreatePage'
+import AuthorDetailPage from '../pages/AuthorDetailPage/AuthorDetailPage'
+import AuthorsListPage from '../pages/AuthorsListPage/AuthorsListPage'
 
 export type AuthorsIndexProps = {} & AuthorsReduxProps
 
