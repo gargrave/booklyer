@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { BrowserRouter } from 'react-router-dom'
+import { Provider } from 'react-redux'
 import 'jest-dom/extend-expect'
 import { cleanup, render, wait } from 'react-testing-library'
 
@@ -14,11 +14,22 @@ const defaultContext = {
   user: undefined,
 }
 
-const renderWithContext = (children, overrideContext = {}) =>
+const renderWithContextAndStore = (children, overrideContext = {}) =>
   render(
-    <AppContext.Provider value={{ ...defaultContext, ...overrideContext }}>
-      {children}
-    </AppContext.Provider>,
+    <Provider
+      store={{
+        dispatch: jest.fn(),
+        getState: jest.fn(() => ({
+          authors: { data: [] },
+          books: { data: [] },
+        })),
+        subscribe: jest.fn(),
+      }}
+    >
+      <AppContext.Provider value={{ ...defaultContext, ...overrideContext }}>
+        {children}
+      </AppContext.Provider>
+    </Provider>,
   )
 
 let defaultProps: AppContentProps
@@ -47,7 +58,7 @@ describe('AppContent', () => {
 
     describe('Basic Rendering', () => {
       it('renders correctly', () => {
-        const { container, getByText } = renderWithContext(
+        const { container, getByText } = renderWithContextAndStore(
           <AppContent {...defaultProps} />,
           overrideContext,
         )
@@ -58,7 +69,10 @@ describe('AppContent', () => {
 
     describe('Data handling', () => {
       it('makes API calls as expected when it has a valid user', async () => {
-        renderWithContext(<AppContent {...defaultProps} />, overrideContext)
+        renderWithContextAndStore(
+          <AppContent {...defaultProps} />,
+          overrideContext,
+        )
         await wait(() => {
           expect(defaultProps.fetchBooks).toHaveBeenCalledTimes(1)
           expect(defaultProps.fetchBooks).toHaveBeenCalledWith(user.id)
@@ -89,7 +103,7 @@ describe('AppContent', () => {
     })
 
     it('displays a loader while the app is initializing', () => {
-      const { container, getByText } = renderWithContext(
+      const { container, getByText } = renderWithContextAndStore(
         <AppContent {...defaultProps} />,
         overrideContext,
       )
