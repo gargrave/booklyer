@@ -1,0 +1,13 @@
+@import '~packages/prism/src/mixins';
+
+.contentWrapper {
+  @include listViewContentWrapper;
+}
+
+.title {
+  margin-bottom: 16px;
+}
+
+.subTitle {
+  margin-bottom: 8px;
+}

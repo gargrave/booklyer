@@ -4,10 +4,16 @@ import styles from './ButtonRow.module.scss'
 
 export type ButtonRowProps = {
   children: React.ReactNode
+  styleOverride?: {}
 }
 
-const ButtonRow: React.FunctionComponent<ButtonRowProps> = ({ children }) => (
-  <div className={styles.buttonRow}>{children}</div>
+const ButtonRow: React.FunctionComponent<ButtonRowProps> = ({
+  children,
+  styleOverride = {},
+}) => (
+  <div className={styles.buttonRow} style={styleOverride}>
+    {children}
+  </div>
 )
 
 export default React.memo(ButtonRow)

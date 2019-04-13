@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import styles from './Titlebar.module.scss'
+import { Link } from 'react-router-dom'
 
 export type TitlebarProps = {
   title: string
@@ -8,7 +9,9 @@ export type TitlebarProps = {
 
 const Titlebar: React.SFC<TitlebarProps> = ({ title }) => (
   <nav className={styles.titlebar}>
-    <li className={styles.title}>{title}</li>
+    <li className={styles.title}>
+      <Link to="/">{title}</Link>
+    </li>
   </nav>
 )
 
