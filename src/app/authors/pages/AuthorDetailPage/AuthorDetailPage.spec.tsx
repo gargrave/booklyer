@@ -65,10 +65,6 @@ describe('AuthorDetailPage', () => {
         expect(container.querySelectorAll('form')).toHaveLength(0)
         expect(container.querySelectorAll('.loaderWrapper')).toHaveLength(0)
         expect(getByText(authorName)).toBeInTheDocument()
-        expect(getByText(/Books by .+/i)).toBeInTheDocument()
-        testBooks.forEach(book => {
-          expect(getByText(book.title)).toBeInTheDocument()
-        })
       })
 
       it('renders a loader when "loading" prop is true', () => {
@@ -84,7 +80,16 @@ describe('AuthorDetailPage', () => {
         expect(container.querySelectorAll('.loaderWrapper')).toHaveLength(1)
       })
 
-      it.todo('renders all current books by this author')
+      it('renders all current books by this author', () => {
+        const { getByText } = renderWithContext(
+          <AuthorDetailPage {...defaultProps} />,
+          overrideContext,
+        )
+        expect(getByText(/Books by .+/i)).toBeInTheDocument()
+        testBooks.forEach(book => {
+          expect(getByText(book.title)).toBeInTheDocument()
+        })
+      })
     })
 
     describe('Interactivity', () => {
@@ -180,6 +185,19 @@ describe('AuthorDetailPage', () => {
           expect(history.push).toHaveBeenCalledTimes(1)
           expect(history.push).toHaveBeenCalledWith('/authors')
         })
+      })
+
+      it('navigates to "new book" page when button is clicked', () => {
+        const { getByText } = renderWithContext(
+          <AuthorDetailPage {...defaultProps} />,
+          overrideContext,
+        )
+        const { push } = defaultProps.history
+        const btn = getByText(/Add Another Book/i)
+        expect(push).toHaveBeenCalledTimes(0)
+        fireEvent.click(btn)
+        expect(push).toHaveBeenCalledTimes(1)
+        expect(push).toHaveBeenCalledWith('/books/new')
       })
     })
   })

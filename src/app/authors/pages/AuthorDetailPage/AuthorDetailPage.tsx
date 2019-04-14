@@ -49,6 +49,10 @@ const AuthorDetailPage: React.FunctionComponent<AuthorDetailPageProps> = ({
     history.push('/authors')
   }, [])
 
+  const handleAddBookClick = React.useCallback(() => {
+    history.push('/books/new')
+  }, [])
+
   const handleEditClick = React.useCallback(() => {
     setEditing(true)
   }, [])
@@ -104,8 +108,18 @@ const AuthorDetailPage: React.FunctionComponent<AuthorDetailPageProps> = ({
                 </strong>{' '}
                 ({books.length})
               </div>
+              <div style={{ marginBottom: '1rem' }}>
+                <Button type={ButtonType.Primary} onClick={handleAddBookClick}>
+                  Add Another Book
+                </Button>
+              </div>
+
               {books.map(book => (
-                <SimpleBookCard book={book} key={book.id} />
+                <SimpleBookCard
+                  book={book}
+                  key={book.id}
+                  onClick={() => history.push(`/books/${book.id}`)}
+                />
               ))}
             </div>
           </>
