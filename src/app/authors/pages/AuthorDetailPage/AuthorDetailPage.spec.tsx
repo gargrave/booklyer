@@ -3,7 +3,7 @@ import 'jest-dom/extend-expect'
 import { cleanup, render, fireEvent, wait } from 'react-testing-library'
 
 import { AppContext, IAppContext } from 'app/core/AppIndex/App.context'
-import { mockAuthors, mockUsers } from 'packages/mocks/src/static'
+import { mockAuthors, mockUsers, mockBooks } from 'packages/mocks/src/static'
 
 import AuthorDetailPage, { AuthorDetailPageProps } from './AuthorDetailPage'
 
@@ -20,6 +20,9 @@ const renderWithContext = (children, overrideContext = {}) =>
     </AppContext.Provider>,
   )
 
+const testAuthor = mockAuthors[0]
+const testBooks = mockBooks.slice(0, 3)
+
 let defaultProps: AuthorDetailPageProps
 
 describe('AuthorDetailPage', () => {
@@ -29,8 +32,9 @@ describe('AuthorDetailPage', () => {
     jest.resetAllMocks()
     defaultProps = {
       deleteAuthor: jest.fn(),
-      getAuthorById: jest.fn(() => mockAuthors[0]),
-      getAuthorsRequestPending: jest.fn(),
+      getAuthorById: jest.fn(() => testAuthor),
+      getAuthorsRequestPending: jest.fn(() => false),
+      getBooksByAuthor: jest.fn(() => testBooks),
       history: { push: jest.fn() } as any,
       match: { params: { id: '0' } } as any,
       updateAuthor: jest.fn(),
@@ -56,13 +60,15 @@ describe('AuthorDetailPage', () => {
           <AuthorDetailPage {...defaultProps} />,
           overrideContext,
         )
-        const authorName = `${mockAuthors[0].firstName} ${
-          mockAuthors[0].lastName
-        }`
+        const authorName = `${testAuthor.firstName} ${testAuthor.lastName}`
         // no form is rendered by default
         expect(container.querySelectorAll('form')).toHaveLength(0)
         expect(container.querySelectorAll('.loaderWrapper')).toHaveLength(0)
         expect(getByText(authorName)).toBeInTheDocument()
+        expect(getByText(/Books by .+/i)).toBeInTheDocument()
+        testBooks.forEach(book => {
+          expect(getByText(book.title)).toBeInTheDocument()
+        })
       })
 
       it('renders a loader when "loading" prop is true', () => {
@@ -77,6 +83,8 @@ describe('AuthorDetailPage', () => {
         )
         expect(container.querySelectorAll('.loaderWrapper')).toHaveLength(1)
       })
+
+      it.todo('renders all current books by this author')
     })
 
     describe('Interactivity', () => {
@@ -102,6 +110,8 @@ describe('AuthorDetailPage', () => {
         expect(cb).toHaveBeenCalledTimes(1)
         expect(cb).toHaveBeenCalledWith('/authors')
       })
+
+      it.todo('navigates when the "Add Book" button is clicked')
 
       it('toggles editing state when "Edit" button is clicked', () => {
         const {

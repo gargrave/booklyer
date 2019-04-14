@@ -1,3 +1,4 @@
+import { Book } from 'app/books/books.types'
 import {
   GenericResourcePropertyNames,
   Resource,
@@ -39,6 +40,7 @@ export type AuthorsReduxProps = {
   fetchAuthors: (ownerId: string) => Promise<Author[]>
   getAuthorById: (id: string) => Author | undefined
   getAuthors: () => Author[]
+  getBooksByAuthor: (authorId: string) => Book[]
   getBucketedAuthors: () => AuthorBucket[]
   getAuthorsRequestPending: () => boolean
   updateAuthor: (ownerId: string, author: Author) => Promise<Author[]>

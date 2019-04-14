@@ -1,4 +1,5 @@
 import * as React from 'react'
+import get from 'lodash/get'
 
 import { AppContext } from 'app/core/AppIndex/App.context'
 import { DetailRouteProps } from 'app/core/core.types'
@@ -7,6 +8,8 @@ import { AuthorsReduxProps, Author } from '../../authors.types'
 import Button, { ButtonType } from 'packages/common/src/Button/Button'
 import Card from 'packages/common/src/Card/Card'
 import Loader from 'packages/common/src/Loader/Loader'
+
+import SimpleBookCard from 'app/books/components/BookCard/Simple/SimpleBookCard'
 import { DetailedAuthorCard } from '../../components/AuthorCard'
 import AuthorForm from '../../components/AuthorForm/AuthorForm'
 
@@ -14,10 +17,13 @@ import styles from './AuthorDetailPage.module.scss'
 
 export type AuthorDetailPageProps = {} & DetailRouteProps & AuthorsReduxProps
 
+// TODO: show all current books by this author
+// TODO: add an "Add Book by this Author" button
 const AuthorDetailPage: React.FunctionComponent<AuthorDetailPageProps> = ({
   deleteAuthor,
   getAuthorById,
   getAuthorsRequestPending,
+  getBooksByAuthor,
   history,
   match,
   updateAuthor,
@@ -27,6 +33,7 @@ const AuthorDetailPage: React.FunctionComponent<AuthorDetailPageProps> = ({
   const [editing, setEditing] = React.useState(false)
   const [author, setAuthor] = React.useState<Author | undefined>(undefined)
   const loading = !appInitialized || getAuthorsRequestPending()
+  const books = appInitialized ? getBooksByAuthor(get(author, 'id')) : []
 
   React.useEffect(() => {
     if (appInitialized) {
@@ -81,11 +88,27 @@ const AuthorDetailPage: React.FunctionComponent<AuthorDetailPageProps> = ({
     <div>
       <div className={styles.contentWrapper}>
         {!editing && author && (
-          <DetailedAuthorCard
-            author={author}
-            onBackClick={handleBackClick}
-            onEditClick={handleEditClick}
-          />
+          <>
+            <DetailedAuthorCard
+              author={author}
+              onBackClick={handleBackClick}
+              onEditClick={handleEditClick}
+            />
+
+            <div>
+              <hr />
+              <div className={styles.booksListHeader}>
+                Books by{' '}
+                <strong>
+                  {author.firstName} {author.lastName}
+                </strong>{' '}
+                ({books.length})
+              </div>
+              {books.map(book => (
+                <SimpleBookCard book={book} key={book.id} />
+              ))}
+            </div>
+          </>
         )}
 
         {editing && author && (

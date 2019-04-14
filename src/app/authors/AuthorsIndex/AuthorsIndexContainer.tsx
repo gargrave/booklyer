@@ -13,6 +13,7 @@ import {
   getAuthorsSortedByLastName,
   getBucketedAuthors,
 } from '../store/selectors'
+import { getBooksByAuthor } from 'app/books/store/selectors'
 
 import { Author } from '../authors.types'
 
@@ -22,6 +23,7 @@ const mapStateToProps = (state: AppState) => ({
   getAuthorById: (id: string) => getAuthorById(state.authors, id),
   getAuthors: () => getAuthorsSortedByLastName(state.authors),
   getAuthorsRequestPending: () => getAuthorsRequestPending(state.authors),
+  getBooksByAuthor: (authorId: string) => getBooksByAuthor(state, authorId),
   getBucketedAuthors: () => getBucketedAuthors(state.authors),
 })
 

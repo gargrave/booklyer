@@ -1,5 +1,11 @@
+@import '~packages/styles/src/colors';
 @import '~packages/styles/src/mixins';
 
 .contentWrapper {
   @include listViewContentWrapper;
+}
+
+.booksListHeader {
+  color: $text-med-dark;
+  font-size: 1.2rem;
 }
