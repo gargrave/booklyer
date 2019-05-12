@@ -50,5 +50,4 @@ InputField.defaultProps = {
   type: InputType.text,
 }
 
-export { InputField as UnwrappedInputField }
 export default React.memo(InputField)

@@ -28,5 +28,4 @@ const CardTextList: React.SFC<CardTextListProps> = ({ textList }) => (
   </>
 )
 
-export { CardTextList as UnwrappedCardTextList }
 export default React.memo(CardTextList)

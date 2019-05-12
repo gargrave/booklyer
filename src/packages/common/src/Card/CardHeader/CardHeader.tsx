@@ -11,7 +11,6 @@ const CardHeader: React.SFC<CardHeaderProps> = ({ text }) => (
   <div className={styles.cardHeader}>{text}</div>
 )
 
-export { CardHeader as UnwrappedCardHeader }
 /**
  * A simple pre-styled component for use as a title/header for Cards.
  *

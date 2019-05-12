@@ -33,5 +33,4 @@ const AuthIndex: React.SFC<AuthIndexProps> = props => (
   </Switch>
 )
 
-export { AuthIndex as UnwrappedAuthIndex }
 export default React.memo(AuthIndex)

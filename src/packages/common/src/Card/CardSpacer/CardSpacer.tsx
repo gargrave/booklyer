@@ -25,7 +25,6 @@ CardSpacer.defaultProps = {
   size: CardSpacerSize.Medium,
 }
 
-export { CardSpacer as UnwrappedCardSpacer }
 /**
  * A simple spacing element to add pre-defined spaces between other elements.
  *

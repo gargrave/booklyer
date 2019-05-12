@@ -31,7 +31,6 @@ CardTextLine.defaultProps = {
   type: CardTextLineType.Text,
 }
 
-export { CardTextLine as UnwrappedCardTextLine }
 /**
  * A simple helper to display a nicely-formatted single line of text within a card.
  *

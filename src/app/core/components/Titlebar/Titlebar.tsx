@@ -15,5 +15,4 @@ const Titlebar: React.SFC<TitlebarProps> = ({ title }) => (
   </nav>
 )
 
-export { Titlebar as UnwrappedTitlebar }
 export default React.memo(Titlebar)
