@@ -7,7 +7,7 @@
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
     "test:ci": "yarn test --runInBand --silent",
-    "lint": "tslint --project tsconfig.json --config tslint.json -t verbose",
+    "lint": "eslint --ext .ts,.tsx ./src",
     "styleguide": "styleguidist server",
     "deploy:dev": "yarn build && firebase use default && firebase deploy",
     "deploy:prod": "yarn build && firebase use prod && firebase deploy"
@@ -33,13 +33,6 @@
     "css-loader": "1.0.0",
     "dotenv": "6.0.0",
     "dotenv-expand": "4.2.0",
-    "eslint": "5.6.0",
-    "eslint-config-react-app": "^3.0.5",
-    "eslint-loader": "2.1.1",
-    "eslint-plugin-flowtype": "2.50.1",
-    "eslint-plugin-import": "2.14.0",
-    "eslint-plugin-jsx-a11y": "6.1.2",
-    "eslint-plugin-react": "7.11.1",
     "faker": "^4.1.0",
     "file-loader": "2.0.0",
     "firebase": "^5.8.2",
@@ -82,17 +75,24 @@
     "workbox-webpack-plugin": "3.6.3"
   },
   "devDependencies": {
-    "enzyme": "^3.7.0",
+    "@typescript-eslint/eslint-plugin": "^1.8.0",
+    "@typescript-eslint/parser": "^1.8.0",
     "enzyme-adapter-react-16": "^1.7.0",
+    "enzyme": "^3.7.0",
+    "eslint-config-prettier": "^4.2.0",
+    "eslint-config-react-app": "^4.0.1",
+    "eslint-loader": "^2.1.2",
+    "eslint-plugin-flowtype": "2.50.1",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react-hooks": "^1.6.0",
+    "eslint-plugin-react": "^7.13.0",
+    "eslint": "^5.16.0",
     "firebase-tools": "^6.3.1",
     "jest-dom": "^3.1.2",
     "react-docgen-typescript": "^1.12.3",
     "react-styleguidist": "^8.0.6",
-    "react-testing-library": "^5.9.0",
-    "tslint": "^5.12.1",
-    "tslint-config-airbnb": "^5.11.1",
-    "tslint-config-prettier": "^1.18.0",
-    "tslint-react": "^3.6.0"
+    "react-testing-library": "^5.9.0"
   },
   "eslintConfig": {
     "extends": "react-app"
