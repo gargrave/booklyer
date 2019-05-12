@@ -1,25 +1,28 @@
 import * as React from 'react'
-import { shallow } from 'enzyme'
+import 'jest-dom/extend-expect'
+import { cleanup, render } from 'react-testing-library'
 
-import {
-  CardHeaderProps,
-  UnwrappedCardHeader as CardHeader,
-} from './CardHeader'
+import CardHeader, { CardHeaderProps } from './CardHeader'
 
 let defaultProps: CardHeaderProps
 
 describe('CardHeader', () => {
   beforeEach(() => {
+    jest.resetAllMocks()
     defaultProps = {
       text: 'this is the text',
     }
   })
 
+  afterEach(cleanup)
+
   describe('Basic Rendering', () => {
     it('renders correctly', () => {
-      const wrapper = shallow(<CardHeader {...defaultProps} />)
-      expect(wrapper.find('div').length).toBe(1)
-      expect(wrapper.find({ children: defaultProps.text }).length).toBe(1)
+      const { container, getAllByText, debug } = render(
+        <CardHeader {...defaultProps} />,
+      )
+      expect(container.querySelectorAll('.cardHeader')).toHaveLength(1)
+      expect(getAllByText(/this is the text/i)).toHaveLength(1)
     })
   })
 })

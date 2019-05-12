@@ -1,9 +1,9 @@
 import * as React from 'react'
-import { shallow } from 'enzyme'
+import 'jest-dom/extend-expect'
+import { cleanup, render } from 'react-testing-library'
 
-import {
+import CardTextLine, {
   CardTextLineProps,
-  UnwrappedCardTextLine as CardTextLine,
   CardTextLineType,
 } from './CardTextLine'
 
@@ -11,44 +11,49 @@ let defaultProps: CardTextLineProps
 
 describe('CardTextLine', () => {
   beforeEach(() => {
+    jest.resetAllMocks()
     defaultProps = {
       text: 'this is the text',
       type: CardTextLineType.Text,
     }
   })
 
+  afterEach(cleanup)
+
   describe('Basic Rendering', () => {
     it('renders correctly', () => {
-      const wrapper = shallow(<CardTextLine {...defaultProps} />)
-      expect(wrapper.find('div').length).toBe(1)
-      expect(wrapper.find({ children: defaultProps.text }).length).toBe(1)
+      const { container, getAllByText } = render(
+        <CardTextLine {...defaultProps} />,
+      )
+      expect(container.querySelectorAll('.cardTextLine')).toHaveLength(1)
+      expect(getAllByText(defaultProps.text)).toHaveLength(1)
     })
   })
 
   describe('Conditional Styling', () => {
     it('correctly applies the "text" class', () => {
-      const wrapper = shallow(<CardTextLine {...defaultProps} />)
-      expect(wrapper.hasClass('text')).toBe(true)
-      expect(wrapper.hasClass('subtext')).toBe(false)
-      expect(wrapper.hasClass('title')).toBe(false)
+      const { container } = render(<CardTextLine {...defaultProps} />)
+      expect(container.querySelectorAll('.text')).toHaveLength(1)
+      expect(container.querySelectorAll('.subtext')).toHaveLength(0)
+      expect(container.querySelectorAll('.title')).toHaveLength(0)
     })
 
     it('correctly applies the "subtext" class', () => {
-      const wrapper = shallow(
+      const { container } = render(
         <CardTextLine {...defaultProps} type={CardTextLineType.Subtext} />,
       )
-      expect(wrapper.hasClass('text')).toBe(false)
-      expect(wrapper.hasClass('subtext')).toBe(true)
-      expect(wrapper.hasClass('title')).toBe(false)
+      expect(container.querySelectorAll('.text')).toHaveLength(0)
+      expect(container.querySelectorAll('.subtext')).toHaveLength(1)
+      expect(container.querySelectorAll('.title')).toHaveLength(0)
     })
 
     it('correctly applies the "title" class', () => {
-      const wrapper = shallow(
+      const { container } = render(
         <CardTextLine {...defaultProps} type={CardTextLineType.Title} />,
       )
-      expect(wrapper.hasClass('text')).toBe(false)
-      expect(wrapper.hasClass('subtext')).toBe(false)
-      expect(wrapper.hasClass('title')).toBe(true)
+      expect(container.querySelectorAll('.text')).toHaveLength(0)
+      expect(container.querySelectorAll('.subtext')).toHaveLength(0)
+      expect(container.querySelectorAll('.title')).toHaveLength(1)
     })
   })
 })

@@ -1,61 +1,54 @@
 import * as React from 'react'
-import { shallow } from 'enzyme'
+import 'jest-dom/extend-expect'
+import { cleanup, render } from 'react-testing-library'
 
-import {
-  CardSpacerProps,
-  UnwrappedCardSpacer as CardSpacer,
-  CardSpacerSize,
-} from './CardSpacer'
+import CardSpacer, { CardSpacerProps, CardSpacerSize } from './CardSpacer'
 
 let defaultProps: CardSpacerProps
 
 describe('CardSpacer', () => {
   beforeEach(() => {
+    jest.resetAllMocks()
     defaultProps = {
       size: CardSpacerSize.Medium,
     }
   })
 
-  describe('Basic Rendering', () => {
-    it('renders correctly', () => {
-      const wrapper = shallow(<CardSpacer {...defaultProps} />)
-      expect(wrapper.find('div').length).toBe(1)
-    })
-  })
+  afterEach(cleanup)
 
   describe('Conditional Styling', () => {
     it('applies "medium" sizing by default', () => {
-      const wrapper = shallow(<CardSpacer {...defaultProps} />)
-      expect(wrapper.hasClass('small')).toBe(false)
-      expect(wrapper.hasClass('medium')).toBe(true)
-      expect(wrapper.hasClass('large')).toBe(false)
+      const { container } = render(<CardSpacer {...defaultProps} />)
+      expect(container.querySelectorAll('.small')).toHaveLength(0)
+      expect(container.querySelectorAll('.medium')).toHaveLength(1)
+      expect(container.querySelectorAll('.large')).toHaveLength(0)
     })
 
     it('correctly applies "small" sizing', () => {
-      const wrapper = shallow(
+      const { container } = render(
         <CardSpacer {...defaultProps} size={CardSpacerSize.Small} />,
       )
-      expect(wrapper.hasClass('small')).toBe(true)
-      expect(wrapper.hasClass('medium')).toBe(false)
-      expect(wrapper.hasClass('large')).toBe(false)
+      expect(container.querySelectorAll('.small')).toHaveLength(1)
+      expect(container.querySelectorAll('.medium')).toHaveLength(0)
+      expect(container.querySelectorAll('.large')).toHaveLength(0)
     })
 
     it('correctly applies "medium" sizing', () => {
-      const wrapper = shallow(
+      const { container } = render(
         <CardSpacer {...defaultProps} size={CardSpacerSize.Medium} />,
       )
-      expect(wrapper.hasClass('small')).toBe(false)
-      expect(wrapper.hasClass('medium')).toBe(true)
-      expect(wrapper.hasClass('large')).toBe(false)
+      expect(container.querySelectorAll('.small')).toHaveLength(0)
+      expect(container.querySelectorAll('.medium')).toHaveLength(1)
+      expect(container.querySelectorAll('.large')).toHaveLength(0)
     })
 
     it('correctly applies "large" sizing', () => {
-      const wrapper = shallow(
+      const { container } = render(
         <CardSpacer {...defaultProps} size={CardSpacerSize.Large} />,
       )
-      expect(wrapper.hasClass('small')).toBe(false)
-      expect(wrapper.hasClass('medium')).toBe(false)
-      expect(wrapper.hasClass('large')).toBe(true)
+      expect(container.querySelectorAll('.small')).toHaveLength(0)
+      expect(container.querySelectorAll('.medium')).toHaveLength(0)
+      expect(container.querySelectorAll('.large')).toHaveLength(1)
     })
   })
 })

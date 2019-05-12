@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { shallow } from 'enzyme'
+import 'jest-dom/extend-expect'
+import { cleanup, fireEvent, render } from 'react-testing-library'
 
 import Card, { CardProps } from './Card'
 
@@ -7,42 +8,47 @@ let defaultProps: CardProps
 
 describe('Card', () => {
   beforeEach(() => {
+    jest.resetAllMocks()
     defaultProps = {
       hoverable: false,
       onClick: jest.fn(),
     }
   })
 
+  afterEach(cleanup)
+
   describe('Basic Rendering', () => {
     it('renders correctly', () => {
-      const wrapper = shallow(
+      const { container, getAllByText } = render(
         <Card {...defaultProps}>
-          <p>Child</p>
+          <p>Card!</p>
         </Card>,
       )
-      expect(wrapper.find('div').length).toBe(1)
-      expect(wrapper.find('p').length).toBe(1)
+      expect(container.querySelectorAll('.card')).toHaveLength(1)
+      expect(container.querySelectorAll('p')).toHaveLength(1)
+      expect(getAllByText(/^Card!$/i)).toHaveLength(1)
     })
   })
 
   describe('Conditional styling', () => {
     it('does not apply the "hoverable" class by default', () => {
-      const wrapper = shallow(<Card {...defaultProps} />)
-      expect(wrapper.hasClass('hoverable')).toBe(false)
+      const { container } = render(<Card {...defaultProps} />)
+      expect(container.querySelectorAll('.hoverable')).toHaveLength(0)
     })
 
     it('appliesthe "hoverable" class when "hoverable" prop is true', () => {
-      const wrapper = shallow(<Card {...defaultProps} hoverable={true} />)
-      expect(wrapper.hasClass('hoverable')).toBe(true)
+      const { container } = render(<Card {...defaultProps} hoverable={true} />)
+      expect(container.querySelectorAll('.hoverable')).toHaveLength(1)
     })
   })
 
   describe('Interactivity', () => {
     it('calls the "onClick" callback when clicked', () => {
-      const wrapper = shallow(<Card {...defaultProps} />)
-      expect(defaultProps.onClick).toHaveBeenCalledTimes(0)
-      wrapper.simulate('click')
-      expect(defaultProps.onClick).toHaveBeenCalledTimes(1)
+      const { container } = render(<Card {...defaultProps} />)
+      const { onClick } = defaultProps
+      expect(onClick).toHaveBeenCalledTimes(0)
+      fireEvent.click(container.firstChild as HTMLElement)
+      expect(onClick).toHaveBeenCalledTimes(1)
     })
   })
 })

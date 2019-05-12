@@ -397,7 +397,6 @@ module.exports = {
           '!**/__tests__/**',
           '!**/?(*.)(spec|test).*',
           '!src/setupProxy.js',
-          '!src/setupTests.*',
         ],
         watch: paths.appSrc,
         silent: true,
