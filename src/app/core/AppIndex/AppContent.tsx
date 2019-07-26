@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { BrowserRouter } from 'react-router-dom'
 import has from 'lodash/has'
 
 import { AppContext } from './App.context'
@@ -8,10 +9,9 @@ import Titlebar from '../components/Titlebar/Titlebar'
 import Router from '../Router'
 
 import styles from './AppContent.module.scss'
-import { BrowserRouter } from 'react-router-dom'
 
 export type AppContentProps = {
-  fetchBooks: (owerId: string) => Promise<any>
+  fetchBooks: (ownerId: string) => Promise<void>
 }
 
 const AppContent: React.FunctionComponent<AppContentProps> = ({
@@ -22,9 +22,9 @@ const AppContent: React.FunctionComponent<AppContentProps> = ({
   React.useEffect(() => {
     // once app is initialized, if we are logged in, make the initial data fetch requests
     if (appInitialized && has(user, 'id')) {
-      fetchBooks(user!.id)
+      user && fetchBooks(user.id)
     }
-  }, [appInitialized, user])
+  }, [appInitialized, user]) // eslint-disable-line
 
   return (
     <BrowserRouter>
@@ -33,9 +33,11 @@ const AppContent: React.FunctionComponent<AppContentProps> = ({
         {appInitialized ? (
           <>
             <Navbar />
-            <main className={styles.main}>
-              <Router />
-            </main>
+            <div className={styles.appWrapper}>
+              <main className={styles.appContent}>
+                <Router />
+              </main>
+            </div>
           </>
         ) : (
           <div className={styles.loading}>Loading...</div>

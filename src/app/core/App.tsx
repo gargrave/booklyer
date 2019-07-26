@@ -7,7 +7,7 @@ import { AppIndexContainer } from './AppIndex'
 
 import './App.scss'
 
-const App: React.FunctionComponent = props => (
+const App: React.FunctionComponent = () => (
   <Provider store={store}>
     <AppIndexContainer />
   </Provider>

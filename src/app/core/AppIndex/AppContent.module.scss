@@ -1,7 +1,15 @@
-.main {
+@import '~packages/styles/src/_colors';
+
+.appWrapper {
+  background: $bg-main;
   margin: auto;
   max-width: 1200px;
   text-align: center;
+}
+
+.appContent {
+  background: $bg-main;
+  margin: 8px;
 }
 
 .loading {
