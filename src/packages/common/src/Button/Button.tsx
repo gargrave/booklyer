@@ -60,7 +60,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
     return () => {
       clearTimeout(timeout)
     }
-  }, [isConfirming])
+  }, [extraClickTimeout, isConfirming])
 
   const handleClick = React.useCallback(
     event => {
@@ -75,7 +75,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
         onClick(event)
       }
     },
-    [isConfirming, onClick],
+    [isConfirming, onClick, requireExtraClick],
   )
 
   return (

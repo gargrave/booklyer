@@ -1,3 +1,5 @@
 config
 scripts
+
+*.d.ts
 jest.config.js

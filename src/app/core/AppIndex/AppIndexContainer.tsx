@@ -6,7 +6,7 @@ import { setLocalUserData } from '../../auth/store/actions'
 
 import AppIndex from './AppIndex'
 
-const mapStateToProps = (state: AppState) => ({})
+const mapStateToProps = (_state: AppState) => ({})
 
 const mapDispatchToProps = dispatch => ({
   fetchBooks: (ownerId: string) => dispatch(fetchBooks(ownerId)),

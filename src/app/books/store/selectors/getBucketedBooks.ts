@@ -10,12 +10,21 @@ type BookSubBucket = {
   unsorted: Book[]
 }
 
+// removes words that should not be considered when sorting
+const sanitize = (str: string): string => str.replace(/^(the|a)\s*/i, '')
+
+const sortByField = (field: string) => (a: Book, b: Book) =>
+  sanitize(a[field]) > sanitize(b[field]) ? 1 : -1
+
+const sortByAuthor = (a: Book, b: Book) =>
+  a.author.lastName > b.author.lastName ? 1 : -1
+
 export function bookBucketizer(
-  values: any[],
+  values: Book[],
   preSortValues: (a, b) => -1 | 0 | 1,
   getBucketKey: (value) => string,
 ) {
-  // use default bucketize to get single-level bucketing
+  // use default bucketizer to get single-level bucketing
   const bucketed = bucketizer<Book>(values, preSortValues, getBucketKey)
 
   // expand bucketing to account for "sortBy" field on books, as these books should be sorted relative to one-another
@@ -28,7 +37,7 @@ export function bookBucketizer(
           [key]: acc[key].concat(book),
         }
       },
-      { sorted: [] as any, unsorted: [] as any },
+      { sorted: [] as Book[], unsorted: [] as Book[] },
     )
 
     // just directly overwrite the existing values on this bucket
@@ -39,15 +48,6 @@ export function bookBucketizer(
   })
   return bucketed
 }
-
-// removes words that should not be considered when sorting
-const sanitize = (str: string): string => str.replace(/^(the|a)\s*/i, '')
-
-const sortByField = (field: string) => (a: Book, b: Book) =>
-  sanitize(a[field]) > sanitize(b[field]) ? 1 : -1
-
-const sortByAuthor = (a: Book, b: Book) =>
-  a.author.lastName > b.author.lastName ? 1 : -1
 
 const getBucketedBooks = createSelector(
   getBooksWithAuthors,

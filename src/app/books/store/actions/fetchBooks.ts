@@ -1,7 +1,6 @@
 import { fetchAuthors } from 'app/authors/store/actions'
 import { getAuthors } from 'app/authors/store/selectors'
 
-import { BookIdMap } from '../../books.types'
 import { actionTypes, BooksActionPayload } from '../books.reducer'
 import service from '../books.service'
 
@@ -9,7 +8,7 @@ const fetchBooks = (ownerId: string) => async (dispatch, getState) => {
   dispatch({ type: actionTypes.FETCH_BOOKS })
 
   const payload: BooksActionPayload = {
-    books: {} as BookIdMap,
+    books: {},
     error: undefined,
   }
 

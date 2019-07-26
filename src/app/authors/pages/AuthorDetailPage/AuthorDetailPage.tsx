@@ -35,23 +35,31 @@ const AuthorDetailPage: React.FunctionComponent<AuthorDetailPageProps> = ({
   const loading = !appInitialized || getAuthorsRequestPending()
   const books = appInitialized ? getBooksByAuthor(get(author, 'id')) : []
 
+  const navigateTo = React.useCallback(
+    (url: string): void => {
+      history.push(url)
+    },
+    [history],
+  )
+
   React.useEffect(() => {
     if (appInitialized) {
       if (user) {
-        setAuthor(getAuthorById(match.params.id || ''))
+        const authorId = match.params.id || ''
+        setAuthor(getAuthorById(authorId))
       } else {
-        history.push('/account/login')
+        navigateTo('/account/login')
       }
     }
-  }, [appInitialized, getAuthorById, user])
+  }, [appInitialized, getAuthorById, user]) // eslint-disable-line
 
   const handleBackClick = React.useCallback(() => {
-    history.push('/authors')
-  }, [])
+    navigateTo('/authors')
+  }, [navigateTo])
 
   const handleAddBookClick = React.useCallback(() => {
-    history.push('/books/new')
-  }, [])
+    navigateTo('/books/new')
+  }, [navigateTo])
 
   const handleEditClick = React.useCallback(() => {
     setEditing(true)
@@ -64,13 +72,15 @@ const AuthorDetailPage: React.FunctionComponent<AuthorDetailPageProps> = ({
   const handleSubmit = React.useCallback(
     async payload => {
       try {
-        const mergedAuthor = {
-          ...author,
-          ...payload,
+        if (user) {
+          const mergedAuthor = {
+            ...author,
+            ...payload,
+          }
+          setError('')
+          await updateAuthor(user.id, mergedAuthor)
+          setEditing(false)
         }
-        setError('')
-        await updateAuthor(user!.id, mergedAuthor)
-        setEditing(false)
       } catch (error) {
         setError('There was an error updating the Author.')
       }
@@ -80,13 +90,15 @@ const AuthorDetailPage: React.FunctionComponent<AuthorDetailPageProps> = ({
 
   const handleDelete = React.useCallback(async () => {
     try {
-      setError('')
-      await deleteAuthor(user!.id, author!)
-      history.push('/authors')
+      if (user && author) {
+        setError('')
+        await deleteAuthor(user.id, author)
+        navigateTo('/authors')
+      }
     } catch (error) {
       setError('There was an error deleting the Author.')
     }
-  }, [author, deleteAuthor, user])
+  }, [author, deleteAuthor, navigateTo, user]) // eslint-disable-line
 
   return appInitialized && user ? (
     <div>
@@ -118,7 +130,7 @@ const AuthorDetailPage: React.FunctionComponent<AuthorDetailPageProps> = ({
                 <SimpleBookCard
                   book={book}
                   key={book.id}
-                  onClick={() => history.push(`/books/${book.id}`)}
+                  onClick={() => navigateTo(`/books/${book.id}`)}
                 />
               ))}
             </div>
