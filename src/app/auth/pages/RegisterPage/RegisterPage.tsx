@@ -56,7 +56,7 @@ const RegisterPage: React.SFC<RegisterPageProps> = ({
     if (appInitialized && user) {
       history.push('/books')
     }
-  }, [appInitialized, user])
+  }, [appInitialized, user]) // eslint-disable-line
 
   const handleSubmit = React.useCallback(
     async payload => {
@@ -71,7 +71,7 @@ const RegisterPage: React.SFC<RegisterPageProps> = ({
         }
       }
     },
-    [register],
+    [register], // eslint-disable-line
   )
 
   const handleLoginClick = React.useCallback(

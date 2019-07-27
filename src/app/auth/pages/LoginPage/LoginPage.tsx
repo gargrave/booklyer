@@ -8,6 +8,7 @@ import Loader from 'packages/common/src/Loader/Loader'
 import ManagedForm, {
   FieldConfig,
 } from 'packages/common/src/forms/ManagedForm/ManagedForm'
+import { BasicRouteProps } from '../../../core/core.types'
 
 const fields: FieldConfig[] = [
   {
@@ -31,9 +32,7 @@ const fields: FieldConfig[] = [
   },
 ]
 
-export type LoginPageProps = {
-  history: any
-} & AuthReduxProps
+export type LoginPageProps = {} & BasicRouteProps & AuthReduxProps
 
 const LoginPage: React.FunctionComponent<LoginPageProps> = ({
   getAuthRequestPending,
@@ -48,7 +47,7 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = ({
     if (appInitialized && user) {
       history.push('/books')
     }
-  }, [appInitialized, user])
+  }, [appInitialized, user]) // eslint-disable-line
 
   const handleSubmit = React.useCallback(
     async payload => {
@@ -65,7 +64,7 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = ({
         }
       }
     },
-    [login],
+    [login], // eslint-disable-line
   )
 
   const handleRegisterLinkClick = React.useCallback(

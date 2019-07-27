@@ -8,10 +8,10 @@ export type AuthenticationOptions = {
 }
 
 export const useFirebaseAuth = (
-  options: AuthenticationOptions = {} as AuthenticationOptions,
+  options: AuthenticationOptions = {} as AuthenticationOptions, // eslint-disable-line
 ) => {
   const [authInitialized, setAuthInitialized] = useState(false)
-  const [user, setUser] = useState<any>(sanitizeUser(auth.currentUser))
+  const [user, setUser] = useState<any>(sanitizeUser(auth.currentUser)) // eslint-disable-line
 
   const { waitForInitialization } = options
 

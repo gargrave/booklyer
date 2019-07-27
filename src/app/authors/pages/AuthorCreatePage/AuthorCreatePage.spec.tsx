@@ -37,7 +37,7 @@ describe('AuthorCreatePage', () => {
   afterEach(cleanup)
 
   describe('Authenticated', () => {
-    let user = mockUsers[0]
+    const user = mockUsers[0]
 
     beforeEach(() => {
       overrideContext = { appInitialized: true, user }

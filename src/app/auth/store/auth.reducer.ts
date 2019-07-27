@@ -29,7 +29,7 @@ export type AuthState = {
 }
 
 export const defaultState = (): AuthState => ({
-  data: {} as User,
+  data: {} as User, // eslint-disable-line
   error: undefined,
   requestPending: false,
 })
@@ -52,13 +52,13 @@ export const authReducer = (
         return
 
       case actionTypes.LOGOUT_SUCCESS:
-        draft.data = {} as User
+        draft.data = {} as User // eslint-disable-line
         draft.error = undefined
         draft.requestPending = false
         return
 
       case actionTypes.REGISTER_SUCCESS:
-        draft.data = {} as User
+        draft.data = {} as User // eslint-disable-line
         draft.error = undefined
         draft.requestPending = false
         return

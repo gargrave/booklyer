@@ -24,24 +24,26 @@ const AuthorCreatePage: React.FunctionComponent<AuthorCreatePageProps> = ({
     if (appInitialized && !user) {
       history.push('/account/login')
     }
-  }, [appInitialized, user])
+  }, [appInitialized, user]) // eslint-disable-line
 
   const handleSubmit = React.useCallback(
     async payload => {
       try {
-        setError('')
-        await createAuthor(user!.id, payload)
-        history.push('/authors')
+        if (user) {
+          setError('')
+          await createAuthor(user.id, payload)
+          history.push('/authors')
+        }
       } catch (error) {
         setError('There was an error creating the Author.')
       }
     },
-    [history, user],
+    [history, user], // eslint-disable-line
   )
 
   const handleCancel = React.useCallback(() => {
     history.push('/authors')
-  }, [])
+  }, []) // eslint-disable-line
 
   return appInitialized && user ? (
     <div className={styles.contentWrapper}>

@@ -35,7 +35,7 @@ export type AuthorsState = {
 }
 
 export const defaultState = (): AuthorsState => ({
-  data: {} as AuthorIdMap,
+  data: {},
   error: undefined,
   requestPending: false,
 })

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-object-literal-type-assertion */
 import { FbDoc, FbCollection } from './firebase.types'
 
 export type ObjectIdMap<T> = {

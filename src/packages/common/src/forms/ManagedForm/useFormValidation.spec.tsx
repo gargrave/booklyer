@@ -42,11 +42,11 @@ describe('useFormValidation', () => {
     })
 
     it('uses a default custom parser for non-string initial value types', () => {
-      const initivalue = {
+      const initialValue = {
         awesomeField: 'noice',
         superDuperField: { id: 'UseMe' },
       }
-      const state = initialState(fields, initivalue)
+      const state = initialState(fields, initialValue)
       expect(state).toEqual({
         awesomeField: 'noice',
         superDuperField: 'UseMe',

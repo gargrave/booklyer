@@ -11,7 +11,7 @@ const mapStateToProps = (state: AppState) => ({
   getBooks: () => getBooksWithAuthors(state),
 })
 
-const mapDispatchToProps = dispatch => ({})
+const mapDispatchToProps = _dispatch => ({})
 
 export default connect(
   mapStateToProps,

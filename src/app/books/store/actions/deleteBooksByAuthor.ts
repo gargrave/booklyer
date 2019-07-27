@@ -1,5 +1,4 @@
 import { Author } from 'app/authors/authors.types'
-import { Book, BookIdMap } from '../../books.types'
 import { actionTypes, BooksActionPayload } from '../books.reducer'
 import service from '../books.service'
 
@@ -10,7 +9,7 @@ const deleteBooksByAuthor = (
   dispatch({ type: actionTypes.DELETE_BOOKS_BY_AUTHOR })
 
   const payload: BooksActionPayload = {
-    books: {} as BookIdMap,
+    books: {},
     error: undefined,
   }
 
@@ -21,8 +20,7 @@ const deleteBooksByAuthor = (
       type: actionTypes.DELETE_BOOKS_BY_AUTHOR_SUCCESS,
     })
   } catch (err) {
-    const hydratedError = { ...err, message: err.message }
-    payload.error = hydratedError
+    payload.error = { ...err, message: err.message }
 
     dispatch({
       payload,

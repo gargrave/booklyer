@@ -1,3 +1,4 @@
+/* eslint-disable sort-keys */
 import produce from 'immer'
 import get from 'lodash/get'
 
@@ -42,7 +43,7 @@ export type BooksState = {
 }
 
 export const defaultState = (): BooksState => ({
-  data: {} as BookIdMap,
+  data: {},
   error: undefined,
   requestPending: false,
 })

@@ -29,11 +29,11 @@ const AuthorsListPage: React.FunctionComponent<AuthorsListPageProps> = ({
         history.push('/account/login')
       }
     }
-  }, [appInitialized, getBucketedAuthors, user])
+  }, [appInitialized, getBucketedAuthors, user]) // eslint-disable-line
 
   const handleAddAuthorClick = React.useCallback(() => {
     history.push('/authors/new')
-  }, [])
+  }, []) // eslint-disable-line
 
   // NOTE: no useCallback() here, because it has to be bound to ID anyway
   const handleAuthorClick = id => {

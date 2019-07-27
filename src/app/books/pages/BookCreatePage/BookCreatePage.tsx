@@ -22,24 +22,26 @@ const BookCreatePage: React.FunctionComponent<BookCreatePageProps> = ({
     if (appInitialized && !user) {
       history.push('/account/login')
     }
-  }, [appInitialized, user])
+  }, [appInitialized, user]) // eslint-disable-line
 
   const handleSubmit = React.useCallback(
     async payload => {
       try {
-        setError('')
-        await createBook(user!.id, payload)
-        history.push('/books')
+        if (user) {
+          setError('')
+          await createBook(user.id, payload)
+          history.push('/books')
+        }
       } catch (error) {
         setError('There was an error creating the Book.')
       }
     },
-    [createBook, user],
+    [createBook, user], // eslint-disable-line
   )
 
   const handleCancel = React.useCallback(() => {
     history.push('/books')
-  }, [])
+  }, []) // eslint-disable-line
 
   return user ? (
     <>

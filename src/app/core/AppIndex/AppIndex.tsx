@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { BrowserRouter } from 'react-router-dom'
 
 import { User } from 'app/auth/auth.types'
 import { useFirebaseAuth } from 'app/auth/utils'
@@ -8,7 +7,7 @@ import { AppContext, initialAppContextState, IAppContext } from './App.context'
 import AppContent from './AppContent'
 
 export type AppIndexProps = {
-  fetchBooks: (owerId: string) => Promise<any>
+  fetchBooks: (ownerId: string) => Promise<void>
   setLocalUserData: (user: User) => void
 }
 
@@ -29,9 +28,9 @@ const AppIndex: React.FunctionComponent<AppIndexProps> = ({
     // once FB auth has initialized, update the Context with the current auth state
     if (authInitialized) {
       setLocalUserData(user)
-      setAppContextState({ logout, user, appInitialized: true })
+      setAppContextState({ appInitialized: true, logout, user })
     }
-  }, [authInitialized, user])
+  }, [authInitialized, user]) // eslint-disable-line
 
   return (
     <AppContext.Provider value={appContextState}>

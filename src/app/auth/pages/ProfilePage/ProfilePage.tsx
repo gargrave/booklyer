@@ -20,12 +20,13 @@ const ProfilePage: React.FunctionComponent<ProfilePageProps> = ({
         history.push('/account/login')
       }
     }
-  }, [appInitialized, user])
+  }, [appInitialized, user]) // eslint-disable-line
 
   return appInitialized && user ? (
     <>
       <h2>My Profile</h2>
       <div style={{ color: '#777', marginBottom: '1rem' }}>
+        {/* eslint-disable-next-line react/no-unescaped-entities */}
         (Insert late 90's "Under Construction" GIF here...)
       </div>
       <div>

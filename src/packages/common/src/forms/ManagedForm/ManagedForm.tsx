@@ -48,7 +48,7 @@ const ManagedForm: React.FunctionComponent<ManagedFormProps> = props => {
         }),
       )
     }
-  }, [])
+  }, []) // eslint-disable-line
 
   return (
     <Form {...props} onSubmit={validatedOnSubmit}>

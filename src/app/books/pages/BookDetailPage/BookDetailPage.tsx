@@ -33,6 +33,9 @@ const BookDetailPage: React.FunctionComponent<BookDetailPageProps> = ({
   )
   const loading = !appInitialized || getBooksRequestPending()
 
+  // TODO: fix the linting error and clean up the logic here
+  //  i.e. getAuthorsSorted... needs to be a dep, but
+  //  it should only be called when "initialized" state changes
   React.useEffect(() => {
     if (appInitialized) {
       if (user) {
@@ -46,7 +49,7 @@ const BookDetailPage: React.FunctionComponent<BookDetailPageProps> = ({
 
   const handleBackClick = React.useCallback(() => {
     history.push('/books')
-  }, [])
+  }, []) // eslint-disable-line
 
   const handleEditClick = React.useCallback(() => {
     setEditing(true)
@@ -59,13 +62,15 @@ const BookDetailPage: React.FunctionComponent<BookDetailPageProps> = ({
   const handleSubmit = React.useCallback(
     async payload => {
       try {
-        const mergedBook = {
-          ...book,
-          ...payload,
+        if (user) {
+          const mergedBook = {
+            ...book,
+            ...payload,
+          }
+          setError('')
+          await updateBook(user.id, mergedBook)
+          setEditing(false)
         }
-        setError('')
-        await updateBook(user!.id, mergedBook)
-        setEditing(false)
       } catch (error) {
         setError('There was an error updating the Book.')
       }
@@ -75,13 +80,15 @@ const BookDetailPage: React.FunctionComponent<BookDetailPageProps> = ({
 
   const handleDelete = React.useCallback(async () => {
     try {
-      setError('')
-      await deleteBook(user!.id, book!)
-      history.push('/books')
+      if (user && book) {
+        setError('')
+        await deleteBook(user.id, book)
+        history.push('/books')
+      }
     } catch (error) {
       setError('There was an error deleting the Book.')
     }
-  }, [book, deleteBook, user])
+  }, [book, deleteBook, user]) // eslint-disable-line
 
   return appInitialized && user ? (
     <div>

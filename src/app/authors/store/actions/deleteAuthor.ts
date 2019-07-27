@@ -1,4 +1,4 @@
-import { Author, AuthorIdMap } from '../../authors.types'
+import { Author } from '../../authors.types'
 import { actionTypes, AuthorsActionPayload } from '../authors.reducer'
 import service from '../authors.service'
 import { deleteBooksByAuthor } from 'app/books/store/actions'
@@ -7,7 +7,7 @@ const deleteAuthor = (ownerId: string, author: Author) => async dispatch => {
   dispatch({ type: actionTypes.DELETE_AUTHOR })
 
   const payload: AuthorsActionPayload = {
-    authors: {} as AuthorIdMap,
+    authors: {},
     error: undefined,
   }
 
@@ -20,8 +20,7 @@ const deleteAuthor = (ownerId: string, author: Author) => async dispatch => {
       type: actionTypes.DELETE_AUTHOR_SUCCESS,
     })
   } catch (err) {
-    const hydratedError = { ...err, message: err.message }
-    payload.error = hydratedError
+    payload.error = { ...err, message: err.message }
 
     dispatch({
       payload,

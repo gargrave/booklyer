@@ -18,7 +18,7 @@ export const validate = (
   formState: ManagedFormState,
 ): FormValidationPayload => {
   // TODO: validation that the state has is not identical to its initial value
-  const errors = {} as ManagedFormState
+  const errors: ManagedFormState = {}
 
   for (let i = 0; i < fields.length; i += 1) {
     const field = fields[i]

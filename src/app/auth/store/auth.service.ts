@@ -1,7 +1,7 @@
 import { auth } from 'config/firebase'
 
 const authService = {
-  async login(email: string, password: string): Promise<any> {
+  async login(email: string, password: string): Promise<void> {
     return new Promise((resolve, reject) => {
       auth
         .signInWithEmailAndPassword(email, password)
@@ -12,7 +12,7 @@ const authService = {
     })
   },
 
-  async register(email: string, password: string): Promise<any> {
+  async register(email: string, password: string): Promise<void> {
     return new Promise((resolve, reject) => {
       auth
         .createUserWithEmailAndPassword(email, password)

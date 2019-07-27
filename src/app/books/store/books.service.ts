@@ -1,3 +1,4 @@
+/* eslint-disable sort-keys */
 import { db } from 'config/firebase'
 import { FbCollection, FbDoc, FbDocRef } from 'utils/firebase.types'
 import {

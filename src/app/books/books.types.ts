@@ -35,7 +35,7 @@ export type BookBucket = {
 
 export type BooksReduxProps = {
   createBook: (ownerId: string, book: Book) => Promise<Book[]>
-  deleteBook: (ownerId: string, book: Book) => Promise<any>
+  deleteBook: (ownerId: string, book: Book) => Promise<void>
   fetchBooks: (ownerId: string) => Promise<Book[]>
   getAuthorsSortedByLastName: () => Author[]
   getBookById: (id: string) => Book | undefined

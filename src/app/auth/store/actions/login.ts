@@ -7,7 +7,7 @@ const login = (email: string, password: string) => async dispatch => {
 
   const payload: AuthActionPayload = {
     error: undefined,
-    user: {} as User,
+    user: {} as User, // eslint-disable-line
   }
 
   try {

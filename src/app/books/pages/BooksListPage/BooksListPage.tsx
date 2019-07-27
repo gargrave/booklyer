@@ -29,11 +29,11 @@ const BooksListPage: React.FunctionComponent<BooksListPageProps> = ({
         history.push('/account/login')
       }
     }
-  }, [appInitialized, getBucketedBooks, user])
+  }, [appInitialized, getBucketedBooks, user]) // eslint-disable-line
 
   const handleAddBookClick = React.useCallback(() => {
     history.push('/books/new')
-  }, [])
+  }, [history])
 
   // NOTE: no useCallback here, because it has to be bound to ID anyway
   const handleBookClick = (id: string) => {

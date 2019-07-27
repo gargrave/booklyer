@@ -97,14 +97,14 @@ describe('Form', () => {
 
     describe('Loader rendering', () => {
       it('Does not call the "renderLoader" prop when none is provided, even if "loading" is true', () => {
-        const { container } = render(
+        render(
           <Form {...defaultProps} loading={true} renderLoader={undefined} />,
         )
         expect(defaultProps.renderLoader).toHaveBeenCalledTimes(0)
       })
 
       it('Calls the "renderLoader" prop when one is provided and "loading" is true', () => {
-        const { container } = render(<Form {...defaultProps} loading={true} />)
+        render(<Form {...defaultProps} loading={true} />)
         expect(defaultProps.renderLoader).toHaveBeenCalledTimes(1)
       })
     })

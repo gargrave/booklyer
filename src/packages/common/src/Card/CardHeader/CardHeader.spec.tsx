@@ -18,7 +18,7 @@ describe('CardHeader', () => {
 
   describe('Basic Rendering', () => {
     it('renders correctly', () => {
-      const { container, getAllByText, debug } = render(
+      const { container, getAllByText } = render(
         <CardHeader {...defaultProps} />,
       )
       expect(container.querySelectorAll('.cardHeader')).toHaveLength(1)

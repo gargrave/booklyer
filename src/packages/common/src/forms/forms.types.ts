@@ -1,3 +1,4 @@
+import * as React from 'react'
 export enum InputType {
   password = 'password',
   select = 'select',
@@ -11,5 +12,5 @@ export type InputProps = {
   name: string
   onChange: (event: React.ChangeEvent) => void
   placeholder?: string
-  value: any
+  value: any // eslint-disable-line
 }

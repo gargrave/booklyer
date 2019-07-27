@@ -1,4 +1,4 @@
-import { Book, BookIdMap } from '../../books.types'
+import { Book } from '../../books.types'
 import { actionTypes, BooksActionPayload } from '../books.reducer'
 import service from '../books.service'
 
@@ -6,7 +6,7 @@ const deleteBook = (ownerId: string, book: Book) => async dispatch => {
   dispatch({ type: actionTypes.DELETE_BOOK })
 
   const payload: BooksActionPayload = {
-    books: {} as BookIdMap,
+    books: {},
     error: undefined,
   }
 
@@ -17,8 +17,7 @@ const deleteBook = (ownerId: string, book: Book) => async dispatch => {
       type: actionTypes.DELETE_BOOK_SUCCESS,
     })
   } catch (err) {
-    const hydratedError = { ...err, message: err.message }
-    payload.error = hydratedError
+    payload.error = { ...err, message: err.message }
 
     dispatch({
       payload,
