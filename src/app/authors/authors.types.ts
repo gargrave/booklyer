@@ -6,8 +6,7 @@ import {
 } from 'app/core/core.types'
 import { ObjectIdMap } from 'utils/firestore.helpers'
 
-import { InputType } from 'packages/common/src/forms/forms.types'
-import { FieldConfig } from 'packages/common/src/forms/ManagedForm/ManagedForm'
+import { FieldConfig, InputType } from 'packages/common'
 
 /********************************************************
  * Base Author types

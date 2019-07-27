@@ -22,26 +22,18 @@ export type AlertProps = {
   type?: AlertType
 }
 
-const Alert: React.FunctionComponent<AlertProps> = ({
-  children,
-  message,
-  type = AlertType.primary,
-}) => (
-  <div
-    className={classNames(`alert alert-${type}`, styles.alertContainer)}
-    role="alert"
-  >
-    <span>{message}</span>
-    <span>{children}</span>
-  </div>
-)
-
-Alert.defaultProps = {
-  type: AlertType.primary,
-}
-
 /**
  * Basic Alert component. This is currently mostly just a wrapper around
  * the Alert styles defined by [Shoelace](https://shoelace.style/docs/alerts.html).
  */
-export default React.memo(Alert)
+export const Alert: React.FunctionComponent<AlertProps> = React.memo(
+  ({ children, message, type = AlertType.primary }) => (
+    <div
+      className={classNames(`alert alert-${type}`, styles.alertContainer)}
+      role="alert"
+    >
+      <span>{message}</span>
+      <span>{children}</span>
+    </div>
+  ),
+)

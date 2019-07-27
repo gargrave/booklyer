@@ -2,8 +2,8 @@ import * as React from 'react'
 import 'jest-dom/extend-expect'
 import { cleanup, render } from 'react-testing-library'
 
-import { InputType } from '../forms.types'
-import InputField, { InputFieldProps } from './InputField'
+import { InputType } from '../Input.types'
+import { InputField, InputFieldProps } from './InputField'
 
 let defaultProps: InputFieldProps
 

@@ -1,12 +1,12 @@
 import * as React from 'react'
 import { produce } from 'immer'
 
-import { InputType } from '../forms.types'
+import { InputType } from '../Input.types'
 import { useFormValidation, ValidationFields } from './useFormValidation'
 
-import Form, { OptionalFormProps } from '../Form/Form'
-import Select, { SelectInputTypeProps } from '../Select/Select'
-import InputField from '../InputField/InputField'
+import { Form, OptionalFormProps } from '../Form'
+import { InputField } from '../InputField'
+import { Select, SelectInputTypeProps } from '../Select'
 
 export type FieldConfig = {
   label?: string
@@ -27,7 +27,15 @@ export type ManagedFormState = {
   [key: string]: string
 }
 
-const ManagedForm: React.FunctionComponent<ManagedFormProps> = props => {
+/**
+ * A wrapper for the Form component to handle managing Form state and validation with minimal
+ * additional overhead for the parent component.
+ *
+ * Validation types are being added on an as-needed basis, so they may not all be there yet.
+ *
+ * (See the demo example for an example of minimal configuration.)
+ */
+export const ManagedForm: React.FC<ManagedFormProps> = React.memo(props => {
   const { disabled, fields } = props
 
   const {
@@ -82,14 +90,4 @@ const ManagedForm: React.FunctionComponent<ManagedFormProps> = props => {
       })}
     </Form>
   )
-}
-
-/**
- * A wrapper for the Form component to handle managing Form state and validation with minimal
- * additional overhead for the parent component.
- *
- * Validation types are being added on an as-needed basis, so they may not all be there yet.
- *
- * (See the demo example for an example of minimal configuration.)
- */
-export default React.memo(ManagedForm)
+})

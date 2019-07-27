@@ -33,7 +33,7 @@ export type CardProps = {
  *  - `Card.TextList` adds a series of title/value pairs
  *  - `Card.Spacer` adds pre-defined spacing between other objects
  */
-export default class Card extends React.PureComponent<CardProps> {
+export class Card extends React.PureComponent<CardProps> {
   static Header = CardHeader
   static Spacer = CardSpacer
   static TextLine = CardTextLine

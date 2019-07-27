@@ -4,8 +4,8 @@ import { cleanup, render } from 'react-testing-library'
 
 import { formFields } from 'packages/mocks/src/static/formFields'
 
-import ManagedForm, { ManagedFormProps } from './ManagedForm'
-import { InputType } from '../forms.types'
+import { ManagedForm, ManagedFormProps } from './ManagedForm'
+import { InputType } from '../Input.types'
 
 let defaultProps: ManagedFormProps
 

@@ -7,13 +7,10 @@ export type ButtonRowProps = {
   styleOverride?: {}
 }
 
-const ButtonRow: React.FunctionComponent<ButtonRowProps> = ({
-  children,
-  styleOverride = {},
-}) => (
-  <div className={styles.buttonRow} style={styleOverride}>
-    {children}
-  </div>
+export const ButtonRow: React.FunctionComponent<ButtonRowProps> = React.memo(
+  ({ children, styleOverride = {} }) => (
+    <div className={styles.buttonRow} style={styleOverride}>
+      {children}
+    </div>
+  ),
 )
-
-export default React.memo(ButtonRow)

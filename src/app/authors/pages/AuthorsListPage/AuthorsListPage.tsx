@@ -4,7 +4,7 @@ import { AuthorsReduxProps } from 'app/authors/authors.types'
 import { AppContext } from 'app/core/AppIndex/App.context'
 import { ListRouteProps } from 'app/core/core.types'
 
-import Button from 'packages/common/src/Button/Button'
+import { Button } from 'packages/common'
 import { Loader } from 'app/core/components'
 import { SimpleAuthorCard } from '../../components/AuthorCard'
 

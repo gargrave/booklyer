@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { Author } from '../../../authors.types'
 
-import Card, { CardProps } from 'packages/common/src/Card/Card'
+import { Card, CardProps } from 'packages/common'
 
 export type SimpleAuthorCardProps = {
   author: Author

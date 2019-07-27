@@ -2,7 +2,7 @@ import * as React from 'react'
 import 'jest-dom/extend-expect'
 import { cleanup, fireEvent, render } from 'react-testing-library'
 
-import Card, { CardProps } from './Card'
+import { Card, CardProps } from './Card'
 
 let defaultProps: CardProps
 
@@ -36,7 +36,7 @@ describe('Card', () => {
       expect(container.querySelectorAll('.hoverable')).toHaveLength(0)
     })
 
-    it('appliesthe "hoverable" class when "hoverable" prop is true', () => {
+    it('applies the "hoverable" class when "hoverable" prop is true', () => {
       const { container } = render(<Card {...defaultProps} hoverable={true} />)
       expect(container.querySelectorAll('.hoverable')).toHaveLength(1)
     })

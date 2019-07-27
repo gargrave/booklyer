@@ -1,4 +1,4 @@
-import { InputType } from 'packages/common/src/forms/forms.types'
+import { InputType } from 'packages/common'
 
 const formFields = [
   {

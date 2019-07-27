@@ -2,11 +2,10 @@ import * as React from 'react'
 
 import { Author } from 'app/authors/authors.types'
 import { Book } from 'app/books/books.types'
-import { AppContext } from 'app/core/AppIndex/App.context'
-import { BasicRouteProps } from 'app/core/core.types'
+import { AppContext } from '../../AppIndex/App.context'
+import { BasicRouteProps } from '../../core.types'
 
-import Button, { ButtonType } from 'packages/common/src/Button/Button'
-import ButtonRow from 'packages/common/src/ButtonRow/ButtonRow'
+import { Button, ButtonRow, ButtonType } from 'packages/common'
 
 import styles from './HomePage.module.scss'
 

@@ -4,7 +4,7 @@ import { AppContext } from 'app/core/AppIndex/App.context'
 import { ListRouteProps } from 'app/core/core.types'
 import { BooksReduxProps } from '../../books.types'
 
-import Button from 'packages/common/src/Button/Button'
+import { Button } from 'packages/common'
 import { Loader } from 'app/core/components'
 import { SimpleBookCard } from '../../components/BookCard'
 

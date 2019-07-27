@@ -2,9 +2,8 @@ import * as React from 'react'
 import 'jest-dom/extend-expect'
 import { cleanup, render } from 'react-testing-library'
 
-import Button from '../Button/Button'
-
-import ButtonRow, { ButtonRowProps } from './ButtonRow'
+import { Button } from '../Button'
+import { ButtonRow, ButtonRowProps } from './ButtonRow'
 
 let defaultProps: ButtonRowProps
 

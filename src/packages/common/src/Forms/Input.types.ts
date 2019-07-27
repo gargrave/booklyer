@@ -1,4 +1,3 @@
-import * as React from 'react'
 export enum InputType {
   password = 'password',
   select = 'select',

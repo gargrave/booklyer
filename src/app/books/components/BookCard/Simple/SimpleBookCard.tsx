@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { Book } from '../../../books.types'
 
-import Card from 'packages/common/src/Card/Card'
+import { Card } from 'packages/common'
 
 export type SimpleBookCardProps = {
   book: Book

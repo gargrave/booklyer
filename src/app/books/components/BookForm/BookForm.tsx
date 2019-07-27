@@ -1,13 +1,14 @@
 import * as React from 'react'
 
 import { Author } from 'app/authors/authors.types'
-import ManagedForm, {
-  FieldConfig,
-  ManagedFormState,
-} from 'packages/common/src/forms/ManagedForm/ManagedForm'
-import { InputType } from 'packages/common/src/forms/forms.types'
 
-import { OptionalFormProps } from 'packages/common/src/forms/Form/Form'
+import {
+  FieldConfig,
+  InputType,
+  ManagedForm,
+  ManagedFormState,
+  OptionalFormProps,
+} from 'packages/common'
 import { Loader } from 'app/core/components'
 
 export type BookFormProps = {

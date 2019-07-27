@@ -2,9 +2,7 @@ import * as React from 'react'
 
 import { Author } from '../../../authors.types'
 
-import Card, { CardProps } from 'packages/common/src/Card/Card'
-import ButtonRow from 'packages/common/src/ButtonRow/ButtonRow'
-import Button, { ButtonType } from 'packages/common/src/Button/Button'
+import { Button, ButtonRow, ButtonType, Card, CardProps } from 'packages/common'
 
 export type DetailedAuthorCardProps = {
   author: Author

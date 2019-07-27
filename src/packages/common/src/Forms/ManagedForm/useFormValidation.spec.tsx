@@ -1,6 +1,6 @@
 import 'jest-dom/extend-expect'
 
-import { InputType } from '../forms.types'
+import { InputType } from '../Input.types'
 
 import { initialState, validate } from './useFormValidation'
 import { FieldConfig } from './ManagedForm'
