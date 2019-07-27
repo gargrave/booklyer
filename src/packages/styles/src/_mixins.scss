@@ -10,11 +10,10 @@
 
 @mixin listViewBucketHeader {
   color: $text-med-light;
-  font-size: 1.4rem;
-  font-weight: 500;
+  font-size: 1.3rem;
   text-align: left;
 }
 
 @mixin listViewBucket {
-  margin: 1rem 0;
+  padding: 1rem 0;
 }

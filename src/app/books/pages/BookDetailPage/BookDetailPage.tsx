@@ -6,7 +6,7 @@ import { BooksReduxProps, Book } from '../../books.types'
 
 import Button, { ButtonType } from 'packages/common/src/Button/Button'
 import Card from 'packages/common/src/Card/Card'
-import Loader from 'packages/common/src/Loader/Loader'
+import { Loader } from 'app/core/components'
 import { DetailedBookCard } from '../../components/BookCard'
 import BookForm from '../../components/BookForm/BookForm'
 

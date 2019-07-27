@@ -1,14 +1,14 @@
 import * as React from 'react'
 
 import { InputType } from 'packages/common/src/forms/forms.types'
+import { AuthReduxProps } from 'app/auth/auth.types'
+import { BasicRouteProps } from 'app/core/core.types'
 import { AppContext } from 'app/core/AppIndex/App.context'
-import { AuthReduxProps } from '../../auth.types'
 
-import Loader from 'packages/common/src/Loader/Loader'
 import ManagedForm, {
   FieldConfig,
 } from 'packages/common/src/forms/ManagedForm/ManagedForm'
-import { BasicRouteProps } from '../../../core/core.types'
+import { Loader } from 'app/core/components'
 
 const fields: FieldConfig[] = [
   {

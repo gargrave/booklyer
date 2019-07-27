@@ -5,7 +5,7 @@ import { ListRouteProps } from 'app/core/core.types'
 import { BooksReduxProps } from '../../books.types'
 
 import Button from 'packages/common/src/Button/Button'
-import Loader from 'packages/common/src/Loader/Loader'
+import { Loader } from 'app/core/components'
 import { SimpleBookCard } from '../../components/BookCard'
 
 import styles from './BooksListPage.module.scss'

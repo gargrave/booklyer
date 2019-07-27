@@ -6,8 +6,9 @@ import ManagedForm, {
   ManagedFormState,
 } from 'packages/common/src/forms/ManagedForm/ManagedForm'
 import { InputType } from 'packages/common/src/forms/forms.types'
+
 import { OptionalFormProps } from 'packages/common/src/forms/Form/Form'
-import Loader from 'packages/common/src/Loader/Loader'
+import { Loader } from 'app/core/components'
 
 export type BookFormProps = {
   authors: Author[]

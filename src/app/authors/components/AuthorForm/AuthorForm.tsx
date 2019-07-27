@@ -1,12 +1,12 @@
 import * as React from 'react'
 
-import { authorFormFields } from 'app/authors/authors.types'
+import { authorFormFields } from '../../authors.types'
 
 import { OptionalFormProps } from 'packages/common/src/forms/Form/Form'
 import ManagedForm, {
   ManagedFormState,
 } from 'packages/common/src/forms/ManagedForm/ManagedForm'
-import Loader from 'packages/common/src/Loader/Loader'
+import { Loader } from 'app/core/components'
 
 export type AuthorFormProps = {
   error?: string
