@@ -5,7 +5,7 @@ import has from 'lodash/has'
 import { AppContext } from './App.context'
 
 import Navbar from '../components/Navbar/Navbar'
-import Titlebar from '../components/Titlebar/Titlebar'
+import { TitleBar } from '../components'
 import Router from '../Router'
 
 import styles from './AppContent.module.scss'
@@ -29,7 +29,7 @@ const AppContent: React.FunctionComponent<AppContentProps> = ({
   return (
     <BrowserRouter>
       <>
-        <Titlebar title="Bookly" />
+        <TitleBar title="Bookly" />
         {appInitialized ? (
           <>
             <Navbar />
