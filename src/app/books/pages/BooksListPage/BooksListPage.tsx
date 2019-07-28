@@ -1,8 +1,9 @@
 import * as React from 'react'
+import get from 'lodash/get'
 
 import { AppContext } from 'app/core/AppIndex/App.context'
 import { ListRouteProps } from 'app/core/core.types'
-import { BooksReduxProps } from '../../books.types'
+import { BookBucket, BooksReduxProps } from '../../books.types'
 
 import { Button } from 'packages/common'
 import { Loader } from 'app/core/components'
@@ -40,6 +41,13 @@ const BooksListPage: React.FunctionComponent<BooksListPageProps> = ({
     history.push(`/books/${id}`)
   }
 
+  const handleBucketHeaderClick = (bucket: BookBucket) => {
+    const authorId = get(Object.values(bucket.values), '[0].author.id')
+    if (authorId) {
+      history.push(`/authors/${authorId}`)
+    }
+  }
+
   return appInitialized && user ? (
     <div>
       <h2>My Books</h2>
@@ -48,7 +56,15 @@ const BooksListPage: React.FunctionComponent<BooksListPageProps> = ({
 
         {bookBuckets.map(bucket => (
           <div className={styles.bookBucket} key={`bookBucket-${bucket.key}`}>
-            <div className={styles.bookBucketHeader}>{bucket.key}</div>
+            <div className={styles.bookBucketHeader}>
+              <a
+                className={styles.authorLink}
+                onClick={() => handleBucketHeaderClick(bucket)}
+              >
+                {bucket.key}
+              </a>
+            </div>
+
             {bucket.values.map(book => (
               <SimpleBookCard
                 book={book}

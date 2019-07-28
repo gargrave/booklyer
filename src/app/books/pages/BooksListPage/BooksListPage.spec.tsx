@@ -3,9 +3,9 @@ import 'jest-dom/extend-expect'
 import { cleanup, fireEvent, render } from 'react-testing-library'
 
 import { AppContext, IAppContext } from 'app/core/AppIndex/App.context'
-import { bucketizer } from 'utils/bucketizer'
 import { mockBooks, mockUsers } from 'packages/mocks/src/static'
-import { Book } from '../books.types'
+import { bucketizer } from 'utils/bucketizer'
+import { Book } from '../../books.types'
 
 import BooksListPage, { BooksListPageProps } from './BooksListPage'
 
@@ -22,8 +22,11 @@ const renderWithContext = (children, overrideContext = {}) =>
     </AppContext.Provider>,
   )
 
-const mockGetBucketedBooks = () =>
-  bucketizer<Book>(mockBooks, () => 0, book => book.author.lastName)
+const mockGetBucketedBooks = () => {
+  const getKey = (book: Book) =>
+    `${book.author.firstName} ${book.author.lastName}`
+  return bucketizer<Book>(mockBooks, () => 0, getKey)
+}
 
 let defaultProps: BooksListPageProps
 
@@ -32,9 +35,10 @@ describe('BooksListPage', () => {
 
   beforeEach(() => {
     jest.resetAllMocks()
+    // @ts-ignore
     defaultProps = {
-      getBucketedBooks: jest.fn(mockGetBucketedBooks),
       getBooksRequestPending: jest.fn(),
+      getBucketedBooks: jest.fn(mockGetBucketedBooks),
       history: { push: jest.fn() } as any,
     }
   })
@@ -82,6 +86,23 @@ describe('BooksListPage', () => {
         fireEvent.click(bookCard)
         expect(push).toHaveBeenCalledTimes(1)
         expect(push).toHaveBeenCalledWith(`/books/${book.id}`)
+      })
+
+      it('navigates to an Author Details page when the corresponding link is clicked', () => {
+        const { getByText } = renderWithContext(
+          <BooksListPage {...defaultProps} />,
+          overrideContext,
+        )
+        const author = mockBooks[0].author
+        const authorKey = `${author.firstName} ${author.lastName}`
+        const authorBucketHeader = getByText(authorKey)
+        const push = defaultProps.history.push
+
+        expect(push).toHaveBeenCalledTimes(0)
+        expect(authorBucketHeader).toBeInTheDocument()
+        fireEvent.click(authorBucketHeader)
+        expect(push).toHaveBeenCalledTimes(1)
+        expect(push).toHaveBeenCalledWith(`/authors/${author.id}`)
       })
     })
   })

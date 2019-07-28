@@ -6,6 +6,11 @@
 
 .bookBucketHeader {
   @include listViewBucketHeader;
+
+  .authorLink {
+    color: currentColor;
+    cursor: pointer;
+  }
 }
 
 .bookBucket {
