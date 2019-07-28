@@ -11,6 +11,7 @@ import {
   getAuthorById,
   getAuthorsRequestPending,
   getAuthorsSortedByLastName,
+  getBookCountByAuthor,
   getBucketedAuthors,
 } from '../store/selectors'
 import { getBooksByAuthor } from 'app/books/store/selectors'
@@ -23,6 +24,8 @@ const mapStateToProps = (state: AppState) => ({
   getAuthorById: (id: string) => getAuthorById(state, id),
   getAuthors: () => getAuthorsSortedByLastName(state),
   getAuthorsRequestPending: () => getAuthorsRequestPending(state),
+  getBookCountByAuthor: (authorId: string) =>
+    getBookCountByAuthor(state, authorId),
   getBooksByAuthor: (authorId: string) => getBooksByAuthor(state, authorId),
   getBucketedAuthors: () => getBucketedAuthors(state),
 })

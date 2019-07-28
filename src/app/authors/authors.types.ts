@@ -39,9 +39,10 @@ export type AuthorsReduxProps = {
   fetchAuthors: (ownerId: string) => Promise<Author[]>
   getAuthorById: (id: string) => Author | undefined
   getAuthors: () => Author[]
+  getAuthorsRequestPending: () => boolean
+  getBookCountByAuthor: (authorId: string) => number
   getBooksByAuthor: (authorId: string) => Book[]
   getBucketedAuthors: () => AuthorBucket[]
-  getAuthorsRequestPending: () => boolean
   updateAuthor: (ownerId: string, author: Author) => Promise<Author[]>
 }
 

@@ -14,6 +14,7 @@ export type AuthorsListPageProps = {} & ListRouteProps & AuthorsReduxProps
 
 const AuthorsListPage: React.FunctionComponent<AuthorsListPageProps> = ({
   getAuthorsRequestPending,
+  getBookCountByAuthor,
   getBucketedAuthors,
   history,
 }) => {
@@ -55,6 +56,7 @@ const AuthorsListPage: React.FunctionComponent<AuthorsListPageProps> = ({
             {bucket.values.map(author => (
               <SimpleAuthorCard
                 author={author}
+                getBookCount={getBookCountByAuthor}
                 key={author.id}
                 onClick={() => handleAuthorClick(author.id)}
               />
