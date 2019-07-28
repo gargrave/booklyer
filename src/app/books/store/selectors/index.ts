@@ -1,13 +1,13 @@
-import getBooksByAuthor from './getBooksByAuthor'
-import getBooksRequestPending from './getBooksRequestPending'
-import getBooksWithAuthors from './getBooksWithAuthors'
-import getBookWithAuthorById from './getBookWithAuthorById'
-import getBucketedBooks from './getBucketedBooks'
+import { getBookById } from './getBookById'
+import { getBooks } from './getBooks'
+import { getBooksByAuthor } from './getBooksByAuthor'
+import { getBooksRequestPending } from './getBooksRequestPending'
+import { getBucketedBooks } from './getBucketedBooks'
 
 export {
+  getBookById,
+  getBooks,
   getBooksByAuthor,
   getBooksRequestPending,
-  getBooksWithAuthors,
-  getBookWithAuthorById,
   getBucketedBooks,
 }

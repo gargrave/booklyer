@@ -17,7 +17,7 @@ export const BookPropertyNames = [
 
 export type Book = {
   author: Author
-  authorId?: string
+  authorId: string
   sortBy: string
   title: string
 } & Resource &

@@ -7,7 +7,7 @@ export function bucketizer<T>(
   values: T[],
   preSortValues: (a: T, b: T) => -1 | 0 | 1,
   getBucketKey: (value: T) => string,
-) {
+): TypedBucket<T>[] {
   const mapped = {}
 
   const sorted = values.sort(preSortValues)

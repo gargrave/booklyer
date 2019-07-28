@@ -1,23 +1,18 @@
 import { createSelector } from 'reselect'
 
 import { AppState } from 'store/reducers'
-import { Book } from 'app/books/books.types'
-
-import getBooksWithAuthors from './getBooksWithAuthors'
 import { sortByCustomOrTitle } from './utils'
 
-const rawGetBooksByAuthor = (state: AppState, authorId?: string): Book[] => {
-  if (!authorId) {
-    return []
-  }
-  return getBooksWithAuthors(state)
-    .filter(book => book.author.id === authorId)
-    .sort(sortByCustomOrTitle)
-}
+import { getBooks } from './getBooks'
 
-const getBooksByAuthor = createSelector(
-  rawGetBooksByAuthor,
-  books => books,
+const getState = (state: AppState): AppState => state
+const getAuthorId = (_state: AppState, id: string): string => id
+
+export const getBooksByAuthor = createSelector(
+  getState,
+  getAuthorId,
+  (state, authorId) =>
+    getBooks(state)
+      .filter(book => book.author.id === authorId)
+      .sort(sortByCustomOrTitle),
 )
-
-export default getBooksByAuthor

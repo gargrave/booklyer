@@ -1,7 +1,8 @@
 import { Book } from '../../books.types'
 
 // removes words that should not be considered when sorting
-const sanitize = (str: string): string => str.replace(/^(the|an|a)\s*/i, '')
+export const sanitizeTitle = (str: string): string =>
+  str.replace(/^(the|an|a)\s*/i, '')
 
 /**
  * Custom Book sorting function.
@@ -11,7 +12,7 @@ const sanitize = (str: string): string => str.replace(/^(the|an|a)\s*/i, '')
  * @param b
  */
 export const sortByCustomOrTitle = (a: Book, b: Book) => {
-  const keyA = sanitize(a.sortBy || a.title)
-  const keyB = sanitize(b.sortBy || b.title)
+  const keyA = sanitizeTitle(a.sortBy || a.title)
+  const keyB = sanitizeTitle(b.sortBy || b.title)
   return keyA > keyB ? 1 : -1
 }

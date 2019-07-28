@@ -1,22 +1,22 @@
 import pick from 'lodash/pick'
 
 import {
+  User,
   UserMetadata,
   UserMetadataPropertyNames,
   UserPropertyNames,
 } from '../auth.types'
 
-const sanitizeUser = rawUser => {
-  if (!rawUser) {
-    return null
-  }
+const sanitizeUser = (rawUser): User | undefined => {
+  if (!rawUser) return undefined
 
   const userData = { ...pick(rawUser, UserPropertyNames) }
   const userMeta: UserMetadata = {
     ...pick(rawUser.metadata, UserMetadataPropertyNames),
   }
 
-  const user = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const user: any = {
     ...userData,
     ...userMeta,
   }
@@ -25,7 +25,7 @@ const sanitizeUser = rawUser => {
   user.id = user.uid
   delete user.uid
 
-  return user
+  return user as User
 }
 
 export { sanitizeUser }

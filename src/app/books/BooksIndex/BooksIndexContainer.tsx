@@ -10,9 +10,9 @@ import {
   updateBook,
 } from '../store/actions'
 import {
-  getBookWithAuthorById,
+  getBookById,
+  getBooks,
   getBooksRequestPending,
-  getBooksWithAuthors,
   getBucketedBooks,
 } from '../store/selectors'
 import { Book } from '../books.types'
@@ -21,9 +21,9 @@ import BooksIndex from './BooksIndex'
 
 const mapStateToProps = (state: AppState) => ({
   getAuthorsSortedByLastName: () => getAuthorsSortedByLastName(state),
-  getBookById: (id: string) => getBookWithAuthorById(state, id),
-  getBooks: () => getBooksWithAuthors(state),
-  getBooksRequestPending: () => getBooksRequestPending(state.books),
+  getBookById: (id: string) => getBookById(state, id),
+  getBooks: () => getBooks(state),
+  getBooksRequestPending: () => getBooksRequestPending(state),
   getBucketedBooks: () => getBucketedBooks(state),
 })
 

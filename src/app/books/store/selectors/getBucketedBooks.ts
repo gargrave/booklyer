@@ -2,19 +2,16 @@ import { createSelector } from 'reselect'
 
 import { bucketizer } from 'utils/bucketizer'
 import { Book } from '../../books.types'
-
-import getBooksWithAuthors from './getBooksWithAuthors'
+import { getBooks } from './getBooks'
+import { sanitizeTitle } from './utils'
 
 type BookSubBucket = {
   sorted: Book[]
   unsorted: Book[]
 }
 
-// removes words that should not be considered when sorting
-const sanitize = (str: string): string => str.replace(/^(the|a)\s*/i, '')
-
 const sortByField = (field: string) => (a: Book, b: Book) =>
-  sanitize(a[field]) > sanitize(b[field]) ? 1 : -1
+  sanitizeTitle(a[field]) > sanitizeTitle(b[field]) ? 1 : -1
 
 const sortByAuthor = (a: Book, b: Book) =>
   a.author.lastName > b.author.lastName ? 1 : -1
@@ -49,8 +46,8 @@ export function bookBucketizer(
   return bucketed
 }
 
-const getBucketedBooks = createSelector(
-  getBooksWithAuthors,
+export const getBucketedBooks = createSelector(
+  getBooks,
   books =>
     bookBucketizer(
       books,
@@ -58,5 +55,3 @@ const getBucketedBooks = createSelector(
       (book: Book) => `${book.author.firstName} ${book.author.lastName}`,
     ),
 )
-
-export default getBucketedBooks

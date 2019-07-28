@@ -31,7 +31,9 @@ const AuthorDetailPage: React.FunctionComponent<AuthorDetailPageProps> = ({
   const [editing, setEditing] = React.useState(false)
   const [author, setAuthor] = React.useState<Author | undefined>(undefined)
   const loading = !appInitialized || getAuthorsRequestPending()
-  const books = appInitialized ? getBooksByAuthor(get(author, 'id')) : []
+
+  const authorId = get(author, 'id')
+  const books = appInitialized && authorId ? getBooksByAuthor(authorId) : []
 
   const navigateTo = React.useCallback(
     (url: string): void => {
