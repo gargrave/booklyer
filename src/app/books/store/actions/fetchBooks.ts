@@ -14,7 +14,7 @@ const fetchBooks = (ownerId: string) => async (dispatch, getState) => {
 
   try {
     // ensure we have queried authors first
-    const authors = getAuthors(getState().authors)
+    const authors = getAuthors(getState())
     if (!authors.length) {
       await dispatch(fetchAuthors(ownerId))
     }
@@ -26,8 +26,7 @@ const fetchBooks = (ownerId: string) => async (dispatch, getState) => {
       type: actionTypes.FETCH_BOOKS_SUCCESS,
     })
   } catch (err) {
-    const hydratedError = { ...err, message: err.message }
-    payload.error = hydratedError
+    payload.error = { ...err, message: err.message }
 
     dispatch({
       payload,

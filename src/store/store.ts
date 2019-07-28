@@ -20,4 +20,9 @@ const store = createStore(
   ),
 )
 
+if (process.env.NODE_ENV === 'development') {
+  const _window = window as any
+  _window.store = store
+}
+
 export default store

@@ -1,12 +1,4 @@
-import { createSelector } from 'reselect'
+import { AppState } from 'store/reducers'
 
-import { AuthorsState } from '../authors.reducer'
-
-const getRequestPending = (state: AuthorsState): boolean => state.requestPending
-
-const getAuthorsRequestPending = createSelector(
-  getRequestPending,
-  pending => pending,
-)
-
-export default getAuthorsRequestPending
+export const getAuthorsRequestPending = (state: AppState): boolean =>
+  state.authors.requestPending

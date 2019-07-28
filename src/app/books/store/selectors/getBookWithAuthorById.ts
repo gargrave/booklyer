@@ -16,7 +16,7 @@ const rawGetBookById = (state: AppState, id?: string): Book | undefined => {
     return undefined
   }
 
-  const author = getAuthorById(state.authors, book.authorId)
+  const author = getAuthorById(state, book.authorId)
   return {
     ...pick(book, BookPropertyNames),
     author,

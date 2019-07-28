@@ -20,7 +20,7 @@ import { Book } from '../books.types'
 import BooksIndex from './BooksIndex'
 
 const mapStateToProps = (state: AppState) => ({
-  getAuthorsSortedByLastName: () => getAuthorsSortedByLastName(state.authors),
+  getAuthorsSortedByLastName: () => getAuthorsSortedByLastName(state),
   getBookById: (id: string) => getBookWithAuthorById(state, id),
   getBooks: () => getBooksWithAuthors(state),
   getBooksRequestPending: () => getBooksRequestPending(state.books),

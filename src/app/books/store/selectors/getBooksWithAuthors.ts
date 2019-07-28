@@ -8,7 +8,7 @@ import { getAuthorById } from '../../../authors/store/selectors'
 
 const rawGetBooksWithAuthors = (state: AppState): Book[] =>
   Object.values(state.books.data).map(book => {
-    const author = getAuthorById(state.authors, book.authorId)
+    const author = getAuthorById(state, book.authorId)
     return {
       ...pick(book, BookPropertyNames),
       author,

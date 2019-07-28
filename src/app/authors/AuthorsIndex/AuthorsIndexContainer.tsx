@@ -20,11 +20,11 @@ import { Author } from '../authors.types'
 import AuthorsIndex from './AuthorsIndex'
 
 const mapStateToProps = (state: AppState) => ({
-  getAuthorById: (id: string) => getAuthorById(state.authors, id),
-  getAuthors: () => getAuthorsSortedByLastName(state.authors),
-  getAuthorsRequestPending: () => getAuthorsRequestPending(state.authors),
+  getAuthorById: (id: string) => getAuthorById(state, id),
+  getAuthors: () => getAuthorsSortedByLastName(state),
+  getAuthorsRequestPending: () => getAuthorsRequestPending(state),
   getBooksByAuthor: (authorId: string) => getBooksByAuthor(state, authorId),
-  getBucketedAuthors: () => getBucketedAuthors(state.authors),
+  getBucketedAuthors: () => getBucketedAuthors(state),
 })
 
 const mapDispatchToProps = dispatch => ({

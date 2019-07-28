@@ -7,7 +7,7 @@ import { getBooksWithAuthors } from 'app/books/store/selectors'
 import HomePage from './HomePage'
 
 const mapStateToProps = (state: AppState) => ({
-  getAuthors: () => getAuthorsSortedByLastName(state.authors),
+  getAuthors: () => getAuthorsSortedByLastName(state),
   getBooks: () => getBooksWithAuthors(state),
 })
 
