@@ -12,9 +12,9 @@ const deleteAuthor = (ownerId: string, author: Author) => async dispatch => {
   }
 
   try {
-    await dispatch(deleteBooksByAuthor(ownerId, author))
     await service.deleteAuthor(ownerId, author)
 
+    dispatch(deleteBooksByAuthor(ownerId, author))
     dispatch({
       payload: { authors: { [author.id]: author } },
       type: actionTypes.DELETE_AUTHOR_SUCCESS,

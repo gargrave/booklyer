@@ -10,7 +10,9 @@
     "lint": "eslint --ext .ts,.tsx ./src",
     "styleguide": "styleguidist server",
     "deploy:dev": "yarn build && firebase use default && firebase deploy",
-    "deploy:prod": "yarn build && firebase use prod && firebase deploy"
+    "deploy:prod": "yarn build && firebase use prod && firebase deploy",
+    "fb:deploy:fns": "firebase deploy --only functions",
+    "fb:deploy:fns:prod": "firebase use prod && yarn fb:deploy:fns"
   },
   "dependencies": {
     "classnames": "^2.2.6",

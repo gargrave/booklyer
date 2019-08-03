@@ -19,8 +19,6 @@ export const actionTypes = {
   DELETE_BOOK_SUCCESS: 'BOOKS/DELETE_BOOK_SUCCESS',
 
   DELETE_BOOKS_BY_AUTHOR: 'BOOKS/DELETE_BOOKS_BY_AUTHOR',
-  DELETE_BOOKS_BY_AUTHOR_FAILURE: 'BOOKS/DELETE_BOOKS_BY_AUTHOR_FAILURE',
-  DELETE_BOOKS_BY_AUTHOR_SUCCESS: 'BOOKS/DELETE_BOOKS_BY_AUTHOR_SUCCESS',
 
   FETCH_BOOKS: 'BOOKS/FETCH_BOOKS',
   FETCH_BOOKS_FAILURE: 'BOOKS/FETCH_BOOKS_FAILURE',
@@ -56,7 +54,6 @@ export const booksReducer = (
     switch (action.type) {
       case actionTypes.CREATE_BOOK:
       case actionTypes.DELETE_BOOK:
-      case actionTypes.DELETE_BOOKS_BY_AUTHOR:
       case actionTypes.FETCH_BOOKS:
       case actionTypes.UPDATE_BOOK:
         draft.requestPending = true
@@ -80,7 +77,7 @@ export const booksReducer = (
         draft.requestPending = false
         return
 
-      case actionTypes.DELETE_BOOKS_BY_AUTHOR_SUCCESS:
+      case actionTypes.DELETE_BOOKS_BY_AUTHOR:
         const booksByAuthor = Object.values(state.data).filter(
           book => book.authorId === get(action, 'payload.author.id'),
         )
@@ -97,7 +94,6 @@ export const booksReducer = (
 
       case actionTypes.CREATE_BOOK_FAILURE:
       case actionTypes.DELETE_BOOK_FAILURE:
-      case actionTypes.DELETE_BOOKS_BY_AUTHOR_FAILURE:
       case actionTypes.FETCH_BOOKS_FAILURE:
       case actionTypes.UPDATE_BOOK_FAILURE:
         draft.error = action.payload.error

@@ -11,7 +11,7 @@ import {
   defaultState,
 } from './books.reducer'
 
-describe('Books Reducers', () => {
+describe('Books Reducer', () => {
   describe('initial state', () => {
     it('returns the default state by default', () => {
       const action = {
@@ -71,20 +71,6 @@ describe('Books Reducers', () => {
     it('handles the DELETE_BOOK action correctly', () => {
       const action = {
         type: actionTypes.DELETE_BOOK,
-        payload: null,
-      }
-
-      const expected: BooksState = {
-        ...defaultState(),
-        requestPending: true,
-      }
-      const actual = booksReducer(undefined, action as any)
-      expect(actual).toEqual(expected)
-    })
-
-    it('handles the DELETE_BOOKS_BY_AUTHOR action correctly', () => {
-      const action = {
-        type: actionTypes.DELETE_BOOKS_BY_AUTHOR,
         payload: null,
       }
 
@@ -229,7 +215,7 @@ describe('Books Reducers', () => {
       expect(actual).toEqual(expected)
     })
 
-    it('handles DELETE_BOOKS_BY_AUTHOR_SUCCESS correctly', () => {
+    it('handles DELETE_BOOKS_BY_AUTHOR correctly', () => {
       // should:
       // - remove all existing books by the specified author
       // - disable the "pending" flag
@@ -244,7 +230,7 @@ describe('Books Reducers', () => {
         }, {}),
       }
       const action = {
-        type: actionTypes.DELETE_BOOKS_BY_AUTHOR_SUCCESS,
+        type: actionTypes.DELETE_BOOKS_BY_AUTHOR,
         payload: {
           author: mockAuthors[0],
         },
@@ -329,15 +315,6 @@ describe('Books Reducers', () => {
     it('handles the DELETE_BOOK_FAILURE action correctly', () => {
       const action = {
         type: actionTypes.DELETE_BOOK_FAILURE,
-        payload: { error },
-      }
-      const actual = booksReducer(previousState, action as any)
-      expect(actual).toEqual(expectedState)
-    })
-
-    it('handles the DELETE_BOOKS_BY_AUTHOR_FAILURE action correctly', () => {
-      const action = {
-        type: actionTypes.DELETE_BOOKS_BY_AUTHOR_FAILURE,
         payload: { error },
       }
       const actual = booksReducer(previousState, action as any)
