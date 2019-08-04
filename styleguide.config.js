@@ -16,23 +16,10 @@ module.exports = {
   sections: [
     {
       name: 'Common Components',
-      sections: [
-        {
-          name: 'Misc',
-          components: componentList(['Alert', 'Button'], 'packages/common'),
-        },
-        {
-          name: 'Card',
-          components: componentList(['Card'], 'packages/common'),
-        },
-        {
-          name: 'Forms',
-          components: componentList(
-            ['InputField', 'ManagedForm', 'Select'],
-            'packages/common',
-          ),
-        },
-      ],
+      components: componentList(
+        ['Alert', 'Button', 'Card', 'InputField', 'ManagedForm', 'Select'],
+        'packages/common',
+      ),
     },
   ],
 
