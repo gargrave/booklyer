@@ -2,7 +2,8 @@ import * as React from 'react'
 import 'jest-dom/extend-expect'
 import { cleanup, render } from 'react-testing-library'
 
-import CardTextLine, {
+import {
+  CardTextLine,
   CardTextLineProps,
   CardTextLineType,
 } from './CardTextLine'

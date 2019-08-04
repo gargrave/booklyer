@@ -20,20 +20,15 @@ export type CardTextLineProps = {
   type?: CardTextLineType
 }
 
-const CardTextLine: React.SFC<CardTextLineProps> = ({
-  text,
-  type = CardTextLineType.Text,
-}) => (
-  <div className={classNames(styles.cardTextLine, styles[type])}>{text}</div>
-)
-
-CardTextLine.defaultProps = {
-  type: CardTextLineType.Text,
-}
-
 /**
  * A simple helper to display a nicely-formatted single line of text within a card.
- *
- * Rather than needing to directly import it, it can be used inside a card as `Card.TextLine`.
  */
-export default React.memo(CardTextLine)
+export const CardTextLine: React.FC<CardTextLineProps> = React.memo(
+  ({ text, type = CardTextLineType.Text }) => {
+    return (
+      <div className={classNames(styles.cardTextLine, styles[type])}>
+        {text}
+      </div>
+    )
+  },
+)

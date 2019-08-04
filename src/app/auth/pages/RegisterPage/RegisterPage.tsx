@@ -40,7 +40,7 @@ const fields: FieldConfig[] = [
 
 export type RegisterPageProps = {} & BasicRouteProps & AuthReduxProps
 
-const RegisterPage: React.SFC<RegisterPageProps> = ({
+const RegisterPage: React.FC<RegisterPageProps> = ({
   getAuthRequestPending,
   history,
   register,

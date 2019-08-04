@@ -2,7 +2,15 @@ import * as React from 'react'
 
 import { Author } from '../../../authors.types'
 
-import { Button, ButtonRow, ButtonType, Card, CardProps } from 'packages/common'
+import {
+  Button,
+  ButtonRow,
+  ButtonType,
+  Card,
+  CardProps,
+  CardTextLine,
+  CardTextLineType,
+} from 'packages/common'
 
 export type DetailedAuthorCardProps = {
   author: Author
@@ -17,9 +25,9 @@ const DetailedAuthorCard: React.FunctionComponent<DetailedAuthorCardProps> = ({
 }) => {
   return (
     <Card>
-      <Card.TextLine
+      <CardTextLine
         text={`${author.firstName} ${author.lastName}`}
-        type={Card.TextLineType.Title}
+        type={CardTextLineType.Title}
       />
 
       <ButtonRow>

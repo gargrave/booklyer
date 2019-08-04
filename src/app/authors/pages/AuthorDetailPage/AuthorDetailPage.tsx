@@ -5,7 +5,7 @@ import { AuthorsReduxProps, Author } from 'app/authors/authors.types'
 import { AppContext } from 'app/core/AppIndex/App.context'
 import { DetailRouteProps } from 'app/core/core.types'
 
-import { Button, ButtonType, Card } from 'packages/common'
+import { Button, ButtonType, Card, CardHeader } from 'packages/common'
 import SimpleBookCard from 'app/books/components/BookCard/Simple/SimpleBookCard'
 import { Loader } from 'app/core/components'
 import { DetailedAuthorCard } from '../../components/AuthorCard'
@@ -140,7 +140,7 @@ const AuthorDetailPage: React.FunctionComponent<AuthorDetailPageProps> = ({
         {editing && author && (
           <>
             <Card>
-              <Card.Header
+              <CardHeader
                 text={`Update ${author.firstName} ${author.lastName}`}
               />
               <AuthorForm
@@ -152,6 +152,7 @@ const AuthorDetailPage: React.FunctionComponent<AuthorDetailPageProps> = ({
                 onSubmit={handleSubmit}
               />
             </Card>
+
             <Card>
               <Button
                 block={true}

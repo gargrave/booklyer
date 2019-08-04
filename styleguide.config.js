@@ -1,3 +1,5 @@
+/* eslint-disable sort-keys */
+/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path')
 
 const componentList = (componentNames, path = 'app') =>
@@ -21,16 +23,7 @@ module.exports = {
         },
         {
           name: 'Card',
-          components: componentList(
-            [
-              'Card',
-              'CardHeader',
-              'CardSpacer',
-              'CardTextLine',
-              'CardTextList',
-            ],
-            'packages/common',
-          ),
+          components: componentList(['Card'], 'packages/common'),
         },
         {
           name: 'Forms',
@@ -40,10 +33,6 @@ module.exports = {
           ),
         },
       ],
-    },
-    {
-      name: 'Booklyer',
-      components: componentList(['SimpleBookCard']),
     },
   ],
 

@@ -6,7 +6,7 @@ import AuthorsIndexContainer from 'app/authors/AuthorsIndex/AuthorsIndexContaine
 import BooksIndexContainer from 'app/books/BooksIndex/BooksIndexContainer'
 import { HomePageContainer } from './pages/HomePage'
 
-const Router: React.SFC = () => (
+const Router: React.FC = () => (
   <Switch>
     <Route component={AuthContainer} path="/account" />
     <Route component={AuthorsIndexContainer} path="/authors" />

@@ -17,15 +17,19 @@ export type CardTextListProps = {
   textList: CardTextListItem[]
 }
 
-const CardTextList: React.SFC<CardTextListProps> = ({ textList }) => (
-  <>
-    {textList.map((item, idx) => (
-      <div className={styles.item} key={idx}>
-        {item.title && <span className={styles.itemTitle}>{item.title}: </span>}
-        {item.text}
-      </div>
-    ))}
-  </>
+export const CardTextList: React.FC<CardTextListProps> = React.memo(
+  ({ textList }) => {
+    return (
+      <>
+        {textList.map((item, idx) => (
+          <div className={styles.item} key={idx}>
+            {item.title && (
+              <span className={styles.itemTitle}>{item.title}: </span>
+            )}
+            {item.text}
+          </div>
+        ))}
+      </>
+    )
+  },
 )
-
-export default React.memo(CardTextList)

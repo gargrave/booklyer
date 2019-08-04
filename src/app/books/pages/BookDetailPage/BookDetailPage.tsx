@@ -4,7 +4,7 @@ import { Author } from 'app/authors/authors.types'
 import { DetailRouteProps } from 'app/core/core.types'
 import { BooksReduxProps, Book } from '../../books.types'
 
-import { Button, ButtonType, Card } from 'packages/common'
+import { Button, ButtonType, Card, CardHeader } from 'packages/common'
 import { Loader } from 'app/core/components'
 import { DetailedBookCard } from '../../components/BookCard'
 import BookForm from '../../components/BookForm/BookForm'
@@ -103,7 +103,7 @@ const BookDetailPage: React.FunctionComponent<BookDetailPageProps> = ({
         {editing && book && (
           <>
             <Card>
-              <Card.Header text={`Update ${book.title}`} />
+              <CardHeader text={`Update ${book.title}`} />
               <BookForm
                 authors={authors}
                 disabled={loading}

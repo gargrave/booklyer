@@ -14,15 +14,7 @@ export type CardSpacerProps = {
    *
    * Use the `CardSpacerSize` enum to specify this prop.
    */
-  size?: string
-}
-
-const CardSpacer: React.SFC<CardSpacerProps> = ({ size = 'medium' }) => (
-  <div className={styles[size]} />
-)
-
-CardSpacer.defaultProps = {
-  size: CardSpacerSize.Medium,
+  size?: CardSpacerSize
 }
 
 /**
@@ -30,4 +22,8 @@ CardSpacer.defaultProps = {
  *
  * Rather than needing to directly import it, it can be used inside a card as `Card.Spacer`.
  */
-export default React.memo(CardSpacer)
+export const CardSpacer: React.FC<CardSpacerProps> = React.memo(
+  ({ size = CardSpacerSize.Medium }) => {
+    return <div className={styles[size]} />
+  },
+)

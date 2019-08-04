@@ -9,7 +9,7 @@ import RegisterPage from '../pages/RegisterPage/RegisterPage'
 
 export type AuthIndexProps = {} & AuthReduxProps
 
-const AuthIndex: React.SFC<AuthIndexProps> = props => (
+const AuthIndex: React.FC<AuthIndexProps> = props => (
   <Switch>
     <Route
       exact={true}

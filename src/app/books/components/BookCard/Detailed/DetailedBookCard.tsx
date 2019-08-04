@@ -2,7 +2,15 @@ import * as React from 'react'
 
 import { Book } from '../../../books.types'
 
-import { Button, ButtonRow, ButtonType, Card, CardProps } from 'packages/common'
+import {
+  Button,
+  ButtonRow,
+  ButtonType,
+  Card,
+  CardProps,
+  CardTextLine,
+  CardTextLineType,
+} from 'packages/common'
 
 export type DetailedBookCardProps = {
   book: Book
@@ -10,7 +18,7 @@ export type DetailedBookCardProps = {
   onEditClick: () => void
 } & CardProps
 
-const SimpleBookCard: React.SFC<DetailedBookCardProps> = ({
+const SimpleBookCard: React.FC<DetailedBookCardProps> = ({
   book,
   onBackClick,
   onEditClick,
@@ -20,12 +28,12 @@ const SimpleBookCard: React.SFC<DetailedBookCardProps> = ({
 
   return (
     <Card>
-      <Card.TextLine text={title} type={Card.TextLineType.Title} />
-      <Card.TextLine text={authorName} />
+      <CardTextLine text={title} type={CardTextLineType.Title} />
+      <CardTextLine text={authorName} />
       {sortBy && (
-        <Card.TextLine
+        <CardTextLine
           text={`Sorted by: ${sortBy}`}
-          type={Card.TextLineType.Subtext}
+          type={CardTextLineType.Subtext}
         />
       )}
 

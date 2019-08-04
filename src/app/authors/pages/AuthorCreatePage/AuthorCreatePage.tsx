@@ -3,7 +3,7 @@ import * as React from 'react'
 import { AppContext } from 'app/core/AppIndex/App.context'
 import { AuthorsReduxProps } from '../../authors.types'
 
-import { Card } from 'packages/common'
+import { Card, CardHeader } from 'packages/common'
 import AuthorForm from '../../components/AuthorForm/AuthorForm'
 
 import styles from './AuthorCreatePage.module.scss'
@@ -48,7 +48,7 @@ const AuthorCreatePage: React.FunctionComponent<AuthorCreatePageProps> = ({
   return appInitialized && user ? (
     <div className={styles.contentWrapper}>
       <Card>
-        <Card.Header text="Add an Author" />
+        <CardHeader text="Add an Author" />
         <AuthorForm
           disabled={loading}
           error={error}

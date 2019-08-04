@@ -2,7 +2,12 @@ import * as React from 'react'
 
 import { Author } from '../../../authors.types'
 
-import { Card, CardProps } from 'packages/common'
+import {
+  Card,
+  CardProps,
+  CardTextLine,
+  CardTextLineType,
+} from 'packages/common'
 
 export type SimpleAuthorCardProps = {
   author: Author
@@ -22,12 +27,12 @@ const SimpleAuthorCard: React.FunctionComponent<SimpleAuthorCardProps> = ({
 
   return (
     <Card hoverable={true} onClick={onClick}>
-      <Card.TextLine
+      <CardTextLine
         text={`${author.firstName} ${author.lastName}`}
-        type={Card.TextLineType.Title}
+        type={CardTextLineType.Title}
       />
 
-      <Card.TextLine text={countString} type={Card.TextLineType.Text} />
+      <CardTextLine text={countString} type={CardTextLineType.Text} />
     </Card>
   )
 }

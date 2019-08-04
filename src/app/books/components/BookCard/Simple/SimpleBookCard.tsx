@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { Book } from '../../../books.types'
 
-import { Card } from 'packages/common'
+import { Card, CardTextLine, CardTextLineType } from 'packages/common'
 
 export type SimpleBookCardProps = {
   book: Book
@@ -10,7 +10,7 @@ export type SimpleBookCardProps = {
   showAuthor?: boolean
 }
 
-const SimpleBookCard: React.SFC<SimpleBookCardProps> = ({
+const SimpleBookCard: React.FC<SimpleBookCardProps> = ({
   book,
   onClick,
   showAuthor,
@@ -20,12 +20,12 @@ const SimpleBookCard: React.SFC<SimpleBookCardProps> = ({
 
   return (
     <Card hoverable={true} onClick={onClick}>
-      <Card.TextLine text={title} type={Card.TextLineType.Title} />
-      {showAuthor && <Card.TextLine text={authorName} />}
+      <CardTextLine text={title} type={CardTextLineType.Title} />
+      {showAuthor && <CardTextLine text={authorName} />}
       {sortBy && (
-        <Card.TextLine
+        <CardTextLine
           text={`Sorted by: ${sortBy}`}
-          type={Card.TextLineType.Subtext}
+          type={CardTextLineType.Subtext}
         />
       )}
     </Card>
