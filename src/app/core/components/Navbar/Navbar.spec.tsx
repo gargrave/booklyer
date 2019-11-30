@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { BrowserRouter } from 'react-router-dom'
-import 'jest-dom/extend-expect'
-import { cleanup, render } from 'react-testing-library'
+import '@testing-library/jest-dom/extend-expect'
+import { cleanup, render } from '@testing-library/react'
 
 import { AppContext, IAppContext } from 'app/core/AppIndex/App.context'
 import { mockUsers } from 'packages/mocks/src/static'

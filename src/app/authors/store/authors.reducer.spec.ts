@@ -1,4 +1,4 @@
-import 'jest-dom/extend-expect'
+import '@testing-library/jest-dom/extend-expect'
 
 import { actionTypes as authActionTypes } from 'app/auth/store/auth.reducer'
 import { FbError } from 'utils/firebase.types'

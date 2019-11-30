@@ -1,6 +1,6 @@
 import * as React from 'react'
-import 'jest-dom/extend-expect'
-import { cleanup, fireEvent, render } from 'react-testing-library'
+import '@testing-library/jest-dom/extend-expect'
+import { cleanup, fireEvent, render } from '@testing-library/react'
 
 import { Book } from 'app/books/books.types'
 import { mockBooks } from 'packages/mocks/src/static/books'

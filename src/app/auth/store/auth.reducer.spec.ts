@@ -1,4 +1,4 @@
-import 'jest-dom/extend-expect'
+import '@testing-library/jest-dom/extend-expect'
 
 import { FbError } from 'utils/firebase.types'
 import { mockUsers } from 'packages/mocks/src/static'

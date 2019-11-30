@@ -1,6 +1,6 @@
 import * as React from 'react'
-import 'jest-dom/extend-expect'
-import { cleanup, render, fireEvent, wait } from 'react-testing-library'
+import '@testing-library/jest-dom/extend-expect'
+import { cleanup, render, fireEvent, wait } from '@testing-library/react'
 
 import { Button, ButtonProps, ButtonType } from './Button'
 

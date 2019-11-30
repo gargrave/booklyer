@@ -1,6 +1,6 @@
 import * as React from 'react'
-import 'jest-dom/extend-expect'
-import { cleanup, fireEvent, render, wait } from 'react-testing-library'
+import '@testing-library/jest-dom/extend-expect'
+import { cleanup, fireEvent, render, wait } from '@testing-library/react'
 
 import { AppContext, IAppContext } from 'app/core/AppIndex/App.context'
 import { mockAuthors, mockUsers } from 'packages/mocks/src/static'

@@ -1,6 +1,6 @@
 import * as React from 'react'
-import 'jest-dom/extend-expect'
-import { cleanup, render } from 'react-testing-library'
+import '@testing-library/jest-dom/extend-expect'
+import { cleanup, render } from '@testing-library/react'
 
 import { CardSpacer, CardSpacerProps, CardSpacerSize } from './CardSpacer'
 

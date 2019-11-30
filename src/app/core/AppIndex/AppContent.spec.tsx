@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import 'jest-dom/extend-expect'
-import { cleanup, render, wait } from 'react-testing-library'
+import '@testing-library/jest-dom/extend-expect'
+import { cleanup, render, wait } from '@testing-library/react'
 
 import { AppContext, IAppContext } from './App.context'
 import { mockUsers } from 'packages/mocks/src/static'
