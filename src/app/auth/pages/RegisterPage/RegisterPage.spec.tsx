@@ -80,7 +80,7 @@ describe('RegisterPage', () => {
         fireEvent.change(getByLabelText(/Email/i), {
           target: { value: testEmail },
         })
-        fireEvent.change(getByLabelText(/Password/i), {
+        fireEvent.change(getByLabelText(/^Password$/i), {
           target: { value: testPassword },
         })
         fireEvent.change(getByLabelText(/Confirm Password/i), {

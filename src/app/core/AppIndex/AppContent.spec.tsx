@@ -1,36 +1,19 @@
 import * as React from 'react'
-import { Provider } from 'react-redux'
 import '@testing-library/jest-dom/extend-expect'
 import { cleanup, render, wait } from '@testing-library/react'
 
-import { AppContext, IAppContext } from './App.context'
+import { IAppContext } from './App.context'
 import { mockUsers } from 'packages/mocks/src/static'
+import {
+  defaultAppContext,
+  renderWithRedux,
+  wrapInAppContext,
+} from 'utils/testHelpers'
 
 import AppContent, { AppContentProps } from './AppContent'
 
-const defaultContext = {
-  appInitialized: true,
-  logout: jest.fn(),
-  user: undefined,
-}
-
-const renderWithContextAndStore = (children, overrideContext = {}) =>
-  render(
-    <Provider
-      store={{
-        dispatch: jest.fn(),
-        getState: jest.fn(() => ({
-          authors: { data: [] },
-          books: { data: [] },
-        })),
-        subscribe: jest.fn(),
-      }}
-    >
-      <AppContext.Provider value={{ ...defaultContext, ...overrideContext }}>
-        {children}
-      </AppContext.Provider>
-    </Provider>,
-  )
+const wrappedRender = (children, overrideContext = {}) =>
+  renderWithRedux(wrapInAppContext(children, overrideContext))
 
 let defaultProps: AppContentProps
 
@@ -51,28 +34,27 @@ describe('AppContent', () => {
 
     beforeEach(() => {
       overrideContext = {
-        ...defaultContext,
+        ...defaultAppContext,
+        appInitialized: true,
         user,
       }
     })
 
     describe('Basic Rendering', () => {
-      it('renders correctly', () => {
-        const { container, getByText } = renderWithContextAndStore(
+      it('renders correctly', async () => {
+        const { container, getAllByText } = wrappedRender(
           <AppContent {...defaultProps} />,
           overrideContext,
         )
-        expect(getByText(/Bookly/i)).toBeInTheDocument()
+
+        expect(getAllByText(/^Bookly$/i).length).toBeGreaterThan(0)
         expect(container.querySelector('.loading')).not.toBeInTheDocument()
       })
     })
 
     describe('Data handling', () => {
       it('makes API calls as expected when it has a valid user', async () => {
-        renderWithContextAndStore(
-          <AppContent {...defaultProps} />,
-          overrideContext,
-        )
+        wrappedRender(<AppContent {...defaultProps} />, overrideContext)
         await wait(() => {
           expect(defaultProps.fetchBooks).toHaveBeenCalledTimes(1)
           expect(defaultProps.fetchBooks).toHaveBeenCalledWith(user.id)
@@ -83,7 +65,7 @@ describe('AppContent', () => {
 
   describe('Not Authenticated', () => {
     beforeEach(() => {
-      overrideContext = { ...defaultContext }
+      overrideContext = { ...defaultAppContext }
     })
 
     it('does not make API calls when user is not logged in', async () => {
@@ -97,13 +79,13 @@ describe('AppContent', () => {
   describe('Not initialized', () => {
     beforeEach(() => {
       overrideContext = {
-        ...defaultContext,
+        ...defaultAppContext,
         appInitialized: false,
       }
     })
 
     it('displays a loader while the app is initializing', () => {
-      const { container, getByText } = renderWithContextAndStore(
+      const { container, getByText } = wrappedRender(
         <AppContent {...defaultProps} />,
         overrideContext,
       )

@@ -27,7 +27,7 @@ export const InputField: React.FC<InputFieldProps> = React.memo(
     value,
   }) => (
     <div className="input-field">
-      {label && <label htmlFor={name}>{label}:</label>}
+      {label && <label htmlFor={name}>{label}</label>}
 
       <input
         className={classNames({ [styles.invalid]: !!error })}

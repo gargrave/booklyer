@@ -3,14 +3,14 @@ import { render } from '@testing-library/react'
 
 import { AppContext } from 'app/core/AppIndex/App.context'
 
-const defaultContext = {
+export const defaultAppContext = {
   appInitialized: false,
   logout: jest.fn(),
   user: undefined,
 }
 
 export const wrapInAppContext = (children, overrideContext = {}) => (
-  <AppContext.Provider value={{ ...defaultContext, ...overrideContext }}>
+  <AppContext.Provider value={{ ...defaultAppContext, ...overrideContext }}>
     {children}
   </AppContext.Provider>
 )
