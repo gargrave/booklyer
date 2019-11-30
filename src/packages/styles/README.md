@@ -1,3 +1,3 @@
-# Styles 
+# Styles
 
-General-use style defintions for Booklyer
+General-use style definitions for Booklyer
