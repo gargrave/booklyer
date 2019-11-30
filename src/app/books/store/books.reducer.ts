@@ -79,7 +79,7 @@ export const booksReducer = (
 
       case actionTypes.DELETE_BOOKS_BY_AUTHOR:
         const booksByAuthor = Object.values(state.data).filter(
-          book => book.authorId === get(action, 'payload.author.id'),
+          book => book.authorId === action.payload.author?.id,
         )
         booksByAuthor.forEach(book => delete draft.data[book.id])
         draft.error = undefined
