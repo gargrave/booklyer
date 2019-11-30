@@ -175,10 +175,6 @@ module.exports = {
 
             loader: require.resolve('babel-loader'),
             options: {
-              customize: require.resolve(
-                'babel-preset-react-app/webpack-overrides',
-              ),
-
               plugins: [
                 [
                   require.resolve('babel-plugin-named-asset-import'),
@@ -206,12 +202,6 @@ module.exports = {
               babelrc: false,
               configFile: false,
               compact: false,
-              presets: [
-                [
-                  require.resolve('babel-preset-react-app/dependencies'),
-                  { helpers: true },
-                ],
-              ],
               cacheDirectory: true,
               cacheCompression: true,
               sourceMaps: false,
