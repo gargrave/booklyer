@@ -35,7 +35,6 @@ describe('BooksListPage', () => {
 
   beforeEach(() => {
     jest.resetAllMocks()
-    // @ts-ignore
     defaultProps = {
       getBooksRequestPending: jest.fn(),
       getBucketedBooks: jest.fn(mockGetBucketedBooks),

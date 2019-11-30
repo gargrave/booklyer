@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-object-literal-type-assertion */
 import { FbDoc, FbCollection } from './firebase.types'
 
 export type ObjectIdMap<T> = {
@@ -21,7 +20,7 @@ export function singleToIdMap<T>(
   const parsed = parseFbDoc<T>(doc, parseFn)
   return {
     [parsed.id]: { ...parsed },
-  } as ObjectIdMap<T>
+  }
 }
 
 export function collectionToIdMap<T>(
@@ -29,17 +28,14 @@ export function collectionToIdMap<T>(
   parseFn?: (arg: any) => T,
 ): ObjectIdMap<T> {
   if (!collection.docs) {
-    return {} as ObjectIdMap<T>
+    return {}
   }
 
-  return collection.docs.reduce(
-    (acc, doc) => {
-      const parsed = parseFbDoc<T>(doc, parseFn)
-      return {
-        ...acc,
-        [parsed.id]: { ...parsed },
-      }
-    },
-    {} as ObjectIdMap<T>,
-  )
+  return collection.docs.reduce((acc, doc) => {
+    const parsed = parseFbDoc<T>(doc, parseFn)
+    return {
+      ...acc,
+      [parsed.id]: { ...parsed },
+    }
+  }, {})
 }
