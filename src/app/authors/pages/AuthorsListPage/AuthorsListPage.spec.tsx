@@ -1,29 +1,23 @@
 import * as React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { cleanup, fireEvent, render } from '@testing-library/react'
+import { cleanup, fireEvent } from '@testing-library/react'
 
-import { AppContext, IAppContext } from 'app/core/AppIndex/App.context'
+import { Author } from 'app/authors/authors.types'
+import { IAppContext } from 'app/core/AppIndex/App.context'
 import { mockAuthors, mockUsers } from 'packages/mocks/src/static'
 import { bucketizer } from 'utils/bucketizer'
-import { Author } from '../../authors.types'
+import { renderWithRedux, wrapInAppContext } from 'utils/testHelpers'
 
-import AuthorsListPage, { AuthorsListPageProps } from './AuthorsListPage'
+import { AuthorsListPage, AuthorsListPageProps } from './AuthorsListPage'
 
-const defaultContext = {
-  appInitialized: false,
-  logout: jest.fn(),
-  user: undefined,
-}
+const wrappedRender = (children, overrideContext = {}) =>
+  renderWithRedux(wrapInAppContext(children, overrideContext))
 
-const renderWithContext = (children, overrideContext = {}) =>
-  render(
-    <AppContext.Provider value={{ ...defaultContext, ...overrideContext }}>
-      {children}
-    </AppContext.Provider>,
-  )
-
-const mockGetBucketedAuthors = () =>
-  bucketizer<Author>(mockAuthors, () => 0, author => author.lastName[0])
+const authorBuckets = bucketizer<Author>(
+  mockAuthors,
+  () => 0,
+  author => author.lastName[0],
+)
 
 let defaultProps: AuthorsListPageProps
 
@@ -33,9 +27,8 @@ describe('AuthorsListPage', () => {
   beforeEach(() => {
     jest.resetAllMocks()
     defaultProps = {
-      getAuthorsRequestPending: jest.fn(),
-      getBookCountByAuthor: jest.fn(),
-      getBucketedAuthors: jest.fn(mockGetBucketedAuthors),
+      authorBuckets,
+      authorsRequestPending: false,
       history: { push: jest.fn() } as any,
     }
   })
@@ -53,7 +46,7 @@ describe('AuthorsListPage', () => {
 
     describe('Basic Rendering', () => {
       it('renders correctly', () => {
-        const { getByText } = renderWithContext(
+        const { getByText } = wrappedRender(
           <AuthorsListPage {...defaultProps} />,
           overrideContext,
         )
@@ -69,7 +62,7 @@ describe('AuthorsListPage', () => {
 
     describe('Interactivity', () => {
       it('navigates to an Author Detail page when the corresponding card is clicked', () => {
-        const { getByText } = renderWithContext(
+        const { getByText } = wrappedRender(
           <AuthorsListPage {...defaultProps} />,
           overrideContext,
         )
@@ -97,7 +90,7 @@ describe('AuthorsListPage', () => {
 
     describe('Basic Rendering', () => {
       it('renders nothing when not logged in', () => {
-        const { container } = renderWithContext(
+        const { container } = wrappedRender(
           <AuthorsListPage {...defaultProps} />,
           overrideContext,
         )
@@ -105,10 +98,7 @@ describe('AuthorsListPage', () => {
       })
 
       it('redirects to login page', () => {
-        renderWithContext(
-          <AuthorsListPage {...defaultProps} />,
-          overrideContext,
-        )
+        wrappedRender(<AuthorsListPage {...defaultProps} />, overrideContext)
         const { push } = defaultProps.history
         expect(push).toHaveBeenCalledTimes(1)
         expect(push).toHaveBeenCalledWith('/account/login')

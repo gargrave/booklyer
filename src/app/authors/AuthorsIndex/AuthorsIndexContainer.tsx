@@ -11,24 +11,22 @@ import {
   getAuthorById,
   getAuthorsRequestPending,
   getAuthorsSortedByLastName,
-  getBookCountByAuthor,
-  getBucketedAuthors,
 } from '../store/selectors'
 import { getBooksByAuthor } from 'app/books/store/selectors'
 
-import { Author } from '../authors.types'
+import { Author, AuthorsSelectors } from '../authors.types'
 
 import AuthorsIndex from './AuthorsIndex'
 
-const mapStateToProps = (state: AppState) => ({
-  getAuthorById: (id: string) => getAuthorById(state, id),
-  getAuthors: () => getAuthorsSortedByLastName(state),
-  getAuthorsRequestPending: () => getAuthorsRequestPending(state),
-  getBookCountByAuthor: (authorId: string) =>
-    getBookCountByAuthor(state, authorId),
-  getBooksByAuthor: (authorId: string) => getBooksByAuthor(state, authorId),
-  getBucketedAuthors: () => getBucketedAuthors(state),
-})
+const mapStateToProps = (state: AppState) => {
+  const selectors: AuthorsSelectors = {
+    getAuthorById: (id: string) => getAuthorById(state, id),
+    getAuthors: () => getAuthorsSortedByLastName(state),
+    getAuthorsRequestPending: () => getAuthorsRequestPending(state),
+    getBooksByAuthor: (authorId: string) => getBooksByAuthor(state, authorId),
+  }
+  return selectors
+}
 
 const mapDispatchToProps = dispatch => ({
   createAuthor: (ownerId: string, author: Author) =>
@@ -40,7 +38,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(updateAuthor(ownerId, author)),
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(AuthorsIndex)
+export default connect(mapStateToProps, mapDispatchToProps)(AuthorsIndex)

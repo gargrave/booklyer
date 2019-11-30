@@ -1,11 +1,11 @@
 import * as React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { cleanup, render, fireEvent, wait } from '@testing-library/react'
+import { cleanup, fireEvent, render, wait } from '@testing-library/react'
 
 import { AppContext, IAppContext } from 'app/core/AppIndex/App.context'
 import { mockAuthors, mockUsers, mockBooks } from 'packages/mocks/src/static'
 
-import AuthorDetailPage, { AuthorDetailPageProps } from './AuthorDetailPage'
+import { AuthorDetailPage, AuthorDetailPageProps } from './AuthorDetailPage'
 
 const defaultContext = {
   appInitialized: false,
@@ -56,15 +56,16 @@ describe('AuthorDetailPage', () => {
 
     describe('Basic Rendering', () => {
       it('renders correctly', () => {
-        const { container, getByText } = renderWithContext(
+        const { container, getAllByText } = renderWithContext(
           <AuthorDetailPage {...defaultProps} />,
           overrideContext,
         )
         const authorName = `${testAuthor.firstName} ${testAuthor.lastName}`
+
         // no form is rendered by default
         expect(container.querySelectorAll('form')).toHaveLength(0)
         expect(container.querySelectorAll('.loaderWrapper')).toHaveLength(0)
-        expect(getByText(authorName)).toBeInTheDocument()
+        expect(getAllByText(authorName).length).toBeGreaterThan(0)
       })
 
       it('renders a loader when "loading" prop is true', () => {
@@ -157,6 +158,7 @@ describe('AuthorDetailPage', () => {
         fireEvent.change(getByLabelText(/Last Name/i), {
           target: { value: testPayload.lastName },
         })
+
         expect(defaultProps.history.push).toHaveBeenCalledTimes(0)
         fireEvent.click(getByText(/Submit/i))
         expect(defaultProps.updateAuthor).toHaveBeenCalledTimes(1)

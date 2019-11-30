@@ -4,7 +4,8 @@ import { cleanup, fireEvent, render } from '@testing-library/react'
 
 import { mockAuthors } from 'packages/mocks/src/static/authors'
 
-import DetailedAuthorCard, {
+import {
+  DetailedAuthorCard,
   DetailedAuthorCardProps,
 } from './DetailedAuthorCard'
 

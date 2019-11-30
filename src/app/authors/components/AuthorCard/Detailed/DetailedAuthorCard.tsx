@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Author } from '../../../authors.types'
+import { Author } from 'app/authors/authors.types'
 
 import {
   Button,
@@ -18,7 +18,7 @@ export type DetailedAuthorCardProps = {
   onEditClick: () => void
 } & CardProps
 
-const DetailedAuthorCard: React.FunctionComponent<DetailedAuthorCardProps> = ({
+export const DetailedAuthorCard: React.FC<DetailedAuthorCardProps> = React.memo(({
   author,
   onBackClick,
   onEditClick,
@@ -40,6 +40,4 @@ const DetailedAuthorCard: React.FunctionComponent<DetailedAuthorCardProps> = ({
       </ButtonRow>
     </Card>
   )
-}
-
-export default React.memo(DetailedAuthorCard)
+})

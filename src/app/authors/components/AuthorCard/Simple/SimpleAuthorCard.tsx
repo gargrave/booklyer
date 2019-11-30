@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Author } from '../../../authors.types'
+import { Author } from 'app/authors/authors.types'
 
 import {
   Card,
@@ -11,30 +11,28 @@ import {
 
 export type SimpleAuthorCardProps = {
   author: Author
-  getBookCount: (authorId: string) => number
+  bookCount: number
 } & CardProps
 
-const SimpleAuthorCard: React.FunctionComponent<SimpleAuthorCardProps> = ({
-  author,
-  getBookCount,
-  onClick,
-}) => {
-  const countString = React.useMemo(() => {
-    const count = getBookCount(author.id)
-    const suffix = count === 1 ? '' : 's'
-    return `${count} book${suffix}`
-  }, [author.id, getBookCount])
+export const SimpleAuthorCard: React.FC<SimpleAuthorCardProps> = React.memo(
+  ({ author, bookCount, onClick }) => {
+    const countString = React.useMemo(
+      () => {
+        const suffix = bookCount === 1 ? '' : 's'
+        return `${bookCount} book${suffix}`
+      },
+      [bookCount],
+    )
 
-  return (
-    <Card hoverable={true} onClick={onClick}>
-      <CardTextLine
-        text={`${author.firstName} ${author.lastName}`}
-        type={CardTextLineType.Title}
-      />
+    return (
+      <Card hoverable={true} onClick={onClick}>
+        <CardTextLine
+          text={`${author.firstName} ${author.lastName}`}
+          type={CardTextLineType.Title}
+        />
 
-      <CardTextLine text={countString} type={CardTextLineType.Text} />
-    </Card>
-  )
-}
-
-export default React.memo(SimpleAuthorCard)
+        <CardTextLine text={countString} type={CardTextLineType.Text} />
+      </Card>
+    )
+  },
+)

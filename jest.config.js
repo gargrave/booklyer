@@ -12,6 +12,7 @@ module.exports = {
     '^app(.*)$': '<rootDir>/src/app$1',
     '^config(.*)$': '<rootDir>/src/config$1',
     '^packages(.*)$': '<rootDir>/src/packages$1',
+    '^store(.*)$': '<rootDir>/src/store$1',
     '^utils(.*)$': '<rootDir>/src/utils$1',
   },
   resolver: 'jest-pnp-resolver',

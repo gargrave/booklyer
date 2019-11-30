@@ -1,73 +1,72 @@
 import * as React from 'react'
 
-import { AuthorsReduxProps } from 'app/authors/authors.types'
+import { AuthorBucket } from 'app/authors/authors.types'
 import { AppContext } from 'app/core/AppIndex/App.context'
 import { ListRouteProps } from 'app/core/core.types'
 
 import { Button } from 'packages/common'
+
+import { ConnectedSimpleAuthorCard as SimpleAuthorCard } from 'app/authors/components/AuthorCard'
 import { Loader } from 'app/core/components'
-import { SimpleAuthorCard } from '../../components/AuthorCard'
 
 import styles from './AuthorsListPage.module.scss'
 
-export type AuthorsListPageProps = {} & ListRouteProps & AuthorsReduxProps
+export type AuthorsListPageProps = {
+  authorBuckets: AuthorBucket[]
+  authorsRequestPending: boolean
+} & ListRouteProps
 
-const AuthorsListPage: React.FunctionComponent<AuthorsListPageProps> = ({
-  getAuthorsRequestPending,
-  getBookCountByAuthor,
-  getBucketedAuthors,
-  history,
-}) => {
-  const { appInitialized, user } = React.useContext(AppContext)
-  const [authorBuckets, setAuthorBuckets] = React.useState(getBucketedAuthors())
-  const loading = !appInitialized || getAuthorsRequestPending()
+export const AuthorsListPage: React.FC<AuthorsListPageProps> = React.memo(
+  ({ authorBuckets, authorsRequestPending, history }) => {
+    const { appInitialized, user } = React.useContext(AppContext)
+    const loading = !appInitialized || authorsRequestPending
 
-  React.useEffect(() => {
-    if (appInitialized) {
-      if (user) {
-        setAuthorBuckets(getBucketedAuthors())
-      } else {
-        history.push('/account/login')
-      }
+    React.useEffect(
+      () => {
+        if (appInitialized && !user) {
+          history.push('/account/login')
+        }
+      },
+      [appInitialized, history, user],
+    )
+
+    const handleAddAuthorClick = React.useCallback(
+      () => {
+        history.push('/authors/new')
+      },
+      [history],
+    )
+
+    // NOTE: no useCallback() here, because it has to be bound to ID anyway
+    const handleAuthorClick = id => {
+      history.push(`/authors/${id}`)
     }
-  }, [appInitialized, getBucketedAuthors, user]) // eslint-disable-line
 
-  const handleAddAuthorClick = React.useCallback(() => {
-    history.push('/authors/new')
-  }, []) // eslint-disable-line
+    return appInitialized && user ? (
+      <div>
+        <h2>My Authors</h2>
+        <section className={styles.contentWrapper}>
+          <Button onClick={handleAddAuthorClick}>Add an Author</Button>
 
-  // NOTE: no useCallback() here, because it has to be bound to ID anyway
-  const handleAuthorClick = id => {
-    history.push(`/authors/${id}`)
-  }
+          {authorBuckets.map(bucket => (
+            <div
+              className={styles.authorBucket}
+              key={`authorBucket-${bucket.key}`}
+            >
+              <div className={styles.authorBucketHeader}>{bucket.key}</div>
+              {bucket.values.map(author => (
+                <SimpleAuthorCard
+                  author={author}
+                  key={author.id}
+                  onClick={() => handleAuthorClick(author.id)}
+                />
+              ))}
+            </div>
+          ))}
 
-  return appInitialized && user ? (
-    <div>
-      <h2>My Authors</h2>
-      <section className={styles.contentWrapper}>
-        <Button onClick={handleAddAuthorClick}>Add an Author</Button>
-
-        {authorBuckets.map(bucket => (
-          <div
-            className={styles.authorBucket}
-            key={`authorBucket-${bucket.key}`}
-          >
-            <div className={styles.authorBucketHeader}>{bucket.key}</div>
-            {bucket.values.map(author => (
-              <SimpleAuthorCard
-                author={author}
-                getBookCount={getBookCountByAuthor}
-                key={author.id}
-                onClick={() => handleAuthorClick(author.id)}
-              />
-            ))}
-          </div>
-        ))}
-
-        {loading && <Loader size={44} />}
-      </section>
-    </div>
-  ) : null
-}
-
-export default React.memo(AuthorsListPage)
+          {loading && <Loader size={44} />}
+        </section>
+      </div>
+    ) : null
+  },
+)
