@@ -1,6 +1,7 @@
 import * as React from 'react'
 
-import { AuthorsReduxProps, Author } from 'app/authors/authors.types'
+import { Author } from 'app/authors/authors.types'
+import { Book } from 'app/books/books.types'
 import { AppContext } from 'app/core/AppIndex/App.context'
 import { DetailRouteProps } from 'app/core/core.types'
 
@@ -13,7 +14,13 @@ import { Loader } from 'app/core/components'
 
 import styles from './AuthorDetailPage.module.scss'
 
-export type AuthorDetailPageProps = {} & DetailRouteProps & AuthorsReduxProps
+export type AuthorDetailPageProps = {
+  deleteAuthor: (ownerId: string, author: Author) => Promise<void>
+  getAuthorById: (id: string) => Author | undefined
+  getAuthorsRequestPending: () => boolean
+  getBooksByAuthor: (authorId: string) => Book[]
+  updateAuthor: (ownerId: string, author: Author) => Promise<Author[]>
+} & DetailRouteProps
 
 // TODO: show all current books by this author
 // TODO: add an "Add Book by this Author" button

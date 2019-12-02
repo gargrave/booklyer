@@ -1,4 +1,3 @@
-import { Book } from 'app/books/books.types'
 import {
   GenericResourcePropertyNames,
   Resource,
@@ -32,23 +31,6 @@ export type AuthorBucket = {
   key: string
   values: Author[]
 }
-
-export type AuthorsSelectors = {
-  getAuthorById: (id: string) => Author | undefined
-  getAuthors: () => Author[]
-  getAuthorsRequestPending: () => boolean
-  // getBookCountByAuthor: (authorId: string) => number
-  getBooksByAuthor: (authorId: string) => Book[]
-}
-
-export type AuthorsActions = {
-  // createAuthor: (ownerId: string, author: Author) => Promise<Author[]>
-  deleteAuthor: (ownerId: string, author: Author) => Promise<void>
-  fetchAuthors: (ownerId: string) => Promise<Author[]>
-  updateAuthor: (ownerId: string, author: Author) => Promise<Author[]>
-}
-
-export type AuthorsReduxProps = AuthorsSelectors & AuthorsActions
 
 export const authorFormFields: FieldConfig[] = Object.freeze([
   {
