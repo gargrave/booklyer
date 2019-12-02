@@ -1,24 +1,12 @@
 import * as React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { cleanup, fireEvent, render, wait } from '@testing-library/react'
+import { cleanup, fireEvent, wait } from '@testing-library/react'
 
-import { AppContext, IAppContext } from 'app/core/AppIndex/App.context'
+import { IAppContext } from 'app/core/AppIndex/App.context'
 import { mockAuthors, mockUsers, mockBooks } from 'packages/mocks/src/static'
+import { renderWithAppContext } from 'utils/testHelpers'
 
 import { AuthorDetailPage, AuthorDetailPageProps } from './AuthorDetailPage'
-
-const defaultContext = {
-  appInitialized: false,
-  logout: jest.fn(),
-  user: undefined,
-}
-
-const renderWithContext = (children, overrideContext = {}) =>
-  render(
-    <AppContext.Provider value={{ ...defaultContext, ...overrideContext }}>
-      {children}
-    </AppContext.Provider>,
-  )
 
 const testAuthor = mockAuthors[0]
 const testBooks = mockBooks.slice(0, 3)
@@ -56,7 +44,7 @@ describe('AuthorDetailPage', () => {
 
     describe('Basic Rendering', () => {
       it('renders correctly', () => {
-        const { container, getAllByText } = renderWithContext(
+        const { container, getAllByText } = renderWithAppContext(
           <AuthorDetailPage {...defaultProps} />,
           overrideContext,
         )
@@ -70,7 +58,7 @@ describe('AuthorDetailPage', () => {
 
       it('renders a loader when "loading" prop is true', () => {
         const mock = jest.fn(() => true)
-        const { container } = renderWithContext(
+        const { container } = renderWithAppContext(
           <AuthorDetailPage
             {...defaultProps}
             getAuthorById={jest.fn(() => undefined)}
@@ -82,7 +70,7 @@ describe('AuthorDetailPage', () => {
       })
 
       it('renders all current books by this author', () => {
-        const { getByText } = renderWithContext(
+        const { getByText } = renderWithAppContext(
           <AuthorDetailPage {...defaultProps} />,
           overrideContext,
         )
@@ -95,10 +83,11 @@ describe('AuthorDetailPage', () => {
 
     describe('Interactivity', () => {
       it('defaults to non-editing state', () => {
-        const { getByText, queryByText } = renderWithContext(
+        const { getByText, queryByText } = renderWithAppContext(
           <AuthorDetailPage {...defaultProps} />,
           overrideContext,
         )
+
         expect(getByText(/Back/i)).toBeInTheDocument()
         expect(getByText(/Edit/i)).toBeInTheDocument()
         expect(queryByText(/Cancel/i)).not.toBeInTheDocument()
@@ -106,11 +95,12 @@ describe('AuthorDetailPage', () => {
       })
 
       it('navigates when "Back" button is clicked', () => {
-        const { getByText } = renderWithContext(
+        const cb = defaultProps.history.push
+        const { getByText } = renderWithAppContext(
           <AuthorDetailPage {...defaultProps} />,
           overrideContext,
         )
-        const cb = defaultProps.history.push
+
         expect(cb).toHaveBeenCalledTimes(0)
         fireEvent.click(getByText(/Back/i))
         expect(cb).toHaveBeenCalledTimes(1)
@@ -125,10 +115,11 @@ describe('AuthorDetailPage', () => {
           getByLabelText,
           getByText,
           queryByText,
-        } = renderWithContext(
+        } = renderWithAppContext(
           <AuthorDetailPage {...defaultProps} />,
           overrideContext,
         )
+
         fireEvent.click(getByText(/Edit/i))
         expect(queryByText(/Back/i)).not.toBeInTheDocument()
         expect(queryByText(/Edit/i)).not.toBeInTheDocument()
@@ -140,7 +131,7 @@ describe('AuthorDetailPage', () => {
       })
 
       it('handles form "confirm" action correctly', async () => {
-        const { getByLabelText, getByText } = renderWithContext(
+        const { getByLabelText, getByText } = renderWithAppContext(
           <AuthorDetailPage {...defaultProps} />,
           overrideContext,
         )
@@ -159,17 +150,22 @@ describe('AuthorDetailPage', () => {
           target: { value: testPayload.lastName },
         })
 
-        expect(defaultProps.history.push).toHaveBeenCalledTimes(0)
+        await wait(() => {
+          expect(defaultProps.history.push).toHaveBeenCalledTimes(0)
+        })
+
         fireEvent.click(getByText(/Submit/i))
-        expect(defaultProps.updateAuthor).toHaveBeenCalledTimes(1)
-        expect(defaultProps.updateAuthor).toHaveBeenCalledWith(
-          user.id,
-          testPayload,
-        )
+        await wait(() => {
+          expect(defaultProps.updateAuthor).toHaveBeenCalledTimes(1)
+          expect(defaultProps.updateAuthor).toHaveBeenCalledWith(
+            user.id,
+            testPayload,
+          )
+        })
       })
 
       it('correctly makes a calls to delete the author', async () => {
-        const { getByText } = renderWithContext(
+        const { getByText } = renderWithAppContext(
           <AuthorDetailPage {...defaultProps} />,
           overrideContext,
         )
@@ -190,7 +186,7 @@ describe('AuthorDetailPage', () => {
       })
 
       it('navigates to "new book" page when button is clicked', () => {
-        const { getByText } = renderWithContext(
+        const { getByText } = renderWithAppContext(
           <AuthorDetailPage {...defaultProps} />,
           overrideContext,
         )
@@ -215,7 +211,7 @@ describe('AuthorDetailPage', () => {
 
     describe('Basic Rendering', () => {
       it('renders nothing when not logged in', () => {
-        const { container } = renderWithContext(
+        const { container } = renderWithAppContext(
           <AuthorDetailPage {...defaultProps} />,
           overrideContext,
         )
@@ -223,7 +219,7 @@ describe('AuthorDetailPage', () => {
       })
 
       it('redirects to login page', () => {
-        renderWithContext(
+        renderWithAppContext(
           <AuthorDetailPage {...defaultProps} />,
           overrideContext,
         )

@@ -1,24 +1,12 @@
 import * as React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { cleanup, fireEvent, render, wait } from '@testing-library/react'
+import { cleanup, fireEvent, wait } from '@testing-library/react'
 
-import { AppContext, IAppContext } from 'app/core/AppIndex/App.context'
+import { IAppContext } from 'app/core/AppIndex/App.context'
 import { mockUsers } from 'packages/mocks/src/static'
+import { renderWithAppContext } from 'utils/testHelpers'
 
-import AuthorCreatePage, { AuthorCreatePageProps } from './AuthorCreatePage'
-
-const defaultContext = {
-  appInitialized: false,
-  logout: jest.fn(),
-  user: undefined,
-}
-
-const renderWithContext = (children, overrideContext = {}) =>
-  render(
-    <AppContext.Provider value={{ ...defaultContext, ...overrideContext }}>
-      {children}
-    </AppContext.Provider>,
-  )
+import { AuthorCreatePage, AuthorCreatePageProps } from './AuthorCreatePage'
 
 let defaultProps: AuthorCreatePageProps
 
@@ -40,12 +28,12 @@ describe('AuthorCreatePage', () => {
     const user = mockUsers[0]
 
     beforeEach(() => {
-      overrideContext = { appInitialized: true, user }
+      overrideContext = { appInitialized: true, user } as any
     })
 
     describe('Basic Rendering', () => {
       it('renders correctly', () => {
-        const { container } = renderWithContext(
+        const { container } = renderWithAppContext(
           <AuthorCreatePage {...defaultProps} />,
           overrideContext,
         )
@@ -55,10 +43,11 @@ describe('AuthorCreatePage', () => {
 
     describe('Interactivity', () => {
       it('handles form "cancel" action', () => {
-        const { getByText } = renderWithContext(
+        const { getByText } = renderWithAppContext(
           <AuthorCreatePage {...defaultProps} />,
           overrideContext,
         )
+
         // should redirect back to "authors list" page when cancelled
         expect(defaultProps.history.push).toHaveBeenCalledTimes(0)
         fireEvent.click(getByText(/Cancel/i))
@@ -68,7 +57,7 @@ describe('AuthorCreatePage', () => {
       })
 
       it('handles form "confirm" action correctly', async () => {
-        const { getByLabelText, getByText } = renderWithContext(
+        const { getByLabelText, getByText } = renderWithAppContext(
           <AuthorCreatePage {...defaultProps} />,
           overrideContext,
         )
@@ -76,6 +65,7 @@ describe('AuthorCreatePage', () => {
           firstName: 'billy',
           lastName: 'pickles',
         }
+
         // populate required values in form to ensure it will pass validation and submit
         fireEvent.change(getByLabelText(/First Name/i), {
           target: { value: testPayload.firstName },
@@ -83,6 +73,7 @@ describe('AuthorCreatePage', () => {
         fireEvent.change(getByLabelText(/Last Name/i), {
           target: { value: testPayload.lastName },
         })
+
         expect(defaultProps.history.push).toHaveBeenCalledTimes(0)
         fireEvent.click(getByText(/Submit/i))
         expect(defaultProps.createAuthor).toHaveBeenCalledTimes(1)
@@ -110,19 +101,21 @@ describe('AuthorCreatePage', () => {
 
     describe('Basic Rendering', () => {
       it('renders nothing when not logged in', () => {
-        const { container } = renderWithContext(
+        const { container } = renderWithAppContext(
           <AuthorCreatePage {...defaultProps} />,
           overrideContext,
         )
+
         expect(container.firstChild).toBeNull()
       })
 
       it('redirects to login page', () => {
-        renderWithContext(
+        const { push } = defaultProps.history
+        renderWithAppContext(
           <AuthorCreatePage {...defaultProps} />,
           overrideContext,
         )
-        const { push } = defaultProps.history
+
         expect(push).toHaveBeenCalledTimes(1)
         expect(push).toHaveBeenCalledWith('/account/login')
       })
