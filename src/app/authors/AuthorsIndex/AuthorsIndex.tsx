@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { Route, Switch } from 'react-router-dom'
 
-import { AuthorsReduxProps } from '../authors.types'
+import { AuthorsReduxProps } from 'app/authors/authors.types'
 
-import AuthorCreatePage from '../pages/AuthorCreatePage/AuthorCreatePage'
-import { AuthorDetailPage } from '../pages/AuthorDetailPage/AuthorDetailPage'
-import { ConnectedAuthorsListPage } from '../pages/AuthorsListPage'
+import { ConnectedAuthorCreatePage } from 'app/authors/pages/AuthorCreatePage'
+import { AuthorDetailPage } from 'app/authors/pages/AuthorDetailPage/AuthorDetailPage'
+import { ConnectedAuthorsListPage } from 'app/authors/pages/AuthorsListPage'
 
 export type AuthorsIndexProps = {} & AuthorsReduxProps
 
@@ -14,7 +14,9 @@ const AuthorsIndex: React.FunctionComponent<AuthorsIndexProps> = props => (
     <Route
       exact={true}
       path="/authors/new"
-      render={routerProps => <AuthorCreatePage {...props} {...routerProps} />}
+      render={routerProps => (
+        <ConnectedAuthorCreatePage {...props} {...routerProps} />
+      )}
     />
 
     <Route

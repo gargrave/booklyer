@@ -42,7 +42,7 @@ export type AuthorsSelectors = {
 }
 
 export type AuthorsActions = {
-  createAuthor: (ownerId: string, author: Author) => Promise<Author[]>
+  // createAuthor: (ownerId: string, author: Author) => Promise<Author[]>
   deleteAuthor: (ownerId: string, author: Author) => Promise<void>
   fetchAuthors: (ownerId: string) => Promise<Author[]>
   updateAuthor: (ownerId: string, author: Author) => Promise<Author[]>

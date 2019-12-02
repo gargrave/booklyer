@@ -29,8 +29,6 @@ const mapStateToProps = (state: AppState) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  createAuthor: (ownerId: string, author: Author) =>
-    dispatch(createAuthor(ownerId, author)),
   deleteAuthor: (ownerId: string, author: Author) =>
     dispatch(deleteAuthor(ownerId, author)),
   fetchAuthors: (ownerId: string) => dispatch(fetchAuthors(ownerId)),

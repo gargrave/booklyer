@@ -12,30 +12,26 @@ import { Loader } from 'app/core/components'
 import styles from './AuthorsListPage.module.scss'
 
 export type AuthorsListPageProps = {
-  authorBuckets: AuthorBucket[]
-  authorsRequestPending: boolean
+  getAuthorsRequestPending: () => boolean
+  getBucketedAuthors: () => AuthorBucket[]
 } & ListRouteProps
 
 export const AuthorsListPage: React.FC<AuthorsListPageProps> = React.memo(
-  ({ authorBuckets, authorsRequestPending, history }) => {
+  ({ getAuthorsRequestPending, getBucketedAuthors, history }) => {
     const { appInitialized, user } = React.useContext(AppContext)
-    const loading = !appInitialized || authorsRequestPending
 
-    React.useEffect(
-      () => {
-        if (appInitialized && !user) {
-          history.push('/account/login')
-        }
-      },
-      [appInitialized, history, user],
-    )
+    const loading = !appInitialized || getAuthorsRequestPending()
+    const authorBuckets = getBucketedAuthors() ?? []
 
-    const handleAddAuthorClick = React.useCallback(
-      () => {
-        history.push('/authors/new')
-      },
-      [history],
-    )
+    React.useEffect(() => {
+      if (appInitialized && !user) {
+        history.push('/account/login')
+      }
+    }, [appInitialized, history, user])
+
+    const handleAddAuthorClick = React.useCallback(() => {
+      history.push('/authors/new')
+    }, [history])
 
     // NOTE: no useCallback() here, because it has to be bound to ID anyway
     const handleAuthorClick = id => {

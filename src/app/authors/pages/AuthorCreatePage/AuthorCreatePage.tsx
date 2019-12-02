@@ -1,17 +1,20 @@
 import * as React from 'react'
 
 import { AppContext } from 'app/core/AppIndex/App.context'
-import { AuthorsReduxProps } from '../../authors.types'
-
-import { Card, CardHeader } from 'packages/common'
-import AuthorForm from '../../components/AuthorForm/AuthorForm'
-
-import styles from './AuthorCreatePage.module.scss'
+import { Author } from 'app/authors/authors.types'
 import { CreateRouteProps } from 'app/core/core.types'
 
-export type AuthorCreatePageProps = {} & CreateRouteProps & AuthorsReduxProps
+import { Card, CardHeader } from 'packages/common'
+import AuthorForm from 'app/authors/components/AuthorForm/AuthorForm'
 
-const AuthorCreatePage: React.FunctionComponent<AuthorCreatePageProps> = ({
+import styles from './AuthorCreatePage.module.scss'
+
+export type AuthorCreatePageProps = {
+  createAuthor: (ownerId: string, author: Author) => Promise<void>
+  getAuthorsRequestPending: () => boolean
+} & CreateRouteProps
+
+export const AuthorCreatePage: React.FC<AuthorCreatePageProps> = ({
   createAuthor,
   getAuthorsRequestPending,
   history,
@@ -38,7 +41,7 @@ const AuthorCreatePage: React.FunctionComponent<AuthorCreatePageProps> = ({
         setError('There was an error creating the Author.')
       }
     },
-    [history, user], // eslint-disable-line
+    [createAuthor, history, user],
   )
 
   const handleCancel = React.useCallback(() => {
@@ -60,5 +63,3 @@ const AuthorCreatePage: React.FunctionComponent<AuthorCreatePageProps> = ({
     </div>
   ) : null
 }
-
-export default React.memo(AuthorCreatePage)
