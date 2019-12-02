@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { Author } from 'app/authors/authors.types'
 import { DetailRouteProps } from 'app/core/core.types'
-import { BooksReduxProps, Book } from '../../books.types'
+import {  Book } from '../../books.types'
 
 import { Button, ButtonType, Card, CardHeader } from 'packages/common'
 import { Loader } from 'app/core/components'
@@ -12,9 +12,15 @@ import BookForm from '../../components/BookForm/BookForm'
 import styles from './BookDetailPage.module.scss'
 import { AppContext } from 'app/core/AppIndex/App.context'
 
-export type BookDetailPageProps = {} & DetailRouteProps & BooksReduxProps
+export type BookDetailPageProps = {
+  deleteBook: (ownerId: string, book: Book) => Promise<void>
+  getAuthorsSortedByLastName: () => Author[]
+  getBookById: (id: string) => Book | undefined
+  getBooksRequestPending: () => boolean
+  updateBook: (ownerId: string, book: Book) => Promise<Book[]>
+} & DetailRouteProps
 
-const BookDetailPage: React.FunctionComponent<BookDetailPageProps> = ({
+export const BookDetailPage: React.FunctionComponent<BookDetailPageProps> = ({
   deleteBook,
   getAuthorsSortedByLastName,
   getBookById,
@@ -134,5 +140,3 @@ const BookDetailPage: React.FunctionComponent<BookDetailPageProps> = ({
     </div>
   ) : null
 }
-
-export default React.memo(BookDetailPage)

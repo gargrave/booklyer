@@ -1,26 +1,14 @@
 import * as React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { cleanup, fireEvent, render } from '@testing-library/react'
+import { cleanup, fireEvent } from '@testing-library/react'
 
-import { AppContext, IAppContext } from 'app/core/AppIndex/App.context'
+import { IAppContext } from 'app/core/AppIndex/App.context'
+import { Book } from 'app/books/books.types'
 import { mockBooks, mockUsers } from 'packages/mocks/src/static'
 import { bucketizer } from 'utils/bucketizer'
-import { Book } from '../../books.types'
+import { renderWithAppContext } from 'utils/testHelpers'
 
-import BooksListPage, { BooksListPageProps } from './BooksListPage'
-
-const defaultContext = {
-  appInitialized: false,
-  logout: jest.fn(),
-  user: undefined,
-}
-
-const renderWithContext = (children, overrideContext = {}) =>
-  render(
-    <AppContext.Provider value={{ ...defaultContext, ...overrideContext }}>
-      {children}
-    </AppContext.Provider>,
-  )
+import { BooksListPage, BooksListPageProps } from './BooksListPage'
 
 const mockGetBucketedBooks = () => {
   const getKey = (book: Book) =>
@@ -55,7 +43,7 @@ describe('BooksListPage', () => {
 
     describe('Basic Rendering', () => {
       it('renders correctly', () => {
-        const { getByText } = renderWithContext(
+        const { getByText } = renderWithAppContext(
           <BooksListPage {...defaultProps} />,
           overrideContext,
         )
@@ -72,7 +60,7 @@ describe('BooksListPage', () => {
 
     describe('Interactivity', () => {
       it('navigates to a Book Detail page when the corresponding card is clicked', () => {
-        const { getByText } = renderWithContext(
+        const { getByText } = renderWithAppContext(
           <BooksListPage {...defaultProps} />,
           overrideContext,
         )
@@ -88,7 +76,7 @@ describe('BooksListPage', () => {
       })
 
       it('navigates to an Author Details page when the corresponding link is clicked', () => {
-        const { getByText } = renderWithContext(
+        const { getByText } = renderWithAppContext(
           <BooksListPage {...defaultProps} />,
           overrideContext,
         )
@@ -117,7 +105,7 @@ describe('BooksListPage', () => {
 
     describe('Basic Rendering', () => {
       it('renders nothing when not logged in', () => {
-        const { container } = renderWithContext(
+        const { container } = renderWithAppContext(
           <BooksListPage {...defaultProps} />,
           overrideContext,
         )
@@ -125,7 +113,10 @@ describe('BooksListPage', () => {
       })
 
       it('redirects to login page', () => {
-        renderWithContext(<BooksListPage {...defaultProps} />, overrideContext)
+        renderWithAppContext(
+          <BooksListPage {...defaultProps} />,
+          overrideContext,
+        )
         const { push } = defaultProps.history
         expect(push).toHaveBeenCalledTimes(1)
         expect(push).toHaveBeenCalledWith('/account/login')

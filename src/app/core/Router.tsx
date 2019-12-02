@@ -3,14 +3,14 @@ import { Route, Switch } from 'react-router-dom'
 
 import AuthContainer from 'app/auth/AuthIndex/AuthContainer'
 import { AuthorsRouter } from 'app/authors/AuthorsRouter'
-import BooksIndexContainer from 'app/books/BooksIndex/BooksIndexContainer'
+import { BooksRouter } from 'app/books/BooksRouter'
 import { HomePageContainer } from './pages/HomePage'
 
 const Router: React.FC = () => (
   <Switch>
     <Route component={AuthContainer} path="/account" />
     <Route component={AuthorsRouter} path="/authors" />
-    <Route component={BooksIndexContainer} path="/books" />
+    <Route component={BooksRouter} path="/books" />
     <Route component={HomePageContainer} path="/" />
   </Switch>
 )

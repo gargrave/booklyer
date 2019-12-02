@@ -1,19 +1,22 @@
 import * as React from 'react'
 import get from 'lodash/get'
 
+import { BookBucket } from 'app/books/books.types'
 import { AppContext } from 'app/core/AppIndex/App.context'
 import { ListRouteProps } from 'app/core/core.types'
-import { BookBucket, BooksReduxProps } from '../../books.types'
 
 import { Button } from 'packages/common'
+import { SimpleBookCard } from 'app/books/components/BookCard'
 import { Loader } from 'app/core/components'
-import { SimpleBookCard } from '../../components/BookCard'
 
 import styles from './BooksListPage.module.scss'
 
-export type BooksListPageProps = {} & ListRouteProps & BooksReduxProps
+export type BooksListPageProps = {
+  getBooksRequestPending: () => boolean
+  getBucketedBooks: () => BookBucket[]
+} & ListRouteProps
 
-const BooksListPage: React.FunctionComponent<BooksListPageProps> = ({
+export const BooksListPage: React.FunctionComponent<BooksListPageProps> = ({
   getBooksRequestPending,
   getBucketedBooks,
   history,
@@ -81,5 +84,3 @@ const BooksListPage: React.FunctionComponent<BooksListPageProps> = ({
     </div>
   ) : null
 }
-
-export default React.memo(BooksListPage)

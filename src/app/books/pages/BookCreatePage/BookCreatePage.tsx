@@ -1,14 +1,19 @@
 import * as React from 'react'
 
+import { Author } from 'app/authors/authors.types'
+import { Book } from 'app/books/books.types'
 import { AppContext } from 'app/core/AppIndex/App.context'
 import { CreateRouteProps } from 'app/core/core.types'
-import { BooksReduxProps } from '../../books.types'
 
-import BookForm from '../../components/BookForm/BookForm'
+import BookForm from 'app/books/components/BookForm/BookForm'
 
-export type BookCreatePageProps = {} & CreateRouteProps & BooksReduxProps
+export type BookCreatePageProps = {
+  createBook: (ownerId: string, book: Book) => Promise<Book[]>
+  getAuthorsSortedByLastName: () => Author[]
+  getBooksRequestPending: () => boolean
+} & CreateRouteProps
 
-const BookCreatePage: React.FunctionComponent<BookCreatePageProps> = ({
+export const BookCreatePage: React.FunctionComponent<BookCreatePageProps> = ({
   createBook,
   getAuthorsSortedByLastName,
   getBooksRequestPending,
@@ -56,5 +61,3 @@ const BookCreatePage: React.FunctionComponent<BookCreatePageProps> = ({
     </>
   ) : null
 }
-
-export default React.memo(BookCreatePage)

@@ -1,24 +1,12 @@
 import * as React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { cleanup, fireEvent, render, wait } from '@testing-library/react'
+import { cleanup, fireEvent, wait } from '@testing-library/react'
 
-import { AppContext, IAppContext } from 'app/core/AppIndex/App.context'
+import { IAppContext } from 'app/core/AppIndex/App.context'
 import { mockAuthors, mockUsers } from 'packages/mocks/src/static'
+import { renderWithAppContext } from 'utils/testHelpers'
 
-import BookCreatePage, { BookCreatePageProps } from './BookCreatePage'
-
-const defaultContext = {
-  appInitialized: false,
-  logout: jest.fn(),
-  user: undefined,
-}
-
-const renderWithContext = (children, overrideContext = {}) =>
-  render(
-    <AppContext.Provider value={{ ...defaultContext, ...overrideContext }}>
-      {children}
-    </AppContext.Provider>,
-  )
+import { BookCreatePage, BookCreatePageProps } from './BookCreatePage'
 
 let defaultProps: BookCreatePageProps
 
@@ -41,12 +29,12 @@ describe('BookCreatePage', () => {
     const user = mockUsers[0]
 
     beforeEach(() => {
-      overrideContext = { appInitialized: true, user }
+      overrideContext = { appInitialized: true, user } as any
     })
 
     describe('Basic Rendering', () => {
       it('renders correctly', () => {
-        const { container } = renderWithContext(
+        const { container } = renderWithAppContext(
           <BookCreatePage {...defaultProps} />,
           overrideContext,
         )
@@ -56,7 +44,7 @@ describe('BookCreatePage', () => {
 
     describe('Interactivity', () => {
       it('handles form "cancel" action', () => {
-        const { getByText } = renderWithContext(
+        const { getByText } = renderWithAppContext(
           <BookCreatePage {...defaultProps} />,
           overrideContext,
         )
@@ -70,7 +58,7 @@ describe('BookCreatePage', () => {
       })
 
       it('handles form "confirm" action correctly', async () => {
-        const { getByLabelText, getByText } = renderWithContext(
+        const { getByLabelText, getByText } = renderWithAppContext(
           <BookCreatePage {...defaultProps} />,
           overrideContext,
         )
@@ -117,7 +105,7 @@ describe('BookCreatePage', () => {
 
     describe('Basic Rendering', () => {
       it('renders nothing when not logged in', () => {
-        const { container } = renderWithContext(
+        const { container } = renderWithAppContext(
           <BookCreatePage {...defaultProps} />,
           overrideContext,
         )

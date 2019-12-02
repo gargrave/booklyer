@@ -24,164 +24,159 @@ export type AuthorDetailPageProps = {
 
 // TODO: show all current books by this author
 // TODO: add an "Add Book by this Author" button
-export const AuthorDetailPage: React.FC<AuthorDetailPageProps> = React.memo(
-  ({
-    deleteAuthor,
-    getAuthorById,
-    getAuthorsRequestPending,
-    getBooksByAuthor,
-    history,
-    match,
-    updateAuthor,
-  }) => {
-    const { appInitialized, user } = React.useContext(AppContext)
-    const [error, setError] = React.useState('')
-    const [editing, setEditing] = React.useState(false)
-    const [author, setAuthor] = React.useState<Author | undefined>(undefined)
-    const loading = !appInitialized || getAuthorsRequestPending()
+export const AuthorDetailPage: React.FC<AuthorDetailPageProps> = ({
+  deleteAuthor,
+  getAuthorById,
+  getAuthorsRequestPending,
+  getBooksByAuthor,
+  history,
+  match,
+  updateAuthor,
+}) => {
+  const { appInitialized, user } = React.useContext(AppContext)
+  const [error, setError] = React.useState('')
+  const [editing, setEditing] = React.useState(false)
+  const [author, setAuthor] = React.useState<Author | undefined>(undefined)
+  const loading = !appInitialized || getAuthorsRequestPending()
 
-    const authorId = author?.id
-    const books = appInitialized && authorId ? getBooksByAuthor(authorId) : []
+  const authorId = author?.id
+  const books = appInitialized && authorId ? getBooksByAuthor(authorId) : []
 
-    const navigateTo = React.useCallback(
-      (url: string): void => {
-        history.push(url)
-      },
-      [history],
-    )
+  const navigateTo = React.useCallback(
+    (url: string): void => {
+      history.push(url)
+    },
+    [history],
+  )
 
-    React.useEffect(() => {
-      if (appInitialized) {
-        if (user) {
-          const authorId = match.params.id || ''
-          setAuthor(getAuthorById(authorId))
-        } else {
-          navigateTo('/account/login')
-        }
+  React.useEffect(() => {
+    if (appInitialized) {
+      if (user) {
+        const authorId = match.params.id || ''
+        setAuthor(getAuthorById(authorId))
+      } else {
+        navigateTo('/account/login')
       }
-    }, [appInitialized, getAuthorById, user]) // eslint-disable-line
+    }
+  }, [appInitialized, getAuthorById, user]) // eslint-disable-line
 
-    const handleBackClick = React.useCallback(() => {
-      navigateTo('/authors')
-    }, [navigateTo])
+  const handleBackClick = React.useCallback(() => {
+    navigateTo('/authors')
+  }, [navigateTo])
 
-    const handleAddBookClick = React.useCallback(() => {
-      navigateTo('/books/new')
-    }, [navigateTo])
+  const handleAddBookClick = React.useCallback(() => {
+    navigateTo('/books/new')
+  }, [navigateTo])
 
-    const handleEditClick = React.useCallback(() => {
-      setEditing(true)
-    }, [])
+  const handleEditClick = React.useCallback(() => {
+    setEditing(true)
+  }, [])
 
-    const handleCancel = React.useCallback(() => {
-      setEditing(false)
-    }, [])
+  const handleCancel = React.useCallback(() => {
+    setEditing(false)
+  }, [])
 
-    const handleSubmit = React.useCallback(
-      async payload => {
-        try {
-          if (user) {
-            const mergedAuthor = {
-              ...author,
-              ...payload,
-            }
-            setError('')
-            await updateAuthor(user.id, mergedAuthor)
-            setEditing(false)
-          }
-        } catch (error) {
-          setError('There was an error updating the Author.')
-        }
-      },
-      [author, updateAuthor, user],
-    )
-
-    const handleDelete = React.useCallback(async () => {
+  const handleSubmit = React.useCallback(
+    async payload => {
       try {
-        if (user && author) {
+        if (user) {
+          const mergedAuthor = {
+            ...author,
+            ...payload,
+          }
           setError('')
-          await deleteAuthor(user.id, author)
-          navigateTo('/authors')
+          await updateAuthor(user.id, mergedAuthor)
+          setEditing(false)
         }
       } catch (error) {
-        setError('There was an error deleting the Author.')
+        setError('There was an error updating the Author.')
       }
-    }, [author, deleteAuthor, navigateTo, user]) // eslint-disable-line
+    },
+    [author, updateAuthor, user],
+  )
 
-    return appInitialized && user ? (
-      <div>
-        <div className={styles.contentWrapper}>
-          {!editing && author && (
-            <>
-              <DetailedAuthorCard
-                author={author}
-                onBackClick={handleBackClick}
-                onEditClick={handleEditClick}
-              />
+  const handleDelete = React.useCallback(async () => {
+    try {
+      if (user && author) {
+        setError('')
+        await deleteAuthor(user.id, author)
+        navigateTo('/authors')
+      }
+    } catch (error) {
+      setError('There was an error deleting the Author.')
+    }
+  }, [author, deleteAuthor, navigateTo, user]) // eslint-disable-line
 
-              <div>
-                <hr />
-                <div className={styles.booksListHeader}>
-                  Books by{' '}
-                  <strong>
-                    {author.firstName} {author.lastName}
-                  </strong>{' '}
-                  ({books.length})
-                </div>
-                <div style={{ marginBottom: '1rem' }}>
-                  <Button
-                    type={ButtonType.Primary}
-                    onClick={handleAddBookClick}
-                  >
-                    Add Another Book
-                  </Button>
-                </div>
+  return appInitialized && user ? (
+    <div>
+      <div className={styles.contentWrapper}>
+        {!editing && author && (
+          <>
+            <DetailedAuthorCard
+              author={author}
+              onBackClick={handleBackClick}
+              onEditClick={handleEditClick}
+            />
 
-                {books.map(book => (
-                  <SimpleBookCard
-                    book={book}
-                    key={book.id}
-                    onClick={() => navigateTo(`/books/${book.id}`)}
-                  />
-                ))}
+            <div>
+              <hr />
+              <div className={styles.booksListHeader}>
+                Books by{' '}
+                <strong>
+                  {author.firstName} {author.lastName}
+                </strong>{' '}
+                ({books.length})
               </div>
-            </>
-          )}
-
-          {editing && author && (
-            <>
-              <Card>
-                <CardHeader
-                  text={`Update ${author.firstName} ${author.lastName}`}
-                />
-                <AuthorForm
-                  disabled={loading}
-                  error={error}
-                  initialValue={author}
-                  loading={loading}
-                  onCancel={handleCancel}
-                  onSubmit={handleSubmit}
-                />
-              </Card>
-
-              <Card>
-                <Button
-                  block={true}
-                  disabled={loading}
-                  loading={loading}
-                  onClick={handleDelete}
-                  requireExtraClick={true}
-                  type={ButtonType.Secondary}
-                >
-                  Delete
+              <div style={{ marginBottom: '1rem' }}>
+                <Button type={ButtonType.Primary} onClick={handleAddBookClick}>
+                  Add Another Book
                 </Button>
-              </Card>
-            </>
-          )}
+              </div>
 
-          {loading && !author && <Loader size={44} />}
-        </div>
+              {books.map(book => (
+                <SimpleBookCard
+                  book={book}
+                  key={book.id}
+                  onClick={() => navigateTo(`/books/${book.id}`)}
+                />
+              ))}
+            </div>
+          </>
+        )}
+
+        {editing && author && (
+          <>
+            <Card>
+              <CardHeader
+                text={`Update ${author.firstName} ${author.lastName}`}
+              />
+              <AuthorForm
+                disabled={loading}
+                error={error}
+                initialValue={author}
+                loading={loading}
+                onCancel={handleCancel}
+                onSubmit={handleSubmit}
+              />
+            </Card>
+
+            <Card>
+              <Button
+                block={true}
+                disabled={loading}
+                loading={loading}
+                onClick={handleDelete}
+                requireExtraClick={true}
+                type={ButtonType.Secondary}
+              >
+                Delete
+              </Button>
+            </Card>
+          </>
+        )}
+
+        {loading && !author && <Loader size={44} />}
       </div>
-    ) : null
-  },
-)
+    </div>
+  ) : null
+}

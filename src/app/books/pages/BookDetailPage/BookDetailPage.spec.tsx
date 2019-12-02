@@ -1,24 +1,13 @@
 import * as React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { cleanup, render, fireEvent, wait } from '@testing-library/react'
+import { cleanup, fireEvent, wait } from '@testing-library/react'
 
-import { AppContext, IAppContext } from 'app/core/AppIndex/App.context'
+import { IAppContext } from 'app/core/AppIndex/App.context'
 import { mockAuthors, mockBooks, mockUsers } from 'packages/mocks/src/static'
+import { renderWithAppContext } from 'utils/testHelpers'
 
-import BookDetailPage, { BookDetailPageProps } from './BookDetailPage'
+import { BookDetailPage, BookDetailPageProps } from './BookDetailPage'
 
-const defaultContext = {
-  appInitialized: false,
-  logout: jest.fn(),
-  user: undefined,
-}
-
-const renderWithContext = (children, overrideContext = {}) =>
-  render(
-    <AppContext.Provider value={{ ...defaultContext, ...overrideContext }}>
-      {children}
-    </AppContext.Provider>,
-  )
 let defaultProps: BookDetailPageProps
 
 describe('BookDetailPage', () => {
@@ -54,7 +43,7 @@ describe('BookDetailPage', () => {
 
     describe('Basic Rendering', () => {
       it('renders correctly', () => {
-        const { container, getByText } = renderWithContext(
+        const { container, getByText } = renderWithAppContext(
           <BookDetailPage {...defaultProps} />,
           overrideContext,
         )
@@ -66,7 +55,7 @@ describe('BookDetailPage', () => {
 
       it('renders a loader when "loading" prop is true', () => {
         const mock = jest.fn(() => true)
-        const { container } = renderWithContext(
+        const { container } = renderWithAppContext(
           <BookDetailPage
             {...defaultProps}
             getBookById={jest.fn(() => undefined)}
@@ -80,7 +69,7 @@ describe('BookDetailPage', () => {
 
     describe('Interactivity', () => {
       it('defaults to non-editing state', () => {
-        const { getByText, queryByText } = renderWithContext(
+        const { getByText, queryByText } = renderWithAppContext(
           <BookDetailPage {...defaultProps} />,
           overrideContext,
         )
@@ -91,7 +80,7 @@ describe('BookDetailPage', () => {
       })
 
       it('navigates when "Back" button is clicked', () => {
-        const { getByText } = renderWithContext(
+        const { getByText } = renderWithAppContext(
           <BookDetailPage {...defaultProps} />,
           overrideContext,
         )
@@ -108,7 +97,7 @@ describe('BookDetailPage', () => {
           getByLabelText,
           getByText,
           queryByText,
-        } = renderWithContext(
+        } = renderWithAppContext(
           <BookDetailPage {...defaultProps} />,
           overrideContext,
         )
@@ -124,7 +113,7 @@ describe('BookDetailPage', () => {
       })
 
       it('handles form "confirm" action correctly', async () => {
-        const { getByLabelText, getByText } = renderWithContext(
+        const { getByLabelText, getByText } = renderWithAppContext(
           <BookDetailPage {...defaultProps} />,
           overrideContext,
         )
@@ -146,18 +135,24 @@ describe('BookDetailPage', () => {
         fireEvent.change(getByLabelText(/Sort By/i), {
           target: { value: testPayload.sortBy },
         })
-        expect(defaultProps.history.push).toHaveBeenCalledTimes(0)
+
+        await wait(() => {
+          expect(defaultProps.history.push).toHaveBeenCalledTimes(0)
+        })
+
         fireEvent.click(getByText(/Submit/i))
-        expect(defaultProps.updateBook).toHaveBeenCalledTimes(1)
-        expect(defaultProps.updateBook).toHaveBeenCalledWith(
-          user.id,
-          testPayload,
-        )
+        await wait(() => {
+          expect(defaultProps.updateBook).toHaveBeenCalledTimes(1)
+          expect(defaultProps.updateBook).toHaveBeenCalledWith(
+            user.id,
+            testPayload,
+          )
+        })
       })
     })
 
-    it('correctly makes a calls to delete the author', async () => {
-      const { getByText } = renderWithContext(
+    it('correctly makes a calls to delete the book', async () => {
+      const { getByText } = renderWithAppContext(
         <BookDetailPage {...defaultProps} />,
         overrideContext,
       )
@@ -189,7 +184,7 @@ describe('BookDetailPage', () => {
 
     describe('Basic Rendering', () => {
       it('renders nothing when not logged in', () => {
-        const { container } = renderWithContext(
+        const { container } = renderWithAppContext(
           <BookDetailPage {...defaultProps} />,
           overrideContext,
         )
@@ -197,7 +192,10 @@ describe('BookDetailPage', () => {
       })
 
       it('redirects to login page', () => {
-        renderWithContext(<BookDetailPage {...defaultProps} />, overrideContext)
+        renderWithAppContext(
+          <BookDetailPage {...defaultProps} />,
+          overrideContext,
+        )
         const { push } = defaultProps.history
         expect(push).toHaveBeenCalledTimes(1)
         expect(push).toHaveBeenCalledWith('/account/login')
