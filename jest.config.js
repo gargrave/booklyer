@@ -16,7 +16,6 @@ module.exports = {
     '^utils(.*)$': '<rootDir>/src/utils$1',
   },
   resolver: 'jest-pnp-resolver',
-  setupFiles: ['react-app-polyfill/jsdom'],
   testEnvironment: 'jsdom',
   testMatch: ['<rootDir>/src/**/?(*.)spec.{js,ts,tsx}'],
   testURL: 'http://localhost',
