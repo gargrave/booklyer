@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { AuthReduxProps } from 'app/auth/auth.types'
+import { User } from 'app/auth/auth.types'
 import { BasicRouteProps } from 'app/core/core.types'
 import { AppContext } from 'app/core/AppIndex/App.context'
 
@@ -29,9 +29,12 @@ const fields: FieldConfig[] = [
   },
 ]
 
-export type LoginPageProps = {} & BasicRouteProps & AuthReduxProps
+export type LoginPageProps = {
+  getAuthRequestPending: () => boolean
+  login: (email: string, password: string) => Promise<User>
+} & BasicRouteProps
 
-const LoginPage: React.FunctionComponent<LoginPageProps> = ({
+export const LoginPage: React.FC<LoginPageProps> = ({
   getAuthRequestPending,
   history,
   login,
@@ -91,5 +94,3 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = ({
     </>
   )
 }
-
-export default React.memo(LoginPage)

@@ -18,9 +18,3 @@ export const UserPropertyNames = [
   'emailVerified',
   'uid',
 ]
-
-export type AuthReduxProps = {
-  getAuthRequestPending: () => boolean
-  login: (email: string, password: string) => Promise<User>
-  register: (email: string, password: string) => Promise<User>
-}

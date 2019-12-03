@@ -7,7 +7,7 @@ import { Button } from 'packages/common'
 
 export type ProfilePageProps = {} & BasicRouteProps
 
-const ProfilePage: React.FunctionComponent<ProfilePageProps> = ({
+export const ProfilePage: React.FC<ProfilePageProps> = ({
   history,
 }) => {
   const { appInitialized, logout, user } = React.useContext(AppContext)
@@ -35,5 +35,3 @@ const ProfilePage: React.FunctionComponent<ProfilePageProps> = ({
     </>
   ) : null
 }
-
-export default ProfilePage

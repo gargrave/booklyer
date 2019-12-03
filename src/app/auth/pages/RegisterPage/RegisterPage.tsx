@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { AuthReduxProps } from 'app/auth/auth.types'
+import { User } from 'app/auth/auth.types'
 import { AppContext } from 'app/core/AppIndex/App.context'
 import { BasicRouteProps } from 'app/core/core.types'
 
@@ -38,9 +38,12 @@ const fields: FieldConfig[] = [
   },
 ]
 
-export type RegisterPageProps = {} & BasicRouteProps & AuthReduxProps
+export type RegisterPageProps = {
+  getAuthRequestPending: () => boolean
+  register: (email: string, password: string) => Promise<User>
+} & BasicRouteProps
 
-const RegisterPage: React.FC<RegisterPageProps> = ({
+export const RegisterPage: React.FC<RegisterPageProps> = ({
   getAuthRequestPending,
   history,
   register,
@@ -98,5 +101,3 @@ const RegisterPage: React.FC<RegisterPageProps> = ({
     </>
   )
 }
-
-export default RegisterPage
