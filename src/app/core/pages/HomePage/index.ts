@@ -1,4 +1,2 @@
-import HomePage from './HomePage'
-import HomePageContainer from './HomePageContainer'
-
-export { HomePage, HomePageContainer }
+export * from './HomePage'
+export * from './HomePage.connected'

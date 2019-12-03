@@ -51,7 +51,7 @@ export type HomePageProps = {
   getBooks: () => Book[]
 } & BasicRouteProps
 
-const HomePage: React.FunctionComponent<HomePageProps> = props => {
+export const HomePage: React.FunctionComponent<HomePageProps> = props => {
   const { appInitialized, user } = React.useContext(AppContext)
   return (
     <div className={styles.contentWrapper}>
@@ -68,5 +68,3 @@ const HomePage: React.FunctionComponent<HomePageProps> = props => {
     </div>
   )
 }
-
-export default React.memo(HomePage)

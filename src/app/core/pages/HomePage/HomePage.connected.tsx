@@ -4,7 +4,7 @@ import { AppState } from 'store/reducers'
 import { getAuthorsSortedByLastName } from 'app/authors/store/selectors'
 import { getBooks } from 'app/books/store/selectors'
 
-import HomePage from './HomePage'
+import { HomePage } from './HomePage'
 
 const mapStateToProps = (state: AppState) => ({
   getAuthors: () => getAuthorsSortedByLastName(state),
@@ -13,7 +13,7 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = _dispatch => ({})
 
-export default connect(
+export const ConnectedHomePage = connect(
   mapStateToProps,
   mapDispatchToProps,
 )(HomePage)
