@@ -1,9 +1,7 @@
 import * as React from 'react'
-import { classNames } from '@gargrave/garlib'
+import { clamp, classNames } from '@gargrave/garlib'
 
 import { InputType, InputProps } from '../Input.types'
-
-import { clamp } from 'utils/mathHelpers'
 
 import styles from './InputField.module.scss'
 
@@ -33,7 +31,7 @@ export const InputField: React.FC<InputFieldProps> = React.memo(
         className={classNames({ [styles.invalid]: !!error })}
         disabled={disabled}
         id={name}
-        maxLength={clamp(maxLength, 1, 255)}
+        maxLength={clamp(1, 255, maxLength)}
         name={name}
         onChange={onChange}
         placeholder={placeholder || label}
