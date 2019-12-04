@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from 'react'
-import classNames from 'classnames'
+import { classNames } from '@gargrave/garlib'
 
 import { InputProps } from '../Input.types'
 
