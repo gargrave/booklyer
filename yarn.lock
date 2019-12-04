@@ -1895,10 +1895,10 @@
   resolved "https://registry.yarnpkg.com/@firebase/webchannel-wrapper/-/webchannel-wrapper-0.2.32.tgz#ae5e1c0dc6856d8b9ae192bc000e43b993acba68"
   integrity sha512-kXnsBuzmtcOntliDgxAGJJ8JHPOmZ6KgS2v0/5Fb5KXpN9UIFyeaE8pfdkBG9tESdPmGdKpJz781fEIMdMtd8A==
 
-"@gargrave/garlib@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@gargrave/garlib/-/garlib-0.0.1.tgz#a608cefbc18508d881eb763bff92d0b5b2979518"
-  integrity sha512-BcAhODbal064vZ6yAoCYF96YG49TWD5nerai89ELQ+ZiPwHrlALy+MTD5M+O82BXgBRWFfuvF/3gskVLZTuqgg==
+"@gargrave/garlib@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@gargrave/garlib/-/garlib-0.0.2.tgz#8d69d966d4229c1f8a49573ae720d4133f0efc44"
+  integrity sha512-BZVzEAcJlbOoSgSGpoISVhqzkZsggSWHE4VgLjpw5HeyW97E2Fl7YHbi4FN+dKzAd2zAA8Y0WwsyTFD/pH/UUw==
 
 "@google-cloud/paginator@^2.0.0":
   version "2.0.2"

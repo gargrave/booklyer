@@ -15,7 +15,7 @@
     "fb:deploy:fns:prod": "firebase use prod && yarn fb:deploy:fns"
   },
   "dependencies": {
-    "@gargrave/garlib": "^0.0.1",
+    "@gargrave/garlib": "^0.0.2",
     "firebase": "^7.5.0",
     "immer": "^5.0.0",
     "react": "^16.12.0",
