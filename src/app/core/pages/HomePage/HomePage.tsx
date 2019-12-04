@@ -2,8 +2,8 @@ import * as React from 'react'
 
 import { Author } from 'app/authors/authors.types'
 import { Book } from 'app/books/books.types'
-import { AppContext } from '../../AppIndex/App.context'
-import { BasicRouteProps } from '../../core.types'
+import { BasicRouteProps } from 'app/core/core.types'
+import { AppContext } from 'app/core/AppIndex/App.context'
 
 import { Button, ButtonRow, ButtonType } from 'packages/common'
 

@@ -1,24 +1,12 @@
 import * as React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { cleanup, fireEvent, render, wait } from '@testing-library/react'
+import { cleanup, fireEvent, wait } from '@testing-library/react'
 
-import { AppContext, IAppContext } from 'app/core/AppIndex/App.context'
+import { IAppContext } from 'app/core/AppIndex/App.context'
 import { mockUsers } from 'packages/mocks/src/static'
+import { renderWithAppContext } from 'utils/testHelpers'
 
-import LoginPage, { LoginPageProps } from './LoginPage'
-
-const defaultContext = {
-  appInitialized: false,
-  logout: jest.fn(),
-  user: undefined,
-}
-
-const renderWithContext = (children, overrideContext = {}) =>
-  render(
-    <AppContext.Provider value={{ ...defaultContext, ...overrideContext }}>
-      {children}
-    </AppContext.Provider>,
-  )
+import { LoginPage, LoginPageProps } from './LoginPage'
 
 let defaultProps: LoginPageProps
 
@@ -47,7 +35,7 @@ describe('LoginPage', () => {
 
     describe('Basic Rendering', () => {
       it('renders correctly', () => {
-        const { container } = renderWithContext(
+        const { container } = renderWithAppContext(
           <LoginPage {...defaultProps} />,
           overrideContext,
         )
@@ -57,7 +45,7 @@ describe('LoginPage', () => {
 
     describe('Interactivity', () => {
       it('navigates to "register" page when link is clicked', () => {
-        const { getByText } = renderWithContext(
+        const { getByText } = renderWithAppContext(
           <LoginPage {...defaultProps} />,
           overrideContext,
         )
@@ -70,7 +58,7 @@ describe('LoginPage', () => {
       })
 
       it('correctly calls "login" on the service and redirects to "books" after login', async () => {
-        const { getByLabelText, getByText } = renderWithContext(
+        const { getByLabelText, getByText } = renderWithAppContext(
           <LoginPage {...defaultProps} />,
           overrideContext,
         )
@@ -108,7 +96,7 @@ describe('LoginPage', () => {
 
     describe('Basic Rendering', () => {
       it('renders nothing when not logged in', () => {
-        const { container } = renderWithContext(
+        const { container } = renderWithAppContext(
           <LoginPage {...defaultProps} />,
           overrideContext,
         )
@@ -116,7 +104,7 @@ describe('LoginPage', () => {
       })
 
       it('redirects to "books" page', () => {
-        renderWithContext(<LoginPage {...defaultProps} />, overrideContext)
+        renderWithAppContext(<LoginPage {...defaultProps} />, overrideContext)
         const { push } = defaultProps.history
         expect(push).toHaveBeenCalledTimes(1)
         expect(push).toHaveBeenCalledWith('/books')

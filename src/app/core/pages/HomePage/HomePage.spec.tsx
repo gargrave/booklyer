@@ -1,28 +1,18 @@
 import * as React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { cleanup, fireEvent, render } from '@testing-library/react'
+import { cleanup, fireEvent } from '@testing-library/react'
 
-import { AppContext } from 'app/core/AppIndex/App.context'
 import { mockUsers, mockAuthors, mockBooks } from 'packages/mocks/src/static'
+import { renderWithAppContext } from 'utils/testHelpers'
 
-import HomePage, { HomePageProps } from './HomePage'
-
-const defaultContext = {
-  appInitialized: true,
-  logout: jest.fn(),
-  user: undefined,
-}
-
-const renderWithContext = (children, overrideContext = {}) =>
-  render(
-    <AppContext.Provider value={{ ...defaultContext, ...overrideContext }}>
-      {children}
-    </AppContext.Provider>,
-  )
+import { HomePage, HomePageProps } from './HomePage'
+import { IAppContext } from '../../AppIndex/App.context'
 
 let defaultProps: HomePageProps
 
 describe('HomePage', () => {
+  let overrideContext: Partial<IAppContext>
+
   beforeEach(() => {
     jest.resetAllMocks()
     defaultProps = {
@@ -38,24 +28,22 @@ describe('HomePage', () => {
 
   describe('Basic Rendering', () => {
     it('always renders the app title', () => {
-      const { getByText } = render(<HomePage {...defaultProps} />)
+      const { getByText } = renderWithAppContext(<HomePage {...defaultProps} />)
       expect(getByText(/Bookly/i)).toBeInTheDocument()
     })
   })
 
   describe('Authenticated', () => {
-    let overrideContext
-
     beforeEach(() => {
       overrideContext = {
-        ...defaultContext,
+        appInitialized: true,
         user: mockUsers[0],
       }
     })
 
     describe('Basic Rendering', () => {
       it('renders correctly', () => {
-        const { container, queryAllByText } = renderWithContext(
+        const { container, queryAllByText } = renderWithAppContext(
           <HomePage {...defaultProps} />,
           overrideContext,
         )
@@ -68,15 +56,15 @@ describe('HomePage', () => {
   })
 
   describe('Not Authenticated', () => {
-    let overrideContext
-
     beforeEach(() => {
-      overrideContext = { ...defaultContext }
+      overrideContext = {
+        appInitialized: true,
+      }
     })
 
     describe('Basic Rendering', () => {
       it('renders correctly', () => {
-        const { container, getAllByText } = renderWithContext(
+        const { container, getAllByText } = renderWithAppContext(
           <HomePage {...defaultProps} />,
           overrideContext,
         )
@@ -88,7 +76,7 @@ describe('HomePage', () => {
     })
 
     it('redirects to login page when button is clicked', () => {
-      const { getByText } = renderWithContext(
+      const { getByText } = renderWithAppContext(
         <HomePage {...defaultProps} />,
         overrideContext,
       )
@@ -100,7 +88,7 @@ describe('HomePage', () => {
     })
 
     it('redirects to register page when button is clicked', () => {
-      const { getByText } = renderWithContext(
+      const { getByText } = renderWithAppContext(
         <HomePage {...defaultProps} />,
         overrideContext,
       )

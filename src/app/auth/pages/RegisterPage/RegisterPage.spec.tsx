@@ -1,24 +1,15 @@
 import * as React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { cleanup, fireEvent, render, wait } from '@testing-library/react'
+import { cleanup, fireEvent, wait } from '@testing-library/react'
 
-import { AppContext, IAppContext } from 'app/core/AppIndex/App.context'
+import { IAppContext } from 'app/core/AppIndex/App.context'
 import { mockUsers } from 'packages/mocks/src/static'
+import { renderWithRedux, wrapInAppContext } from 'utils/testHelpers'
 
-import RegisterPage, { RegisterPageProps } from './RegisterPage'
+import { RegisterPage, RegisterPageProps } from './RegisterPage'
 
-const defaultContext = {
-  appInitialized: false,
-  logout: jest.fn(),
-  user: undefined,
-}
-
-const renderWithContext = (children, overrideContext = {}) =>
-  render(
-    <AppContext.Provider value={{ ...defaultContext, ...overrideContext }}>
-      {children}
-    </AppContext.Provider>,
-  )
+const wrappedRender = (children, overrideContext = {}) =>
+  renderWithRedux(wrapInAppContext(children, overrideContext))
 
 let defaultProps: RegisterPageProps
 
@@ -47,7 +38,7 @@ describe('RegisterPage', () => {
 
     describe('Basic Rendering', () => {
       it('renders correctly', () => {
-        const { container } = renderWithContext(
+        const { container } = wrappedRender(
           <RegisterPage {...defaultProps} />,
           overrideContext,
         )
@@ -57,7 +48,7 @@ describe('RegisterPage', () => {
 
     describe('Interactivity', () => {
       it('navigates to "login" page when link is clicked', () => {
-        const { getByText } = renderWithContext(
+        const { getByText } = wrappedRender(
           <RegisterPage {...defaultProps} />,
           overrideContext,
         )
@@ -68,7 +59,7 @@ describe('RegisterPage', () => {
       })
 
       it('correctly calls "register" on the service, and redirects to "authors" page', async () => {
-        const { getByLabelText, getByText } = renderWithContext(
+        const { getByLabelText, getByText } = wrappedRender(
           <RegisterPage {...defaultProps} />,
           overrideContext,
         )
@@ -109,7 +100,7 @@ describe('RegisterPage', () => {
 
     describe('Basic Rendering', () => {
       it('renders nothing when not logged in', () => {
-        const { container } = renderWithContext(
+        const { container } = wrappedRender(
           <RegisterPage {...defaultProps} />,
           overrideContext,
         )
@@ -117,7 +108,7 @@ describe('RegisterPage', () => {
       })
 
       it('redirects to "books" page', () => {
-        renderWithContext(<RegisterPage {...defaultProps} />, overrideContext)
+        wrappedRender(<RegisterPage {...defaultProps} />, overrideContext)
         const { push } = defaultProps.history
         expect(push).toHaveBeenCalledTimes(1)
         expect(push).toHaveBeenCalledWith('/books')
